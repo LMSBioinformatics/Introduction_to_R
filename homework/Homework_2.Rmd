@@ -1,0 +1,119 @@
+---
+title: "Introduction To R | Homework 2"
+author:
+  name: "Firstname Secondname"
+  email: "my_email@lms.mrc.ac.uk"
+date: "`r Sys.Date()`"
+output: html_notebook
+---
+
+## Preliminaries
+
+Make sure your working directory is set to the `homework` folder within the course materials. You can do this with the user interface in `RStudio` (`Session > Set Working Directory`). Alternatively, you can get and set the working directory with commands.
+
+```{r, eval=FALSE}
+getwd()
+```
+
+```{r, eval=FALSE}
+setwd("this/is/a/location")
+```
+
+## Instructions
+
+- Work your way through the questions below. Some answers can be filled in as plain text but, for some, you will need to write some code!
+
+- Please fill in your name and email address in the header section at the top of the file.
+
+- This document is an `R Notebook`. When you save, it will automatically render an HTML output with the result. You can upload either this raw document or the rendered HTML when submitting your work.
+
+*Don't forget that you can insert a code block at the position of the cursor with `⌘+⌥+I` (Mac) or `CTRL+Alt+I` (Windows). These are run by pressing the `⏵` (run) button in the top right corner of each chunk.*
+
+## Questions
+
+### 1
+
+a) What is wrong with this code chunk?
+
+```{r, eval=FALSE}
+data = scan(data/1_scan.txt)
+```
+
+### 2
+
+Your dog ate your homework! Unfortunately, your teacher doesn't believe you and you're forced to put it back together with sticky tape.
+
+a) Can you correct this jumbled code?
+
+```{r, eval=FALSE}
+  "outputs/2_seq_depth.svg",
+  width=8,
+data = read.delim(
+
+seq_depth = apply(data, 2, sum)
+barplot(
+  seq_depth,
+dev.off()
+  ylim=range(pretty(c(0, seq_depth))),
+  main="Sequencing depth")
+
+svg(
+  col=c(rep("purple", 4), rep("green4", 4)),
+  height=8)
+  row.names=1)
+data = as.matrix(data)
+  "data/2_penguin_expression.tsv",
+```
+
+b) Describe what it does.
+
+c) What does the `pretty()` function do here?
+
+### 3
+
+You have now imported the results of an Illumina sequencing experiment on two sets of penguins, 4 `Adelie`s and 4 `Gentoo`s.
+
+a) How many genes are in the dataset?
+
+b) Use `apply()` to calculate the row sums for the dataset.
+
+c) For something as common as making a row sum, `R` has lots of built-in functions. Is there one that does this?
+
+d) How many genes aren't expressed at all? (Hint ... you can `sum()` logical values)
+
+e) Filter the matrix to keep only the genes that were detected.
+
+### 5
+
+As each sample in this dataset has been sequenced to a different total depth, we should normalise them so that the columns are comparable to one another.
+
+a) Turn the `seq_depth` into a scaling factor by dividing it by its `min()`.
+
+b) Apply this normalisation factor down the expression matrix.
+
+### 6
+
+Now that the samples are comparable, some collaborators have asked you to share plots of the expression of a few specific genes.
+
+The following code will make a `stripchart()` for a given `gene_name`.
+
+```{r, eval=FALSE}
+gene_name = "PENG0000000007"
+
+gene_data = data.frame(
+  exprs=data[gene_name, ],
+  group=c(rep("Adelie", 4), rep("Gentoo", 4)))
+
+stripchart(
+  exprs~group,
+  data=gene_data,
+  method="jitter",
+  col=c("purple", "green4"),
+  main=gene_name,
+  ylab="Read count",
+  xlim=c(0, 3),
+  ylim=range(pretty(c(0, gene_data$exprs))),
+  vertical=TRUE)
+```
+
+a) Wrap this code in a `for` loop that generates plots within the same PDF document. They want plots for their two favourite genes: `PENG0000000007` and  `PENG0000017646`.

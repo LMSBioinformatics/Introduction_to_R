@@ -1,0 +1,27 @@
+/* Title page logo */
+
+.gdbar img {
+  width: 400px !important;
+  height: 100px !important;
+  margin: 10px 10px;
+}
+
+.gdbar {
+  width: 530px !important;
+  height: 120px !important;
+}
+
+/* Footer logo */
+
+slides > slide:not(.nobackground):before {
+  width: 150px;
+  height: 75px;
+  background-size: 150px 75px;
+}
+
+/* Column layouts */
+
+.forceBreak {
+  -webkit-column-break-after: always;
+  break-after: column;
+}
