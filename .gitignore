@@ -4,3 +4,4 @@ outputs/
 homework/*.nb.html
 course/*/*_cache/
 course/*/*_files/
+old/

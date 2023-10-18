@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2023-10-13" />
+<meta name="date" content="2023-10-18" />
 
 <title>Introduction To R | Session 2</title>
 
@@ -1577,7 +1577,7 @@ border-radius: 0px;
 <h4 class="author">LMS Bioinformatics Facility</h4>
 <a class="author_email" href="mailto:#"><a href="mailto:bioinformatics@lms.mrc.ac.uk" class="email">bioinformatics@lms.mrc.ac.uk</a></a>
 </address>
-<h4 class="date">2023-10-13</h4>
+<h4 class="date">2023-10-18</h4>
 
 </div>
 
@@ -1638,7 +1638,8 @@ border-radius: 0px;
 </div>
 <div id="homework" class="section level2" data-background="#FDEBD0">
 <h2>Homework</h2>
-<p>What did you learn? Do we need to recap any parts?</p>
+<p>What did you learn?</p>
+<p>Do we need to recap any parts?</p>
 </div>
 <div id="learning-objectives" class="section level2">
 <h2>Learning objectives</h2>
@@ -2295,7 +2296,7 @@ block until a specific outcome is achieved.</p>
 <span id="cb105-5"><a href="#cb105-5" tabindex="-1"></a>}</span>
 <span id="cb105-6"><a href="#cb105-6" tabindex="-1"></a></span>
 <span id="cb105-7"><a href="#cb105-7" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>##  [1]  5  4 10  6  9  3  8  1  2  7</code></pre>
+<pre><code>##  [1]  5  4  3  9  2  8  1  6 10  7</code></pre>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb107-2"><a href="#cb107-2" tabindex="-1"></a><span class="cf">while</span> (x<span class="sc">^</span><span class="dv">2</span> <span class="sc">!=</span> <span class="dv">9</span>) x <span class="ot">=</span> x <span class="sc">+</span> <span class="dv">1</span></span>
 <span id="cb107-3"><a href="#cb107-3" tabindex="-1"></a>x</span></code></pre></div>
@@ -2323,7 +2324,7 @@ individual loop iteration and triggers the next to start.</p>
 <span id="cb111-6"><a href="#cb111-6" tabindex="-1"></a>}</span>
 <span id="cb111-7"><a href="#cb111-7" tabindex="-1"></a></span>
 <span id="cb111-8"><a href="#cb111-8" tabindex="-1"></a>loops</span></code></pre></div>
-<pre><code>## [1] 9</code></pre>
+<pre><code>## [1] 19</code></pre>
 </div>
 <div id="practical-2" class="section level2" data-background="#D6EAF8">
 <h2>Practical</h2>
@@ -2344,7 +2345,7 @@ loop</p></li>
 </div>
 <div id="apply" class="section level2">
 <h2>Apply</h2>
-<p>As noted before, <code>R</code> is vectorised. To apply a function to
+<p>As noted before, <code>R</code> is vectorised! To apply a function to
 a vector or matrix as a whole, we just do so.</p>
 <div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
 <span id="cb114-2"><a href="#cb114-2" tabindex="-1"></a><span class="fu">sqrt</span>(x)</span></code></pre></div>
@@ -2392,14 +2393,34 @@ is returned.</p>
 ## 
 ## $b
 ## [1] 2.000000 2.236068 2.449490</code></pre>
+<hr />
+<p>The last <code>apply()</code> variant that’s particularly useful is
+<code>tapply()</code>, which will run a function on specific elements of
+a vector. Elements can either be defined according to a logical
+operation or using a vector that can be coerced by
+<code>as.factor()</code>.</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span></span>
+<span id="cb126-2"><a href="#cb126-2" tabindex="-1"></a></span>
+<span id="cb126-3"><a href="#cb126-3" tabindex="-1"></a><span class="fu">tapply</span>(x, x<span class="sc">&gt;</span><span class="dv">5</span>, sqrt)</span></code></pre></div>
+<pre><code>## $`FALSE`
+## [1] 1.000000 1.414214 1.732051 2.000000 2.236068
+## 
+## $`TRUE`
+## [1] 2.449490 2.645751 2.828427 3.000000</code></pre>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" tabindex="-1"></a><span class="fu">tapply</span>(x, <span class="fu">rep_len</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">9</span>), sqrt)</span></code></pre></div>
+<pre><code>## $`0`
+## [1] 1.000000 1.732051 2.236068 2.645751 3.000000
+## 
+## $`1`
+## [1] 1.414214 2.000000 2.449490 2.828427</code></pre>
 </div>
 <div id="sweep" class="section level2">
 <h2>Sweep</h2>
 <p>When vector-matrix arithmetic operations are performed, the provided
 vector is treated as a column (or it’s recycled to be one) and is pushed
 horizontally across the matrix.</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" tabindex="-1"></a>m <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow=</span><span class="dv">4</span>, <span class="at">ncol=</span><span class="dv">4</span>)</span>
-<span id="cb126-2"><a href="#cb126-2" tabindex="-1"></a>m <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" tabindex="-1"></a>m <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow=</span><span class="dv">4</span>, <span class="at">ncol=</span><span class="dv">4</span>)</span>
+<span id="cb130-2"><a href="#cb130-2" tabindex="-1"></a>m <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4]
 ## [1,]    0    0    0    0
 ## [2,]    1    1    1    1
@@ -2426,7 +2447,7 @@ arguments:</p>
 arithmetic functions (<code>+</code> etc) need to be quoted
 (i.e. <code>&quot;+&quot;</code>)</p></li>
 </ul>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" tabindex="-1"></a><span class="fu">sweep</span>(m, <span class="dv">2</span>, <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="st">&quot;+&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" tabindex="-1"></a><span class="fu">sweep</span>(m, <span class="dv">2</span>, <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="st">&quot;+&quot;</span>)</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4]
 ## [1,]    0    1    0    1
 ## [2,]    0    1    0    1
