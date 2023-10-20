@@ -73,15 +73,15 @@ m[1, 2] = "Neo"
 
 # Transposition
 t(m)
-
-# Lists
-x = list(one=c(1, 2, 3), two=c(1, 2, 3))
-x[["one"]] == x$two
 ```
 
 ---
 
 ```{r, eval=FALSE}
+# Lists
+x = list(one=c(1, 2, 3), two=c(1, 2, 3))
+x[["one"]] == x$two
+
 # If
 if (0 == 0) "yes" else "no"
 
@@ -135,11 +135,57 @@ In `R`, the `knitr` package provides the tools for converting markdown documents
 
 ---
 
-As we've seen, code blocks wrapped within triple back ticks (\```{r} ... ```) will be executed and included inline with the surrounding text. These can be inserted at the position of the cursor with `⌘+⌥+I` (Mac) or `CTRL+Alt+I` (Windows).
-
-The surrounding text can be annotated with a variety of formatting marks - see the excellent [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) that summarises the common ones - that are interpreted by `knitr`.
-
 We can *knit* a document by pressing the knit button at the top of the documents pane, or by pressing `⌘+Shift+K` (Mac) or `CTRL+Shift+K` (Windows). `knitr` reads the header to determine which document formats to produce and *renders* them from its interpretation of the raw markdown.
+
+As we've seen, code blocks wrapped within triple back ticks ...
+
+````
+ ```{r}
+ # code
+ ```
+````
+
+... will be executed and included, along with their results, inline with the surrounding text. These can be inserted at the position of the cursor with `⌘+⌥+I` (Mac) or `CTRL+Alt+I` (Windows).
+
+The surrounding text can be annotated with a variety of formatting marks that are interpreted by `knitr`. This excellent [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) summarises the common ones.
+
+Reproducing some of the most use useful ...
+
+## {.columns-2}
+
+Layout and objects:
+
+- `# Title`
+
+- `## Heading`
+
+- `### Sub-heading`
+
+- `***` horizontal rule
+
+- `---` slide break
+
+- `[link](https://www.example.com)`
+
+-  `![](path/to/image.png)`
+
+<p class="forceBreak"></p>
+
+Text formatting:
+
+- `*italics*` or `_italics_`
+
+- `**bold**` or `__bold__`
+
+- `^superscript^`
+
+- `~subscript~`
+
+- `> text` indented block quotation
+
+- `-`, `*`, and `+` bullet / sub-bullets
+
+- `1.`, `2.` ordered lists
 
 ## Writing functions
 
@@ -157,7 +203,7 @@ Functions:
 
 ---
 
-Let's write a simple function to multiply two numbers.
+This simple function multiplies two numbers.
 
 ```{r}
 multiply = function(x, y){
@@ -211,9 +257,9 @@ multiply(4)
 
 Within an `R` session, the collection of objects and functions defined are the *global environment*.
 
-When running, functions - both in-built and user-defined - operate within an individual, separated, *scope*. Within a function's scope, or 'sub-enviornment':
+When running, functions - both in-built and user-defined - operate within an individual, separated, *scope*. Within a function's scope, or sub-environment:
 
-- variables from the parental scope are available within the function as **read-only** copies
+- variables from the parental scope are available within the function as *free variables* (read-only copies)
 
 - variables defined within functions are lost when the function returns
 
@@ -232,7 +278,7 @@ multiply(4)
 
 In this example:
 
-- `y` is accessed within `multiply()` as a *free variable* from the parental scope
+- `y` is accessed within `multiply()` as a free variable from the parental scope
 
 - `z` is declared within the function and masks, but does not overwrite, the definition from the parental scope
 
@@ -257,13 +303,19 @@ Here, `<<-` overwrites the `z` variable within the parental scope. Although noth
 
 ## Practical {data-background=#D6EAF8}
 
-pass
+For convenience, you've decided you'd like to have a function that returns the `mean()` and standard deviation (`sd()`) for a given vector together.
+
+- Write a function `mean_sd` that accepts a vector input
+
+- Make it calculate and return the mean and SD of the vector, returning the results as a list.
+
+- Make a dummy matrix and `apply()` your function to its rows or columns
 
 ## Apply (again)
 
 We've previously seen how `apply()` can be used to run a function across the rows or down the columns of a matrix. However, except when running basic arithmetic functions, it's common to also need to supply one or more positional or optional arguments.
 
-`apply()`, and other functions that list `...` in their function signature, allow for *pass through* of extra arguments that aren't relevant to them.
+`apply()`, and other functions that list `...` (an elipsis) in their function signature, allow for *pass through* of extra arguments that aren't relevant to them.
 
 ```{r, eval=FALSE}
 ?apply
@@ -292,6 +344,25 @@ m
 multiply_sum = function(x, y) sum(x * y)
 
 apply(m, 1, multiply_sum, y=2)
+```
+
+---
+
+We can use the elipsis ourselves when writing functions by specifying `...` as an argument when defining the function and again within calls to the internal function that we'd like to pass the arguments on to.
+
+```{r}
+mean_sd = function(x, ...) {
+  return(list(
+    mean=mean(x, ...),
+    sd=sd(x, ...)
+  ))
+}
+```
+
+This now allows arguments (e.g. `na.rm=TRUE`) to be passed to the internal functions on our behalf.
+
+```{r}
+mean_sd(c(1:5, NA), na.rm=TRUE)
 ```
 
 ## Libraries
@@ -360,7 +431,7 @@ Although CRAN and Bioconductor are by far the most common, a subset of packages 
 
 These can be installed using the `install_...()` family of functions from the `remotes` library.
 
-Having installed the `remotes` ...
+Having installed `remotes` ...
 
 ```{r, eval=FALSE}
 install.packages("remotes")
@@ -380,7 +451,7 @@ install_github("Displayr/flipPlots")
 
 ## Using libraries
 
-In order to make use of them, a library's functions must first be loaded into your `R` environment. As seen for `install()` from `BiocManager` and for `install_github()` from `devtools`, the package is loaded using the `library()` function.
+In order to make use of them, a library's functions must first be loaded into your `R` environment. As seen for `install()` from `BiocManager` and for `install_github()` from `remotes`, packages are loaded using the `library()` function.
 
 ```{r, eval=FALSE}
 library("BiocManager")
@@ -400,17 +471,21 @@ sessionInfo()
 
 ---
 
-Once a package has been loaded, we can use the functions directly, or can refer to them by referencing the package that provides them as well.
+Once a package has been loaded, we can use its functions directly ...
 
 ```{r, eval=FALSE}
 install()
+```
 
-# is equivalent to
+... or by referencing them alongside their package using the `package::function()` syntax.
 
+```{r, eval=FALSE}
 BiocManager::install()
 ```
 
-It can help to improve the clarity of your code by referring to functions explicitly. Sometimes, however, it's necessary - for example when two packages supply a function of the same name.
+Although it's not generally necessary, this method can help to improve the clarity of your code by explicitly referencing the package that supplies a selected function.
+
+Sometimes, however, it is necessary - for example when two packages supply a function of the same name.
 
 ---
 
@@ -418,13 +493,13 @@ The documentation for individual package functions can be queried using the `?` 
 
 Additionally, documentation for the library itself can be viewed using the `??` operator.
 
-```{r}
+```{r, eval=FALSE}
 ??BiocManager
 ```
 
-This output includes links to packages *vignettes* - HTML pages or PDFs that walk through how to use a package, often following a dummy workflow with an exemplar dataset.
+This output includes links to the package's *vignettes* - HTML pages or PDFs that walk through how to use it, often following a dummy workflow with an exemplar dataset.
 
-If you want to get to grips with the basic functionality of a package, it's vignette is the place to start!
+If you want to get to grips with the basic functionality of a package, its vignette is the place to start!
 
 
 ## Real life
@@ -439,7 +514,7 @@ Walking through the analysis steps, we will:
 
 - create a `DESeqDataSet` object
 
-- QC the data
+- QC and sense-check the data
 
 - run a test for differential expression between groups
 
@@ -503,7 +578,7 @@ all(rownames(meta_data) %in% colnames(exprs))
 
 ---
 
-Some (gentle) streamlining our data as this point is a good way of decreasing processing time and requirements downstream.
+Some (gentle) streamlining of our data as this point is a good way of decreasing processing time and memory requirements downstream.
 
 Let's clean up our expression matrix by removing rows for which no sample recorded expression of the gene - we're never going to find these to be differentially expressed!
 
@@ -517,7 +592,7 @@ This is a loss-less approach. Slightly more 'active' approaches might be to:
 
 - remove rows where very few samples recorded expression
 
-- perform the above filter, but using a different cutoff (e.g. `>=10`)
+- perform the above filter, but using a different cutoff (e.g. `>=10`, which is recommended in the `DESeq2` vignette)
 
 - combine both of these approaches
 
@@ -550,7 +625,7 @@ Here, we have two factors (`Species` and `Sex`) that have a strong potential to 
 dds_design = ~ Species + Sex
 ```
 
-As we have a read-made matrix, we use the `DESeqDataSetFromMatrix()` function to set up a `DESeqDataSet` object, but there are several equivalents that allow integration of data from different sources.
+As we have a ready-made matrix, we use the `DESeqDataSetFromMatrix()` function to set up a `DESeqDataSet` object, but there are several equivalents that allow integration of data from different sources.
 
 ```{r, cache=TRUE}
 dds = DESeqDataSetFromMatrix(
@@ -569,7 +644,7 @@ dds
 
 --- 
 
-We haven't seen anything quite like this so far. A `DESeqDataSet` object is an object *class* itself, of which `dds` is an example. 
+We haven't seen anything quite like this so far. A `DESeqDataSet` object is an object *class* itself, of which our `dds` is an example. 
 
 ```{r}
 class(dds)
@@ -593,13 +668,13 @@ The `DESeqDataSet` object draws from (is a *sub-class* of) another class, `Summa
 
 ---
 
-Our `dds` object contains a single assay that stores our raw expression data: `counts`. We can access this using the generic `assay()` function ...
+Our `dds` object contains a single assay that stores our raw expression data: `counts`. We can access this using the generic `assay()` function inherited from the `SummarisedExperiment` class ...
 
 ```{r}
 head(assay(dds, "counts"), 3)
 ```
 
-... or using the special `counts()` function built into the `DESeqDataSet` object.
+... or using the special `counts()` function built into the `DESeqDataSet` class.
 
 ```{r}
 head(counts(dds), 3)
@@ -647,33 +722,126 @@ plot(tree)
 
 To allow us to do some statistical testing between the conditions, we run the `DESeq()` function ...
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, message=FALSE}
 dds = DESeq(dds)
 ```
 
 ... which then allows for specific comparisons to be extracted from the results.
 
-```{r}
-res = results(dds, contrast=c("Species", "Adelie", "Gentoo"))
+```{r, cache=TRUE}
+res = results(
+  dds,
+  contrast=c("Species", "Adelie", "Gentoo"),
+  alpha=0.05,
+  filterFun=IHW::ihw)
 ```
 
+Here, we supply `alpha`, the false discovery rate, which otherwise defaults to `alpha=0.1`. We also use a method of power optimisation, independent hypothesis weighting (`ihw()` from the `IHW` package), to make sure we're getting the best out of our data.
 
-
-
-# Generating results with Bayesian Shrinkage of Log2 Fold Changes
-
-* The authors of DESeq2 recommend applying a more sophisticated approach to reporting log2FC than the original `results()` function
-* The function `lfcshrink()` generates a results table using additional statistical methods
-* The `apeglm` algorithm is good at squishing low-intensity, noisy Log2FC values but not the less noisy ones
-* This could be useful when ranking genes by Log2FC for GSEA etc
+---
 
 ```{r}
-reslfc = lfcShrink(dds, coef="dex_trt_vs_untrt", type="apeglm")
+summary(res)
 ```
 
+## Visualising the results
+
+`DESeq2` has a built-in method for displaying the results - the MA plot graphs fold change (y axis) against expression (x axis) for a given comparison.
+
+The function accepts our selected false discovery rate (alpha) to colour significant genes automatically.
+
+```{r, out.width="45%", fig.align="center"}
+plotMA(res, alpha=0.05)
+```
+
+---
+
+It's clear that the genes with low expression have aberrant fold change values. To prevent these from impacting downstream analyses, we can correct for their low expression by applying a method of fold change shrinkage.
+
+We'll use `ashr()` from the `ashr` package, but `DESeq2` supports several methods for this. Let's update the results object with the corrected values and take another look at the MA plot.
+
+```{r, cache=TRUE, message=FALSE, out.width="45%", fig.align="center"}
+res = lfcShrink(dds, res=res, type="ashr")
+plotMA(res, alpha=0.05)
+```
+
+---
+
+R has a trick up its sleeve to help interact with graphs. `identify()` allows, for graphs plotted from the console, you to select points interactively.
+
+Pressing `ESC` or the Finish button in `RStudio` ends the interactive selection and returns a vector of the row indexes of the points selected.
+
+```{r, eval=FALSE}
+plotMA(res, alpha=0.05)
+
+genes = identify(res$baseMean, res$log2FoldChange)
+genes  # for example 
+```
+```
+2067  2498  3929  17098
+```
+
+```{r, eval=FALSE}
+genes = rownames(res)[genes]
+genes  # for example 
+```
+```
+"PENG0000002999"  "PENG0000003622"  "PENG0000005731"  "PENG0000024914")
+```
+
+---
+
+Gene names (the row names of the `dds` object) can be used as input to `DESeq2`'s `plotCounts()` function to view expression for an individual gene subset by a given grouping (`intgroup=`).
+
+```{r, include=FALSE}
+genes = c("PENG0000002999", "PENG0000003622", "PENG0000005731", "PENG0000024914")
+```
+
+```{r, out.width="60%", fig.align="center"}
+plotCounts(dds, gene=genes[1], intgroup="Species")
+```
+
+## Formatting the results
+
+Now that we've applied the fold change shrinkage, let's neaten the results up into a data frame that we could share. We'll:
+
+- remove the `NA`-containing lines
+
+- filter to keep only those genes significant at our chosen `alpha`
+
+- filter to keep only those genes that were also >= 2-fold differentially expressed (absolute)
+
+- sort the data by fold change, high to low
+
+```{r}
+res_table = data.frame(na.omit(res))
+res_table = res_table[res_table$padj<0.05 & abs(res_table$log2FoldChange)>=1, ]
+res_table = res_table[order(-res_table$log2FoldChange), ]
+
+dim(res_table)
+```
+
+## Save our work
+
+Finally, let's make sure we've saved our progress so that we can resume from where we left off when we come back to it.
+
+We'll save the important `R` objects ...
+
+```{r, eval=FALSE}
+save(list=c("dds", "res"), file="outputs/3_penguin_analysis.Rdata")
+```
+
+... and export the results as a spreadsheet.
+
+```{r, eval=FALSE}
+write.table(
+  res_table,
+  file="outputs/3_penguin_analysis.tsv",
+  sep="\t", row.names=T, col.names=NA)
+```
 
 ## Homework {data-background=#FDEBD0}
 
 There are more penguin-related homework tasks to help cement what we've covered today!
 
-The homework and instructions can be found within the main directory for the course: `./homework/Homework_2.Rmd`
+The homework and instructions can be found within the main directory for the course: `./homework/Homework_3.Rmd`

@@ -297,14 +297,14 @@ Amongst programming languages, `R` is famous as a bit of a 'memory hog'. When pe
 
 Saving objects has another advantage, therefore, as it allows our working areas to be cleaned up.
 
-Overwriting a variable with the special `NULL` constant ...
+An object can be deleted using the `rm()` (or `remove()`) functions ...
 
 ```{r}
 delete_me = c("please!", "I'm", "taking", "up", "a", "lot", "of", "memory.")
-delete_me = NULL
+rm(delete_me)
 ```
 
-... will remove it from use but doesn't actually free its memory. We can encourage `R` to do perform this second step by manually calling the `gc()` (garbage collection) function.
+... which will remove it from use but doesn't actually free its memory. We can encourage `R` to do perform this second step by manually calling the `gc()` (garbage collection) function.
 
 ```{r, eval=FALSE}
 gc()

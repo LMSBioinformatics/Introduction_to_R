@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2023-10-18" />
+  <meta name="date" content="2023-10-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3242,7 +3242,7 @@ break-after: column;
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2023-10-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2023-10-19</p>
           </hgroup>
   </slide>
 
@@ -3479,12 +3479,12 @@ dev.off()</pre>
 
 <p>Saving objects has another advantage, therefore, as it allows our working areas to be cleaned up.</p>
 
-<p>Overwriting a variable with the special <code>NULL</code> constant …</p>
+<p>An object can be deleted using the <code>rm()</code> (or <code>remove()</code>) functions …</p>
 
 <pre class = 'prettyprint lang-r'>delete_me = c(&quot;please!&quot;, &quot;I&#39;m&quot;, &quot;taking&quot;, &quot;up&quot;, &quot;a&quot;, &quot;lot&quot;, &quot;of&quot;, &quot;memory.&quot;)
-delete_me = NULL</pre>
+rm(delete_me)</pre>
 
-<p>… will remove it from use but doesn’t actually free its memory. We can encourage <code>R</code> to do perform this second step by manually calling the <code>gc()</code> (garbage collection) function.</p>
+<p>… which will remove it from use but doesn’t actually free its memory. We can encourage <code>R</code> to do perform this second step by manually calling the <code>gc()</code> (garbage collection) function.</p>
 
 <pre class = 'prettyprint lang-r'>gc()</pre>
 
@@ -4028,7 +4028,7 @@ while (x[1] != 5) {
 
 x</pre>
 
-<pre >##  [1]  5  6  3  2  4  1 10  8  7  9</pre>
+<pre >##  [1]  5  3  7  1  6  9  4 10  8  2</pre>
 
 <pre class = 'prettyprint lang-r'>x = 1
 while (x^2 != 9) x = x + 1
@@ -4060,7 +4060,7 @@ while (TRUE) {
 
 loops</pre>
 
-<pre >## [1] 33</pre>
+<pre >## [1] 46</pre>
 
 </article></slide><slide class="fill nobackground" style="background: #D6EAF8;"><hgroup><h2>Practical</h2></hgroup><article  id="practical-2" class="smaller ">
 

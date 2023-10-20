@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2023-10-18" />
+<meta name="date" content="2023-10-19" />
 
 <title>Introduction To R | Session 2</title>
 
@@ -1577,7 +1577,7 @@ border-radius: 0px;
 <h4 class="author">LMS Bioinformatics Facility</h4>
 <a class="author_email" href="mailto:#"><a href="mailto:bioinformatics@lms.mrc.ac.uk" class="email">bioinformatics@lms.mrc.ac.uk</a></a>
 </address>
-<h4 class="date">2023-10-18</h4>
+<h4 class="date">2023-10-19</h4>
 
 </div>
 
@@ -1815,13 +1815,14 @@ it can use 10s of <code>GB</code> of your computer’s RAM (and/or crash
 your machine)!</p>
 <p>Saving objects has another advantage, therefore, as it allows our
 working areas to be cleaned up.</p>
-<p>Overwriting a variable with the special <code>NULL</code> constant
-…</p>
+<p>An object can be deleted using the <code>rm()</code> (or
+<code>remove()</code>) functions …</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>delete_me <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;please!&quot;</span>, <span class="st">&quot;I&#39;m&quot;</span>, <span class="st">&quot;taking&quot;</span>, <span class="st">&quot;up&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;lot&quot;</span>, <span class="st">&quot;of&quot;</span>, <span class="st">&quot;memory.&quot;</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>delete_me <span class="ot">=</span> <span class="cn">NULL</span></span></code></pre></div>
-<p>… will remove it from use but doesn’t actually free its memory. We
-can encourage <code>R</code> to do perform this second step by manually
-calling the <code>gc()</code> (garbage collection) function.</p>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">rm</span>(delete_me)</span></code></pre></div>
+<p>… which will remove it from use but doesn’t actually free its memory.
+We can encourage <code>R</code> to do perform this second step by
+manually calling the <code>gc()</code> (garbage collection)
+function.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 </div>
 <div id="matrices" class="section level2">
@@ -2296,7 +2297,7 @@ block until a specific outcome is achieved.</p>
 <span id="cb105-5"><a href="#cb105-5" tabindex="-1"></a>}</span>
 <span id="cb105-6"><a href="#cb105-6" tabindex="-1"></a></span>
 <span id="cb105-7"><a href="#cb105-7" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>##  [1]  5  4  3  9  2  8  1  6 10  7</code></pre>
+<pre><code>##  [1]  5  2  7  3  8  6  1  4 10  9</code></pre>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb107-2"><a href="#cb107-2" tabindex="-1"></a><span class="cf">while</span> (x<span class="sc">^</span><span class="dv">2</span> <span class="sc">!=</span> <span class="dv">9</span>) x <span class="ot">=</span> x <span class="sc">+</span> <span class="dv">1</span></span>
 <span id="cb107-3"><a href="#cb107-3" tabindex="-1"></a>x</span></code></pre></div>
@@ -2324,7 +2325,7 @@ individual loop iteration and triggers the next to start.</p>
 <span id="cb111-6"><a href="#cb111-6" tabindex="-1"></a>}</span>
 <span id="cb111-7"><a href="#cb111-7" tabindex="-1"></a></span>
 <span id="cb111-8"><a href="#cb111-8" tabindex="-1"></a>loops</span></code></pre></div>
-<pre><code>## [1] 19</code></pre>
+<pre><code>## [1] 18</code></pre>
 </div>
 <div id="practical-2" class="section level2" data-background="#D6EAF8">
 <h2>Practical</h2>

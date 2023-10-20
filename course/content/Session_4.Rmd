@@ -1,0 +1,125 @@
+---
+title: "Introduction To R | Session 4"
+author:
+  name: "LMS Bioinformatics Facility"
+  email: "bioinformatics@lms.mrc.ac.uk"
+date: "`r Sys.Date()`"
+output:
+  ioslides_presentation:
+    widescreen: yes
+    smaller: yes
+    css: style/ioslides_style.css
+    logo: style/LMS_logo.svg
+    highlight: tango
+  html_document:
+    theme: lumen
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+knit: (function(input, ...) {
+  rmarkdown::render(
+    input, output_dir="../slides", clean=T, output_format="ioslides_presentation"); 
+  rmarkdown::render(
+    input, output_dir="../html", clean=T, output_format="html_document")
+  })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+```
+
+## Recapping
+
+**Session 3** covered:
+
+- R markdown
+
+- Writing functions
+
+- Apply (again)
+
+- Installing packages
+
+- Using packages
+
+- Real life example: DESeq2
+
+## Recapping as code
+
+```{r, eval=FALSE}
+# Functions
+multiply = function(x, y) return (x * y)
+
+# Default arguments
+multiply = function(x, y=2) return (x * y)
+
+# Scopes
+multiply = function(x, y) z <<- x * y
+
+# Passing through arguments
+apply(m, 1, multiply, y=2)
+
+# Packages from CRAN
+install.packages("ggplot2")
+
+# Packges from Bioconductor
+library(BiocManager)
+install("DESeq2")
+```
+
+## Homework {data-background=#FDEBD0}
+
+What did you learn?
+
+Do we need to recap any parts?
+
+## Learning objectives
+
+**Session 4**
+  
+- What makes a good figure?
+  
+- Using colour
+  
+- `viridis` colour library
+  
+- Plotting with `ggplot2`
+
+## Plotting
+
+Humans are visual creatures!
+
+Visualisation of large data sets is an essential task in molecular biology and medicine. When done effectively, images can help you to explain the most complex of data.
+
+Without an image or summarisation, how well would you do finding significant genes in a table like this?
+
+```{r, echo=FALSE}
+load("outputs/3_penguin_analysis.Rdata")
+head(data.frame(res), 12)
+```
+
+---
+
+
+While there are many software solutions which can be used for visualisation of data starting, for instance, with Excel or LibraOffice Calc, the ***R platform*** has become a de facto standard for visualisation in genomics. ***Rstudio*** is an interface to R which facilitates the writing and execution of R code. We will use it in our tutorial. 
+
+The course is intended to be self-contained, but if you are new to R, we recommend that you go through our previous introduction to R:
+
+[[https://lmsbioinformatics.github.io/LMS_Reproducible-R/]]
+
+
+
+
+
+## Practical {data-background=#D6EAF8}
+
+pass
+
+
+## Homework {data-background=#FDEBD0}
+
+There are more penguin-related homework tasks to help cement what we've covered today!
+
+The homework and instructions can be found within the main directory for the course: `./homework/Homework_4.Rmd`

@@ -159,3 +159,5 @@ Applications such as `Excel`, `Prism`, `SigmaPlot` have a number of drawbacks:
 - [R for Data Science](https://r4ds.hadley.nz/) (Hadley Wickham)
 
 - [An Introduction to R](https://cran.r-project.org/doc/manuals/R-intro.pdf) (`R` Core Team)
+
+- [Data visualisation](https://blogs.nature.com/methagora/2013/07/data-visualization-points-of-view.html) guides from *Nature Methods*
