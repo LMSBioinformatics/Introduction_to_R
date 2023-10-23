@@ -9,7 +9,7 @@ output: html_notebook
 
 ## Preliminaries
 
-Make sure your working directory is set to the `homework` folder within the course materials. You can do this with the user interface in `RStudio` (`Session > Set Working Directory`). Alternatively, you can get and set the working directory with commands.
+Make sure your working directory is set to the main folder for the course. You can do this with the user interface in `RStudio` (`Session > Set Working Directory`). Alternatively, you can get and set the working directory with commands.
 
 ```{r, eval=FALSE}
 getwd()
