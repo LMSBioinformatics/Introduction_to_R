@@ -3881,12 +3881,12 @@ df</pre>
 <li><p>Omitting either one, as above, will return all possibilities.</p></li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>df[2, ]</pre>
+<pre class = 'prettyprint lang-r'>df[2, ]  # take row 2, take all columns</pre>
 
 <pre >##   COL1 COL2  COL3 COL4
 ## b    2  two FALSE  1.2</pre>
 
-<pre class = 'prettyprint lang-r'>df[, 2]</pre>
+<pre class = 'prettyprint lang-r'>df[, 2]  # take all rows, take column 2</pre>
 
 <pre >## [1] &quot;one&quot;   &quot;two&quot;   &quot;three&quot;</pre>
 
@@ -3894,13 +3894,13 @@ df</pre>
 
 <p>As with named vectors, we can also index by row and column name …</p>
 
-<pre class = 'prettyprint lang-r'>df[c(&quot;a&quot;, &quot;b&quot;), ]</pre>
+<pre class = 'prettyprint lang-r'>df[c(&quot;a&quot;, &quot;b&quot;), ]  # take the rows named &quot;a&quot; and &quot;b&quot;</pre>
 
 <pre >##   COL1 COL2  COL3 COL4
 ## a    1  one  TRUE  1.1
 ## b    2  two FALSE  1.2</pre>
 
-<pre class = 'prettyprint lang-r'>df[, &quot;COL1&quot;]</pre>
+<pre class = 'prettyprint lang-r'>df[, &quot;COL1&quot;]  # take the column named &quot;COL1&quot;</pre>
 
 <pre >## [1] 1 2 3</pre>
 

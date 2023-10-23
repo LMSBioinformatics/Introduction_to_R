@@ -669,11 +669,11 @@ To access the information within a data frame, as with vectors, we use square br
 - Omitting either one, as above, will return all possibilities.
 
 ```{r}
-df[2, ]
+df[2, ]  # take row 2, take all columns
 ```
 
 ```{r}
-df[, 2]
+df[, 2]  # take all rows, take column 2
 ```
 
 ---
@@ -681,11 +681,11 @@ df[, 2]
 As with named vectors, we can also index by row and column name ...
 
 ```{r}
-df[c("a", "b"), ]
+df[c("a", "b"), ]  # take the rows named "a" and "b"
 ```
 
 ```{r}
-df[, "COL1"]
+df[, "COL1"]  # take the column named "COL1"
 ```
 
 ... and we can access columns individually with the `$` operator, which returns the underlying vector.
