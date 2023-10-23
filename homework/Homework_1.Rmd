@@ -84,10 +84,6 @@ Your interest in penguins has grown significantly over time. Naturally, you're i
 
 a) Load the `data/1_palmerpenguins.csv` file.
 
-```{r}
-penguins = read.csv("data/1_palmerpenguins.csv")
-```
-
 b) Familiarise yourself with the dataset. Which columns might be better represented as factors?
 
 c) Make any changes you think necessary.
