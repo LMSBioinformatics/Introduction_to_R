@@ -944,10 +944,11 @@ plot(Height~Weight, data=na.omit(penguins))
 
 ---
 
-Columns defined as factors can be used to modify the aesthetics of the plot. For example, we can edit the colour and shape of points based on `Sex`. It makes sense to then also use the `legend()` function to show what we've done.
+Columns defined as factors can be used to modify the aesthetics of the plot. For example, we can edit the colour and shape of points based on `Sex`. We can use the `legend()` function to show what we've done.
 
 ```{r, out.width="60%", fig.align="center"}
-plot(Height~Weight, data=na.omit(penguins), col=c("purple", "green4")[Sex], pch=c("♀", "♂")[Sex])
+plot(Height~Weight, data=na.omit(penguins), col=c("purple", "green4")[Sex], pch=c("♀", "♂")[Sex], cex=1.5)
+
 legend("topleft", legend=levels(penguins$Sex), col=c("purple", "green4"), pch=c("♀", "♂"))
 ```
 
