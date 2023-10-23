@@ -283,7 +283,7 @@ Ask `R` what these functions do:
 
 There are three *basic* data types that we use in `R` day-to-day:
 
-- `Numeric` values (stored identically whether they have a floating point or not) store a number
+- `Numeric` values store a number (with the subclasses `integer` and `double`)
 
 - `Character` values (aka a *string* of characters) wrapped in quotation marks store text
 
@@ -324,17 +324,17 @@ There are a number of handy functions for creating vectors.
 The `seq()` function (or the `:` operator) will create a sequence of numbers
 
 ```{r}
-seq(1, 10)
+seq(11, 20)
 ```
 
 ```{r}
-1:10
+11:20
 ```
 
 The `rep()` function will repeat a given object a specified number of times
 
 ```{r}
-a = rep(1:5, 3)
+a = rep(11:15, 3)
 a
 ```
 
@@ -382,7 +382,7 @@ a[-c(1, 3, 5)]
 
 ---
 
-The order of index values matters - `[c(1, 2)]` is different to `[c(2, 1)]`. The order of the supplied index values can be used to arrange data, therefore.
+The order of index values matters; `[c(1, 2)]` is different to `[c(2, 1)]`). The order of the supplied index values can be used to arrange data, therefore.
 
 ```{r}
 a[15:1]
@@ -568,7 +568,7 @@ c(TRUE, FALSE, FALSE) | c(TRUE, TRUE, FALSE)  # in pairs, does either evaluate t
 
 Many Emperor penguins don't start breeding until they're 6 years old.
 
-- Which of penguins are too young to breed?
+- Which of your penguins are too young to breed?
 
 To bump up your numbers, you decide to get more penguins.
 
@@ -716,11 +716,11 @@ Data frames can be very large and cumbersome to view. To make things easier, we 
 
 - `tail()` to display the last few rows
 
-- `view()`, which in `RStudio` will open a separate tab to display the contents
+- `View()`, which in `RStudio` will open a separate tab to display the contents
 
 - `str()` to view its structure and the basic types of its component vectors
 
-- `table()` and `summmary()` to view compact representations of columns
+- `table()` and `summmary()` to view compact representations of specified columns
 
 ---
 
@@ -773,16 +773,22 @@ penguins = merge(df, df2, by="ID", all=TRUE)
 range(penguins$Height)
 ```
 
-We can *sanitise* an entire data frame by using the `na.omit()` function to drop `NA`-containing rows ...
+```{r}
+mean(penguins$Height)
+```
+
+---
+
+We can *sanitise* an entire data frame by using the `na.omit()` function to drop all `NA`-containing rows ...
 
 ```{r, eval=FALSE}
 penguins = na.omit(penguins)
 ```
 
-... but, unless we want to discard data, it's often better to just drop `NA`s from vectors during calculations.
+... but, unless we want to discard data, it's often better to just drop `NA`s for specific calculations. Many functions take the `na.rm=TRUE` argument to facilitate this
 
 ```{r}
-range(na.omit(penguins$Height))
+range(penguins$Height, na.rm=TRUE)
 ```
 
 ## Factors
@@ -904,7 +910,7 @@ You have realised that `HatColour` contains categorical data and should be turne
 
 ## Plotting in base R
 
-We will cover plotting in more detail using the `ggplot2` library in **Session 4**. 'Base' `R` can still do some basic plotting, though, and has four types of graph built in:
+We will cover plotting in more detail using the `ggplot2` library in **Session 4**. 'Base' `R` can still do some basic plotting, though, and has several types of graph built in:
 
 - `plot()` produces scatter plots
 
