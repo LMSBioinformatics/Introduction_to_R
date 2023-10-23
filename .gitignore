@@ -1,6 +1,7 @@
 .DS_Store
 .Rhistory
 outputs/
+!outputs/.placeholder
 homework/*.nb.html
 course/*/*_cache/
 course/*/*_files/
