@@ -121,37 +121,85 @@ Do we need to recap any parts?
 
 ## Markdown
 
-In following along with this course, you've been seeing and using `R markdown` but we haven't yet considered it more deeply.
+In following along with this course, you've been seeing and using `R markdown`.
 
-A markdown document provides a way of embedding the results of an analysis and, importantly, the code, within a formatted document. By allowing the two be stored side-by-side, markdown (and notebook-style workbooks in general), is central to modern data processing and reproducible analysis.
+A markdown document provides a way of embedding the results of an analysis and, importantly, the code, within a formatted document. By allowing the two be stored side-by-side, markdown (and notebook-style workbooks in general) is central to modern data processing and reproducible analysis.
 
-Starting a new `.Rmd` document from the menu (`File > New File > R Markdown`), we're given a new file containing:
+Opening a new `.Rmd` document (`File > New File > R Markdown`), we're given a new file containing:
 
-- a minimal header section, which can be customised to describe how the document will be processed downstream (compare it to the monster at the top of this raw markdown!)
+- a minimal `YAML` header, which can be customised to describe how the document will be processed downstream (compare it to the monster at the top of this raw markdown!)
 
 - and some demonstration content, which can be replaced with whatever you want to include.
 
-In `R`, the `knitr` package provides the tools for converting markdown documents into everything from HTML reports to PowerPoint slides.
+In `R`, the `rmarkdown` and `knitr` CRAN packages provide the tools for converting markdown documents into everything from HTML reports to PowerPoint slides.
+
+```{r, eval=FALSE}
+install.packages("rmarkdown")
+install.packages("knitr")
+```
 
 ---
 
-We can *knit* a document by pressing the knit button at the top of the documents pane, or by pressing `⌘+Shift+K` (Mac) or `CTRL+Shift+K` (Windows). `knitr` reads the header to determine which document formats to produce and *renders* them from its interpretation of the raw markdown.
+We can *knit* a document by pressing the knit button at the top of the documents pane, or by pressing `⌘+Shift+K` (Mac) or `CTRL+Shift+K` (Windows).
 
-As we've seen, code blocks wrapped within triple back ticks ...
+`knitr` reads the header to determine which document formats to produce and *renders* them from its interpretation of the raw markdown. Alternatively, we can trigger this manually from the console ...
 
-````
- ```{r}
+```{r, eval=FALSE}
+library("rmarkdown")
+render()
+```
+
+Similarly, this reads the header and will render an output appropriately (or as an HTML document by default).
+
+Where headers contain multiple options, as for this document, passing the optional `output_format="all"` argument will render all defined formats at once. Specific document types (whether specified in the header or not) can also be requested by specifying them manually.
+
+```{r, eval=FALSE}
+render(output_format="pdf_document")
+```
+
+## Markdown code blocks
+
+Code blocks can be inserted at the position of the cursor with `⌘+⌥+I` (Mac) or `CTRL+Alt+I` (Windows). As we've seen, by default, code blocks ...
+
+<pre class="prettyprint lang-none">
+ &grave;&grave;&grave;&lcub;r, my_first_block, eval=FALSE&rcub;
  # code
- ```
-````
+ &grave;&grave;&grave;
+</pre>
 
-... will be executed and included, along with their results, inline with the surrounding text. These can be inserted at the position of the cursor with `⌘+⌥+I` (Mac) or `CTRL+Alt+I` (Windows).
+... will be executed and included, along with their results, inline with the surrounding text.
 
-The surrounding text can be annotated with a variety of formatting marks that are interpreted by `knitr`. This excellent [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) summarises the common ones.
+There are a number of options available for controlling the behaviour of code blocks, which we can specify by passing arguments to the block directly. Individual blocks can also be assigned a name.
 
-Reproducing some of the most use useful ...
+<pre class="prettyprint lang-none">
+ &grave;&grave;&grave;&lcub;r, my_first_block, eval=FALSE&rcub;
+ # code
+ &grave;&grave;&grave;
+</pre>
 
-## {.columns-2}
+---
+
+Common arguments to code blocks include:
+
+- `eval` (`TRUE`/`FALSE`): whether a block is executed (evaluated)
+
+- `echo` (`TRUE`/`FALSE`): whether code within the block is included in the output
+
+- `warning`, `message`, `error` (`TRUE`/`FALSE`): whether these are included in the output
+
+- `include` (`TRUE`/`FALSE`): controls all block outputs together
+
+- `results="hide"`: hides the output of the block
+
+- `cache` (`TRUE`/`FALSE`): stores the output of a block, allowing its evaluation to be skipped subsequently
+
+- `fig.width` and `fig.height`: the size of graphical outputs in inches
+
+- `fig.align` (`left`, `center`, `right`): figure location
+
+- `out.width` and `out.height`: scale the size of graphics according to the size of the document (e.g. `="80%"`)
+
+## Markdown text formatting {.columns-2}
 
 Layout and objects:
 
@@ -161,13 +209,15 @@ Layout and objects:
 
 - `### Sub-heading`
 
-- `***` horizontal rule
-
-- `---` slide break
+- `***` or `---` horizontal rule / break
 
 - `[link](https://www.example.com)`
 
 -  `![](path/to/image.png)`
+
+&nbsp;
+
+[Markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
 
 <p class="forceBreak"></p>
 

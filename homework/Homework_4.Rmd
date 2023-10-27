@@ -1,0 +1,78 @@
+---
+title: "Introduction To R | Homework 3"
+author:
+  name: "Firstname Secondname"
+  email: "my_email@lms.mrc.ac.uk"
+date: "`r Sys.Date()`"
+output: html_notebook
+---
+
+## Preliminaries
+
+Make sure your working directory is set to the folder containing the course materials. You can do this with the user interface in `RStudio` (`Session > Set Working Directory`). Alternatively, you can get and set the working directory with commands.
+
+```{r, eval=FALSE}
+getwd()
+```
+
+```{r, eval=FALSE}
+setwd("/this/is/a/location")  # Mac / Linux
+setwd("C:\this\is\a\location")  # Windows
+```
+
+## Instructions
+
+- Please fill in your name and email address in the header section at the top of the file.
+
+- This document is an `R Notebook`. When you save, it will automatically render an HTML output with the result. You can upload either this raw document or the rendered HTML when submitting your work.
+
+*Don't forget that you can insert a code block at the position of the cursor with `⌘+⌥+I` (Mac) or `CTRL+Alt+I` (Windows). These are run by pressing the `⏵` (run) button in the top right corner of each chunk.*
+
+## Tasks
+
+It's really useful to be able to re-create a plot that you might be given or to match up the aesthetics of your figures with those from someone else.
+
+Using the provided object ...
+
+```{r}
+load("data/4_penguin_results.Rda")  # provides the `res` `DESeqResults` object
+summary(res)
+```
+
+### 1
+
+Let's practice using `ggplot2` by doing our best to recreate a figure that we've seen `DESeq2` produce previously. Make a data frame from `res` and see how closely you can re-create the plot below, which graphs the `log2FoldChange` column against `baseMean`.
+
+```{r}
+library(DESeq2)
+
+plotMA(res, alpha=0.05)
+```
+
+Make use of the fantastic [reference guide](https://ggplot2.tidyverse.org/reference/index.html) as well as the the built-in help for the aesthetics and geometries. If in doubt, a few key words into Google will often point you in the right direction!
+
+Consider:
+
+- the non-linear `x` axis scale and its labels
+
+- the `y` axis limits and label orientation
+
+- point sizes and shapes
+
+- a *manual* (hint!) scale for the colour aesthetic
+
+- themes and appearance 
+
+- reference lines
+
+- point shape
+
+### 2
+
+2) Although they encourage us to weight significance more highly than effect size (the fold change), volcano plots remain confusingly popular as a means of displaying the results of differential expression analyses. Let's make one!
+
+a) Make a volcano plot, colouring according to significance. For the uninitiated, a volcano plot is a graph of `-10*log10(padj)` on the `y` axis versus `log2FoldChange` on the `x`.
+
+b) Add labels for the 5 genes with the most substantial negative `log2FoldChange` values. Experiment with using `geom_text()` and `geom_label()`. (Hint ... the `rownames` might benefit from being a column!)
+
+c) `install.packages("ggrepel")` and try out a repel equivalent - `geom_text_repel()` or `geom_label_repel()`.

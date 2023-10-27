@@ -305,7 +305,7 @@ Now we can see something!
 
 ## Aesthetics
 
-What we have so far is a little simplistic! Let's re-work the aesthetics by getting the `ggplot` object colour according to the levels of the `species` factor (`color` and `col` are also valid if you're not British).
+What we have so far is a little simplistic! Let's re-work the aesthetics by getting the `ggplot` object to colour according to the levels of the `species` factor (`color` and `col` are also valid if you're not British).
 
 ```{r, message=FALSE, warning=FALSE, out.width="40%", fig.align="center"}
 g =
@@ -339,7 +339,7 @@ Let's make our first `ggplot`!
 
 ## Partitioning with aesthetics
 
-The more factors we map to aesthetics, the more we partition the data.
+The more facets of the data we map to aesthetics, the more it's partitioned.
 
 ```{r, message=FALSE, warning=FALSE, out.width="40%", fig.align="center"}
 g = ggplot(penguins, aes(x=bill_length_mm, y=bill_depth_mm, colour=species, shape=sex))
@@ -376,23 +376,25 @@ g
 
 ---
 
-Depending on the geometry, different aesthetic options are more relevant than others. Some aesthetics are only available for specific geometries.
+Some aesthetics are only available for specific geometries and, depending on the geometry, certain aesthetic options are more relevant or salient than others.
 
 As a general guide, discrete variables are best visually separated with ...
 
-- `shape` for very small numbers of discrete groups and where overlapping is minimal
+- `shape` (for points) for very small numbers of discrete groups and where overlapping is minimal
 
-- `linetype` for very small numbers of discrete groups
+- `linetype` (for lines) for very small numbers of discrete groups
 
-- `colour` or `fill` for filled geometries (where `colour` alters the border) using separate hues
+- `colour` (or `fill` for filled geometries) using separate hues
 
 ... whereas continuous variables are most accurately displayed using:
 
 - `size` or `lineweight`
 
-- `alpha`
+- a scaled gradient across distant `colour` hues
 
-- saturation of a single `colour`
+- a scaled gradient across a single `colour`
+
+- `alpha`, if necessary
 
 ## Themes
 
@@ -514,8 +516,6 @@ a + b + c
 
 Here, as an alternative to `geom_point()`, `geom_density2d()` may better highlight the 'centre of mass' for each group. `geom_rug()` might be suitable alongside another geometry but otherwise lacks both accuracy and saliency.
 
----
-
 ## Practical {data-background=#D6EAF8}
 
 Using this base ...
@@ -536,7 +536,7 @@ ggplot(penguins, aes(x=body_mass_g, colour=species))
 
 Let's apply some of our knowledge about using colour effectively ... and inclusively!
 
-The `viridis` library integrates easily with `ggplot2` using various `scale_colour_viridis_...()` functions:
+The `viridis` library integrates easily with `ggplot2` using various `scale_colour_viridis_...()` and `scale_fill_viridis_...()` functions:
 
 - `scale_colour_viridis_d()` makes salient mappings of discrete variables
 
@@ -559,7 +559,7 @@ Pretty easy!
 
 ---
 
-As we saw earlier, `viridis` has a variety of palettes. Let's compare how good they are at visually discriminating discrete data by passing the `option=` argument to the `scale_colour_viridis_d()` function.
+As we saw earlier, `viridis` has a variety of palettes. Let's compare a few on some discrete data by passing the `option=` argument to the `scale_colour_viridis_d()` function.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width="60%", fig.align="center"}
 g = 
@@ -577,21 +577,21 @@ a =
 b = 
   g +
   scale_colour_viridis_d(option="viridis") +
-  labs(title="viridis") +
+  labs(title='option="viridis"') +
   theme(
     axis.text=element_blank(),
     axis.title=element_blank())
 c =
   g +
   scale_colour_viridis_d(option="plasma") +
-  labs(title="plasma") +
+  labs(title='option="plasma"') +
   theme(
     axis.text=element_blank(),
     axis.title=element_blank())
 d = 
   g + 
   scale_colour_viridis_d(option="turbo") +
-  labs(title='turbo') +
+  labs(title='option="turbo"') +
   theme(
     axis.text=element_blank(),
     axis.title=element_blank())
@@ -599,13 +599,154 @@ d =
 a + b + c + d
 ```
 
-## Scales
+## Practical {data-background=#D6EAF8}
 
-## Stats
+Using this base ...
+
+```{r, eval=FALSE}
+ggplot(penguins, aes(x=bill_length_mm, y=bill_depth_mm, colour=bill_length_mm/bill_depth_mm))
+```
+
+- What are we doing in the `colour` aesthetic?
+
+- Make a graph making use of `scale_colour_viridis_c()`
+
+- Try a few different palettes by setting `option=`
+
+- Switch that out for `scale_colour_viridis_b()`
+
+- Within this nonsense example, which method has:
+
+  * better accuracy?
+  
+  * better saliency?
 
 ## Facets
 
+Where we need to highlight two separate points within a plot, it's common to incorporate the second factor using a separate aesthetic (e.g. as a symbol if we're primarily using colour). However, mixing or increasing the complexity of aesthetics can lead to poor saliency!
+
+```{r, message=FALSE, warning=FALSE, out.width="40%", fig.align="center"}
+g = ggplot(na.omit(penguins), aes(x=bill_length_mm, y=bill_depth_mm, colour=species)) +
+  scale_colour_viridis_d(option="turbo") +
+  theme_bw()
+g + geom_point(aes(shape=sex))
+```
+
+---
+
+Often, a better alternative is to *facet* the data by the second factor.
+
+`facet_wrap()` will use a factor (/factors) specified using formula notation to split the dataset into separate, grouped, plots.
+
+```{r, message=FALSE, warning=FALSE, out.width="50%", fig.align="center"}
+g = g + geom_point()
+g +
+  facet_wrap(~sex)
+```
+
+---
+
+Alternatively, dor more complex layouts, we can use `facet_grid()` to produce a 2D grid.
+
+```{r, message=FALSE, warning=FALSE, out.width="50%", fig.align="center"}
+g = g + facet_grid(rows=vars(sex), cols=vars(species))
+g
+```
+
+For `facet_grid()`, it's necessary to use `ggplot2`'s `vars()` function to extract the levels from the factors you're faceting with.
+
+## Practical {data-background=#D6EAF8}
+
+Using this base ...
+
+```{r, eval=FALSE}
+ggplot(na.omit(penguins), aes(x=body_mass_g, colour=species))
+```
+
+- Make a plot using `geom_density()` to display the distribution of `body_mass_g` or each `species`
+
+Let's see if there's variation in their weight by year.
+
+- Add a `facet_grid()` that separates by `year` and `sex`
+
+## Scales
+
+There are two ways of adjusting the axis scales in `ggplot2`:
+
+- setting everything outside of a specified window to `NA`. This is achieved by setting `limits=` within the relevant `scale_...()` function
+
+  `scale_x_continuous(limits=c(1, 100))`
+
+- zooming into a region without otherwise manipulating the data. This is achieved by setting `xlim=` and `ylim=` using the `coord_cartesian()` function
+
+  `coord_cartesian(xlim=c(1, 100))`
+
+These differ in whether the non-visible points are used to contribute information to the plot:
+
+- `limits` prevents this. A `geom_smooth()` geometry will create a fit using only the points displayed
+
+- `coord_cartesian()` enables this. A `geom_smooth()` geometry will create a fit using all data, even if it's not displayed.
+
+## Reference lines
+
+Alongside the adjustment of the scales, it's often useful to be able to add reference or threshold lines to a plot to enhance saliency.
+
+`ggplot2` has three geometries that allow this: 
+
+- `geom_hline()`, taking a `yintercept` argument
+
+- `geom_vline()`, taking a `xintercept` argument
+
+- `geom_abline()`, taking `slope` and `intercept` arguments
+
+---
+
+```{r, message=FALSE, warning=FALSE, out.width="40%", fig.align="center"}
+g = 
+  ggplot(na.omit(penguins), aes(x=species, y=body_mass_g, colour=species)) +
+  geom_violin(fill=NA) +
+  geom_hline(yintercept=3000, linetype="dashed") +
+  theme_bw()
+g
+```
+
+## Labels
+
+It's also possible to add text annotations to a plot using `annotate()` elements, using the `x` and `y` arguments to position the text.
+
+```{r, message=FALSE, warning=FALSE, out.width="40%", fig.align="center"}
+g = g + annotate("text", x=3.3, y=2900, label="Underweight")
+g
+```
+
+For the purposes of display (and for positioning labels), categorical data, as above, are converted to sequences of integers (1, 2, 3, ...) on the `x` axis.
+
+---
+
+It's also possible to label specific points within a plot using `geom_text()` or `geom_text_repel()` from the `ggrepel` package, which repels labels from each other to prevent overlap.
+
+Where there are only a few points, this works without further effort. Where there are lots, it's more common to be needing to specifically label a specific subset. To do this, we supply new `data` to the geometry.
+
+```{r, message=FALSE, warning=FALSE, out.width="40%", fig.align="center"}
+g +
+  geom_text(aes(label=id), data=penguins[sample(nrow(penguins), 5), ])
+```
+
 ## Saving
+
+Saving `ggplot` objects is simpler than for base `R` graphics.
+
+`ggplot2` has a special `ggsave()` function that will adjust `width` and `height` in a variety of `units` and save in 10 different formats!
+
+```{r, eval=FALSE}
+ggsave(
+  "outputs/4_ggsave.png", g,
+  height=10, width=15, units="cm")
+```
+
+Here, we pass a specific `ggplot` object to save but, by default, it saves the last displayed plot.
+
+The `ggsave()` function is also clever enough to guess the required `device` (`png`, `svg`, `pdf`, etc) from the file extension given in the path name; we can specify this for clarity but it's not necessary.
 
 ## Homework {data-background=#FDEBD0}
 

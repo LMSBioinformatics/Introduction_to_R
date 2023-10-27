@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2023-10-19" />
+<meta name="date" content="2023-10-24" />
 
 <title>Introduction To R | Session 2</title>
 
@@ -1577,7 +1577,7 @@ border-radius: 0px;
 <h4 class="author">LMS Bioinformatics Facility</h4>
 <a class="author_email" href="mailto:#"><a href="mailto:bioinformatics@lms.mrc.ac.uk" class="email">bioinformatics@lms.mrc.ac.uk</a></a>
 </address>
-<h4 class="date">2023-10-19</h4>
+<h4 class="date">2023-10-24</h4>
 
 </div>
 
@@ -1997,7 +1997,7 @@ isn’t possible, <code>NA</code> values will be inserted.</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="dv">1</span>, <span class="cn">FALSE</span>, <span class="dv">0</span>, <span class="st">&quot;testing&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning: NAs introduced by coercion</code></pre>
 <pre><code>## [1] NA  1 NA  0 NA</code></pre>
-<p>Best practice, therefore, if not to find yourself in this situtation
+<p>Best practice, therefore, is not to find yourself in this situtation
 in the first place!</p>
 </div>
 <div id="recycling" class="section level2">
@@ -2297,7 +2297,7 @@ block until a specific outcome is achieved.</p>
 <span id="cb105-5"><a href="#cb105-5" tabindex="-1"></a>}</span>
 <span id="cb105-6"><a href="#cb105-6" tabindex="-1"></a></span>
 <span id="cb105-7"><a href="#cb105-7" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>##  [1]  5  2  7  3  8  6  1  4 10  9</code></pre>
+<pre><code>##  [1]  5  8 10  2  9  7  1  4  6  3</code></pre>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb107-2"><a href="#cb107-2" tabindex="-1"></a><span class="cf">while</span> (x<span class="sc">^</span><span class="dv">2</span> <span class="sc">!=</span> <span class="dv">9</span>) x <span class="ot">=</span> x <span class="sc">+</span> <span class="dv">1</span></span>
 <span id="cb107-3"><a href="#cb107-3" tabindex="-1"></a>x</span></code></pre></div>
@@ -2325,7 +2325,7 @@ individual loop iteration and triggers the next to start.</p>
 <span id="cb111-6"><a href="#cb111-6" tabindex="-1"></a>}</span>
 <span id="cb111-7"><a href="#cb111-7" tabindex="-1"></a></span>
 <span id="cb111-8"><a href="#cb111-8" tabindex="-1"></a>loops</span></code></pre></div>
-<pre><code>## [1] 18</code></pre>
+<pre><code>## [1] 32</code></pre>
 </div>
 <div id="practical-2" class="section level2" data-background="#D6EAF8">
 <h2>Practical</h2>

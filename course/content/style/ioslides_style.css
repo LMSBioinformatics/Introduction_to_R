@@ -25,3 +25,8 @@ slides > slide:not(.nobackground):before {
   -webkit-column-break-after: always;
   break-after: column;
 }
+
+/* Custom layout for raw markdown outputs */
+.lang-none > .str {
+  color: black;
+}
