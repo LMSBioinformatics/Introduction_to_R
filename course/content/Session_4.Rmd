@@ -80,11 +80,21 @@ Do we need to recap any parts?
   
 - What makes a good figure?
   
-- Using colour
+- Colour
   
 - `viridis` colour library
   
 - Plotting with `ggplot2`
+
+  * Aesthetics
+  
+  * Geometries
+  
+  * Themes
+  
+  * Facets
+  
+  * Saving
 
 ## Plotting
 

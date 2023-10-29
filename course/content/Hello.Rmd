@@ -3,7 +3,6 @@ title: "Introduction To R | Hello"
 author:
   name: "LMS Bioinformatics Facility"
   email: "bioinformatics@lms.mrc.ac.uk"
-date: "`r Sys.Date()`"
 output:
   ioslides_presentation:
     widescreen: yes
@@ -142,11 +141,21 @@ Applications such as `Excel`, `Prism`, `SigmaPlot` have a number of drawbacks:
 
 - What makes a good figure?
   
-- Using colour
+- Colour
   
 - `viridis` colour library
   
 - Plotting with `ggplot2`
+
+  * Aesthetics
+  
+  * Geometries
+  
+  * Themes
+  
+  * Facets
+  
+  * Saving
   
 ##
 
