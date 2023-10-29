@@ -3,7 +3,6 @@ title: "Introduction To R | Session 4"
 author:
   name: "LMS Bioinformatics Facility"
   email: "bioinformatics@lms.mrc.ac.uk"
-date: "`r Sys.Date()`"
 output:
   ioslides_presentation:
     widescreen: yes

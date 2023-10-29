@@ -3,7 +3,6 @@ title: "Introduction To R | Session 3"
 author:
   name: "LMS Bioinformatics Facility"
   email: "bioinformatics@lms.mrc.ac.uk"
-date: "`r Sys.Date()`"
 output:
   ioslides_presentation:
     widescreen: yes
@@ -162,7 +161,7 @@ render(output_format="pdf_document")
 Code blocks can be inserted at the position of the cursor with `⌘+⌥+I` (Mac) or `CTRL+Alt+I` (Windows). As we've seen, by default, code blocks ...
 
 <pre class="prettyprint lang-none">
- &grave;&grave;&grave;&lcub;r, my_first_block, eval=FALSE&rcub;
+ &grave;&grave;&grave;&lcub;r&rcub;
  # code
  &grave;&grave;&grave;
 </pre>

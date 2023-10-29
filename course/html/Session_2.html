@@ -10,7 +10,6 @@
 
 
 
-<meta name="date" content="2023-10-24" />
 
 <title>Introduction To R | Session 2</title>
 
@@ -1577,7 +1576,6 @@ border-radius: 0px;
 <h4 class="author">LMS Bioinformatics Facility</h4>
 <a class="author_email" href="mailto:#"><a href="mailto:bioinformatics@lms.mrc.ac.uk" class="email">bioinformatics@lms.mrc.ac.uk</a></a>
 </address>
-<h4 class="date">2023-10-24</h4>
 
 </div>
 
@@ -1658,10 +1656,10 @@ border-radius: 0px;
 </div>
 <div id="reading-data-again" class="section level2">
 <h2>Reading data (again)</h2>
-<p>The data in this course is carefully curated. Real data is messy.
-It’s worth going over some of the arguments to <code>read.delim()</code>
-and <code>read.csv()</code> that might help you import your own
-data:</p>
+<p>The data in this course is carefully curated. Real data is messy.</p>
+<p>It’s worth going over some of the arguments to
+<code>read.delim()</code> and <code>read.csv()</code> that might help
+you import your own data:</p>
 <ul>
 <li><p><code>header=TRUE</code> can be set to <code>FALSE</code> if
 there is no reader row</p></li>
@@ -1713,7 +1711,7 @@ it.</p></li>
 <p>Data frame and matrix objects can be output using the
 <code>write.table()</code> function.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">a=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">b=</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>))</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">rownames</span>(c) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;first&quot;</span>, <span class="st">&quot;second&quot;</span>, <span class="st">&quot;third&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">rownames</span>(x) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;first&quot;</span>, <span class="st">&quot;second&quot;</span>, <span class="st">&quot;third&quot;</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">write.table</span>(</span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  x, <span class="st">&quot;outputs/2_write_data_frame.tsv&quot;</span>,</span>
@@ -1775,7 +1773,7 @@ finished plotting. The <code>dev.off()</code> function does this.</p>
 <p>It’s worth noting that PDFs are special, as they allow multiple plots
 to be captured into the same document.</p>
 <p>Each plot created before <code>dev.off()</code> is called will be
-created on a new page in the resulting document.</p>
+created on a new page.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&quot;outputs/2_write_image.pdf&quot;</span>, <span class="at">width=</span><span class="dv">5</span>, <span class="at">height=</span><span class="dv">5</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">10</span><span class="sc">:</span><span class="dv">1</span>), <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">2</span>), <span class="at">col=</span><span class="st">&quot;purple&quot;</span>)</span>
@@ -1797,8 +1795,9 @@ interactively resize outputs and to save images.</p>
 <h2>Saving R objects</h2>
 <p><code>R</code> objects can be saved to allow important steps in a
 workflow to be preserved or to save the results of a lengthy
-computation. The <code>save()</code> function can be used to store
-specific objects …</p>
+computation.</p>
+<p>The <code>save()</code> function can be used to store specific
+objects …</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">save</span>(x, <span class="at">file=</span><span class="st">&quot;outputs/2_write_object.RData&quot;</span>)</span></code></pre></div>
 <p>… or a complete snapshot of the working space can be recorded using
 <code>save.image()</code>.</p>
@@ -1811,25 +1810,24 @@ specific objects …</p>
 <h2>Garbage</h2>
 <p>Amongst programming languages, <code>R</code> is famous as a bit of a
 ‘memory hog’. When performing analyses of particularly large datasets,
-it can use 10s of <code>GB</code> of your computer’s RAM (and/or crash
-your machine)!</p>
+it can use 10s of GB of your computer’s RAM (and/or crash your
+machine)!</p>
 <p>Saving objects has another advantage, therefore, as it allows our
 working areas to be cleaned up.</p>
 <p>An object can be deleted using the <code>rm()</code> (or
-<code>remove()</code>) functions …</p>
+<code>remove()</code>) function …</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>delete_me <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;please!&quot;</span>, <span class="st">&quot;I&#39;m&quot;</span>, <span class="st">&quot;taking&quot;</span>, <span class="st">&quot;up&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;lot&quot;</span>, <span class="st">&quot;of&quot;</span>, <span class="st">&quot;memory.&quot;</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">rm</span>(delete_me)</span></code></pre></div>
 <p>… which will remove it from use but doesn’t actually free its memory.
-We can encourage <code>R</code> to do perform this second step by
-manually calling the <code>gc()</code> (garbage collection)
-function.</p>
+We can encourage <code>R</code> to perform this second step by manually
+calling the <code>gc()</code> (garbage collection) function.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">gc</span>()</span></code></pre></div>
 </div>
 <div id="matrices" class="section level2">
 <h2>Matrices</h2>
 <p>Complementing the data frame, the <code>matrix</code> is the second
-2D tabular structure in base <code>R</code>. In comparison to the data
-frame, all data within a matrix must be of the same underlying class:
+2D tabular structure in base <code>R</code>. As with vectors, all data
+within a matrix must be of the same underlying class:
 <code>numeric</code>, <code>character</code>, or
 <code>logical</code>.</p>
 <p>The <code>matrix()</code> function can be used to form a matrix from
@@ -1905,8 +1903,8 @@ in the same way as for data frames.</p>
 ## [1,] 1 4
 ## [2,] 2 5</code></pre>
 <hr />
-<p>As with the <code>data frame</code>, the dimensions of a matrix can
-be determined with the <code>nrow()</code>, <code>ncol()</code>, and
+<p>As with the data frame, the dimensions of a matrix can be determined
+with the <code>nrow()</code>, <code>ncol()</code>, and
 <code>dim()</code> functions.</p>
 <p>Similarly, the <code>rownames()</code> and <code>colnames()</code>
 functions can be used to get and set names.</p>
@@ -1987,7 +1985,7 @@ match.</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="fu">c</span>(im_being_coerced, <span class="dv">10</span>, <span class="st">&quot;hello&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;TRUE&quot;  &quot;FALSE&quot; &quot;10&quot;    &quot;hello&quot;</code></pre>
 <hr />
-<p>Sometimes it’s useful to force control the coercion yourself. Each
+<p>Sometimes it’s useful to take control the coercion yourself. Each
 basic type has a matched <code>as.</code> function that will convert an
 input appropriately.</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="dv">1</span>, <span class="cn">FALSE</span>, <span class="dv">0</span>))</span></code></pre></div>
@@ -2297,7 +2295,7 @@ block until a specific outcome is achieved.</p>
 <span id="cb105-5"><a href="#cb105-5" tabindex="-1"></a>}</span>
 <span id="cb105-6"><a href="#cb105-6" tabindex="-1"></a></span>
 <span id="cb105-7"><a href="#cb105-7" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>##  [1]  5  8 10  2  9  7  1  4  6  3</code></pre>
+<pre><code>##  [1]  5  4  9  8  2 10  7  6  3  1</code></pre>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb107-2"><a href="#cb107-2" tabindex="-1"></a><span class="cf">while</span> (x<span class="sc">^</span><span class="dv">2</span> <span class="sc">!=</span> <span class="dv">9</span>) x <span class="ot">=</span> x <span class="sc">+</span> <span class="dv">1</span></span>
 <span id="cb107-3"><a href="#cb107-3" tabindex="-1"></a>x</span></code></pre></div>
@@ -2312,6 +2310,11 @@ individual loop iteration and triggers the next to start.</p>
 <span id="cb109-3"><a href="#cb109-3" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb109-4"><a href="#cb109-4" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] 10</code></pre>
+<p>Here, where <code>i &lt; 10</code> for the first 9 iterations, the
+<code>next</code> keyword aborts execution of the code block and
+triggers to next iteration to begin. Only when the if statement does not
+evaluate to <code>TRUE</code> is the value of <code>i</code>
+printed.</p>
 </div>
 <div id="break" class="section level2">
 <h2>Break</h2>
@@ -2325,7 +2328,7 @@ individual loop iteration and triggers the next to start.</p>
 <span id="cb111-6"><a href="#cb111-6" tabindex="-1"></a>}</span>
 <span id="cb111-7"><a href="#cb111-7" tabindex="-1"></a></span>
 <span id="cb111-8"><a href="#cb111-8" tabindex="-1"></a>loops</span></code></pre></div>
-<pre><code>## [1] 32</code></pre>
+<pre><code>## [1] 8</code></pre>
 </div>
 <div id="practical-2" class="section level2" data-background="#D6EAF8">
 <h2>Practical</h2>

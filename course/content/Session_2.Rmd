@@ -3,7 +3,6 @@ title: "Introduction To R | Session 2"
 author:
   name: "LMS Bioinformatics Facility"
   email: "bioinformatics@lms.mrc.ac.uk"
-date: "`r Sys.Date()`"
 output:
   ioslides_presentation:
     widescreen: yes
@@ -126,7 +125,9 @@ Do we need to recap any parts?
 
 ## Reading data (again)
 
-The data in this course is carefully curated. Real data is messy. It's worth going over some of the arguments to `read.delim()` and `read.csv()` that might help you import your own data:
+The data in this course is carefully curated. Real data is messy.
+
+It's worth going over some of the arguments to `read.delim()` and `read.csv()` that might help you import your own data:
 
 - `header=TRUE` can be set to `FALSE` if there is no reader row
 
@@ -184,7 +185,7 @@ Data frame and matrix objects can be output using the `write.table()` function.
 
 ```{r, eval=FALSE}
 x = data.frame(a=c(1, 2, 3), b=("a", "b", "c"))
-rownames(c) = c("first", "second", "third")
+rownames(x) = c("first", "second", "third")
 
 write.table(
   x, "outputs/2_write_data_frame.tsv",
@@ -245,7 +246,7 @@ dev.off()
 
 It's worth noting that PDFs are special, as they allow multiple plots to be captured into the same document.
 
-Each plot created before `dev.off()` is called will be created on a new page in the resulting document.
+Each plot created before `dev.off()` is called will be created on a new page.
 
 ```{r, eval=FALSE}
 pdf("outputs/2_write_image.pdf", width=5, height=5)
@@ -273,7 +274,9 @@ When working in the console, we can also use `RStudio` to interactively resize o
 
 ## Saving R objects
 
-`R` objects can be saved to allow important steps in a workflow to be preserved or to save the results of a lengthy computation. The `save()` function can be used to store specific objects ...
+`R` objects can be saved to allow important steps in a workflow to be preserved or to save the results of a lengthy computation.
+
+The `save()` function can be used to store specific objects ...
 
 ```{r, eval=FALSE}
 save(x, file="outputs/2_write_object.RData")
@@ -293,18 +296,18 @@ load("outputs/2_write_object.RData")
 
 ## Garbage
 
-Amongst programming languages, `R` is famous as a bit of a 'memory hog'. When performing analyses of particularly large datasets, it can use 10s of `GB` of your computer's RAM (and/or crash your machine)!
+Amongst programming languages, `R` is famous as a bit of a 'memory hog'. When performing analyses of particularly large datasets, it can use 10s of GB of your computer's RAM (and/or crash your machine)!
 
 Saving objects has another advantage, therefore, as it allows our working areas to be cleaned up.
 
-An object can be deleted using the `rm()` (or `remove()`) functions ...
+An object can be deleted using the `rm()` (or `remove()`) function ...
 
 ```{r}
 delete_me = c("please!", "I'm", "taking", "up", "a", "lot", "of", "memory.")
 rm(delete_me)
 ```
 
-... which will remove it from use but doesn't actually free its memory. We can encourage `R` to do perform this second step by manually calling the `gc()` (garbage collection) function.
+... which will remove it from use but doesn't actually free its memory. We can encourage `R` to perform this second step by manually calling the `gc()` (garbage collection) function.
 
 ```{r, eval=FALSE}
 gc()
@@ -312,7 +315,7 @@ gc()
 
 ## Matrices
 
-Complementing the data frame, the `matrix` is the second 2D tabular structure in base `R`. In comparison to the data frame, all data within a matrix must be of the same underlying class: `numeric`, `character`, or `logical`.
+Complementing the data frame, the `matrix` is the second 2D tabular structure in base `R`. As with vectors, all data within a matrix must be of the same underlying class: `numeric`, `character`, or `logical`.
 
 The `matrix()` function can be used to form a matrix from a single vector and to automatically assign a given shape, filling column-wise by default or row-wise by passing the `byrow=TRUE` optional argument.
 
@@ -390,7 +393,7 @@ m[1:2, 1:2]
 
 ---
 
-As with the `data frame`, the dimensions of a matrix can be determined with the `nrow()`, `ncol()`, and `dim()` functions.
+As with the data frame, the dimensions of a matrix can be determined with the `nrow()`, `ncol()`, and `dim()` functions.
 
 Similarly, the `rownames()` and `colnames()` functions can be used to get and set names.
 
@@ -469,7 +472,7 @@ c(im_being_coerced, 10, "hello")
 
 ---
 
-Sometimes it's useful to force control the coercion yourself. Each basic type has a matched `as.` function that will convert an input appropriately.
+Sometimes it's useful to take control the coercion yourself. Each basic type has a matched `as.` function that will convert an input appropriately.
 
 ```{r}
 as.numeric(c(TRUE, 1, FALSE, 0))
@@ -799,6 +802,8 @@ for (i in 1:10) {
   print(i)
 }
 ```
+
+Here, where `i < 10` for the first 9 iterations, the `next` keyword aborts execution of the code block and triggers to next iteration to begin. Only when the if statement does not evaluate to `TRUE` is the value of `i` printed.
 
 ## Break
 
