@@ -184,7 +184,7 @@ There are a few optional arguments to the function:
 Data frame and matrix objects can be output using the `write.table()` function.
 
 ```{r, eval=FALSE}
-x = data.frame(a=c(1, 2, 3), b=("a", "b", "c"))
+x = data.frame(a=c(1, 2, 3), b=c("a", "b", "c"))
 rownames(x) = c("first", "second", "third")
 
 write.table(
