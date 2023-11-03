@@ -84,7 +84,7 @@ d) How many genes aren't expressed at all? (Hint ... you can `sum()` logical val
 
 e) Filter the matrix to keep only the genes that were detected.
 
-### 5
+### 4
 
 As each sample in this dataset has been sequenced to a different total depth, we should normalise them so that the columns are comparable to one another.
 
@@ -92,7 +92,7 @@ a) Turn the `seq_depth` into a scaling factor by dividing it by its `min()`.
 
 b) Apply this normalisation factor down the expression matrix.
 
-### 6
+### 5
 
 Now that the samples are comparable, some collaborators have asked you to share plots of the expression of a few specific genes.
 
