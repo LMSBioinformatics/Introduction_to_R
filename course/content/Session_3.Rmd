@@ -108,8 +108,6 @@ Do we need to recap any parts?
 
 **Session 3**
   
-- R markdown
-
 - Writing functions
 
 - Function scopes
@@ -117,136 +115,10 @@ Do we need to recap any parts?
 - Installing packages
 
 - Using packages
+  
+- R markdown
 
 - Real life example: DESeq2
-
-## Markdown
-
-In following along with this course, you've been seeing and using `R markdown`.
-
-A markdown document provides a way of embedding the results of an analysis and, importantly, the code, within a formatted document. By allowing the two be stored side-by-side, markdown (and notebook-style workbooks in general) is central to modern data processing and reproducible analysis.
-
-Opening a new `.Rmd` document (`File > New File > R Markdown`), we're given a new file containing:
-
-- a minimal `YAML` header, which can be customised to describe how the document will be processed downstream (compare it to the monster at the top of this raw markdown!)
-
-- and some demonstration content, which can be replaced with whatever you want to include.
-
-In `R`, the `rmarkdown` and `knitr` CRAN packages provide the tools for converting markdown documents into everything from HTML reports to PowerPoint slides.
-
-```{r, eval=FALSE}
-install.packages("rmarkdown")
-install.packages("knitr")
-```
-
----
-
-We can *knit* a document by pressing the knit button at the top of the documents pane, or by pressing `⌘+Shift+K` (Mac) or `CTRL+Shift+K` (Windows).
-
-`knitr` reads the header to determine which document formats to produce and *renders* them from its interpretation of the raw markdown. Alternatively, we can trigger this manually from the console ...
-
-```{r, eval=FALSE}
-library("rmarkdown")
-render("path/to/a/document.Rmd")
-```
-
-Similarly, this reads the header and will render an output appropriately (or as an HTML document by default).
-
-Where headers contain multiple options, as for this document, passing the optional `output_format="all"` argument will render all defined formats at once. Specific document types (whether specified in the header or not) can also be requested by specifying them manually.
-
-```{r, eval=FALSE}
-render("path/to/a/document.Rmd", output_format="pdf_document")
-```
-
-## Markdown code blocks
-
-Code blocks can be inserted at the position of the cursor with `⌘+⌥+I` (Mac) or `CTRL+Alt+I` (Windows). As we've seen, by default, code blocks ...
-
-<pre class="prettyprint lang-none">
- &grave;&grave;&grave;&lcub;r&rcub;
- # code
- &grave;&grave;&grave;
-</pre>
-
-... will be executed and included, along with their results, inline with the surrounding text.
-
-There are a number of options available for controlling the behaviour of code blocks, which we can specify by passing arguments to the block directly. Individual blocks can also be assigned a name.
-
-<pre class="prettyprint lang-none">
- &grave;&grave;&grave;&lcub;r, my_first_block, eval=FALSE&rcub;
- # code
- &grave;&grave;&grave;
-</pre>
-
----
-
-Common arguments to code blocks include:
-
-- `eval` (`TRUE`/`FALSE`): whether a block is executed (evaluated)
-
-- `echo` (`TRUE`/`FALSE`): whether code within the block is included in the output
-
-- `warning`, `message`, `error` (`TRUE`/`FALSE`): whether these are included in the output
-
-- `include` (`TRUE`/`FALSE`): controls all block outputs together
-
-- `results="hide"`: hides the output of the block
-
-- `cache` (`TRUE`/`FALSE`): stores the output of a block, allowing its evaluation to be skipped subsequently
-
-- `fig.width` and `fig.height`: the size of graphical outputs in inches
-
-- `fig.align` (`left`, `center`, `right`): figure location
-
-- `out.width` and `out.height`: scale the size of graphics according to the size of the document (e.g. `="80%"`)
-
-## Markdown text formatting {.columns-2}
-
-Layout and objects:
-
-- `# Title`
-
-- `## Heading`
-
-- `### Sub-heading`
-
-- `***` or `---` horizontal rule / break
-
-- `[link](https://www.example.com)`
-
--  `![](path/to/image.png)`
-
-&nbsp;
-
-[Markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
-
-<p class="forceBreak"></p>
-
-Text formatting:
-
-- `*italics*` or `_italics_`
-
-- `**bold**` or `__bold__`
-
-- `^superscript^`
-
-- `~subscript~`
-
-- `> text` indented block quotation
-
-- `-`, `*`, and `+` bullet / sub-bullets
-
-- `1.`, `2.` ordered lists
-
-## Practical {data-background=#D6EAF8}
-
-Create a new `R Markdown` document (`File` > `New File` > `R Markdown`).
-
-- Spend a few minutes seeing how different markdown formats can be applied to text.
-
-- Change the size or alignment of the example graph using arguments to the block.
-
-- How can you change the output type produced when the document is knit?
 
 ## Writing functions
 
@@ -468,6 +340,9 @@ install.packages("BiocManager")
 library(BiocManager)
 
 install("DESeq2")
+install("IHW")
+# or 
+install(c("DESeq2", "IHW"))
 ```
 
 ## Updating libraries
@@ -560,6 +435,133 @@ This output includes links to the package's *vignettes* - HTML pages or PDFs tha
 
 If you want to get to grips with the basic functionality of a package, its vignette is the place to start!
 
+## Markdown
+
+In following along with this course, you've been seeing and using `R markdown`.
+
+A markdown document provides a way of embedding the results of an analysis and, importantly, the code, within a formatted document. By allowing the two be stored side-by-side, markdown (and notebook-style workbooks in general) is central to modern data processing and reproducible analysis.
+
+Opening a new `.Rmd` document (`File > New File > R Markdown`), we're given a new file containing:
+
+- a minimal `YAML` header, which can be customised to describe how the document will be processed downstream (compare it to the monster at the top of this raw markdown!)
+
+- and some demonstration content, which can be replaced with whatever you want to include.
+
+In `R`, the `rmarkdown` and `knitr` CRAN packages provide the tools for converting markdown documents into everything from HTML reports to PowerPoint slides.
+
+```{r, eval=FALSE}
+install.packages("rmarkdown")
+install.packages("knitr")
+```
+
+---
+
+We can *knit* a document by pressing the knit button at the top of the documents pane, or by pressing `⌘+Shift+K` (Mac) or `CTRL+Shift+K` (Windows).
+
+`knitr` reads the header to determine which document formats to produce and *renders* them from its interpretation of the raw markdown. Alternatively, we can trigger this manually from the console ...
+
+```{r, eval=FALSE}
+library("rmarkdown")
+render("path/to/a/document.Rmd")
+```
+
+Similarly, this reads the header and will render an output appropriately (or as an HTML document by default).
+
+Where headers contain multiple options, as for this document, passing the optional `output_format="all"` argument will render all defined formats at once. Specific document types (whether specified in the header or not) can also be requested by specifying them manually.
+
+```{r, eval=FALSE}
+render("path/to/a/document.Rmd", output_format="pdf_document")
+```
+
+## Markdown code blocks
+
+Code blocks can be inserted at the position of the cursor with `⌘+⌥+I` (Mac) or `CTRL+Alt+I` (Windows). As we've seen, by default, code blocks ...
+
+<pre class="prettyprint lang-none">
+ &grave;&grave;&grave;&lcub;r&rcub;
+ # code
+ &grave;&grave;&grave;
+</pre>
+
+... will be executed and included, along with their results, inline with the surrounding text.
+
+There are a number of options available for controlling the behaviour of code blocks, which we can specify by passing arguments to the block directly. Individual blocks can also be assigned a name.
+
+<pre class="prettyprint lang-none">
+ &grave;&grave;&grave;&lcub;r, my_first_block, eval=FALSE&rcub;
+ # code
+ &grave;&grave;&grave;
+</pre>
+
+---
+
+Common arguments to code blocks include:
+
+- `eval` (`TRUE`/`FALSE`): whether a block is executed (evaluated)
+
+- `echo` (`TRUE`/`FALSE`): whether code within the block is included in the output
+
+- `warning`, `message`, `error` (`TRUE`/`FALSE`): whether these are included in the output
+
+- `include` (`TRUE`/`FALSE`): controls all block outputs together
+
+- `results="hide"`: hides the output of the block
+
+- `cache` (`TRUE`/`FALSE`): stores the output of a block, allowing its evaluation to be skipped subsequently
+
+- `fig.width` and `fig.height`: the size of graphical outputs in inches
+
+- `fig.align` (`left`, `center`, `right`): figure location
+
+- `out.width` and `out.height`: scale the size of graphics according to the size of the document (e.g. `="80%"`)
+
+## Markdown text formatting {.columns-2}
+
+Layout and objects:
+
+- `# Title`
+
+- `## Heading`
+
+- `### Sub-heading`
+
+- `***` or `---` horizontal rule / break
+
+- `[link](https://www.example.com)`
+
+-  `![](path/to/image.png)`
+
+&nbsp;
+
+[Markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+
+<p class="forceBreak"></p>
+
+Text formatting:
+
+- `*italics*` or `_italics_`
+
+- `**bold**` or `__bold__`
+
+- `^superscript^`
+
+- `~subscript~`
+
+- `> text` indented block quotation
+
+- `-`, `*`, and `+` bullet / sub-bullets
+
+- `1.`, `2.` ordered lists
+
+## Practical {data-background=#D6EAF8}
+
+Create a new `R Markdown` document (`File` > `New File` > `R Markdown`).
+
+- Spend a few minutes seeing how different markdown formats can be applied to text.
+
+- Change the size or alignment of the example graph using arguments to the block.
+
+- How can you change the output type produced when the document is knit?
 
 ## Real life
 
@@ -586,12 +588,12 @@ Walking through the analysis steps, we will:
 First things first, we'll need to install the relevant packages ...
 
 ```{r, eval=FALSE}
-install.packages(c("tidyverse", "ashr"))
+install.packages("ashr")
 ```
 
 ```{r, eval=FALSE}
 library(BiocManager)
-install(c("DESeq2", "ihw"))
+install(c("DESeq2", "IHW"))
 ```
 
 ... after which, we can load what we need.
@@ -803,6 +805,10 @@ Here, we supply `alpha`, the false discovery rate, which otherwise defaults to `
 summary(res)
 ```
 
+```{r}
+head(data.frame(res), 3)
+```
+
 ## Visualising the results
 
 `DESeq2` has a built-in method for displaying the results - the MA plot graphs fold change (y axis) against expression (x axis) for a given comparison.
@@ -901,6 +907,6 @@ write.table(
 
 ## Homework {data-background=#FDEBD0}
 
-There are more penguin-related homework tasks to help cement what we've covered today!
+Now's your chance to properly apply some of what we've covered!
 
-The homework and instructions can be found within the main directory for the course: `./homework/Homework_3.Rmd`
+Using your own data or the penguin-related data available within the homework, `./homework/Homework_3.Rmd`, try out an analysis of your own. You can do whatever you like here - the point is that you practice.

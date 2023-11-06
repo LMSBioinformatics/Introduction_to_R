@@ -123,15 +123,15 @@ Applications such as `Excel`, `Prism`, `SigmaPlot` have a number of drawbacks:
 
 **Session 3**
 
-- R markdown
-
 - Writing functions
 
-- Apply (again)
+- Function scopes
 
 - Installing packages
 
 - Using packages
+  
+- R markdown
 
 - Real life example: DESeq2
 
