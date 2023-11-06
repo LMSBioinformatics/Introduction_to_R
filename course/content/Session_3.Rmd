@@ -112,7 +112,7 @@ Do we need to recap any parts?
 
 - Writing functions
 
-- Apply (again)
+- Function scopes
 
 - Installing packages
 
@@ -147,7 +147,7 @@ We can *knit* a document by pressing the knit button at the top of the documents
 
 ```{r, eval=FALSE}
 library("rmarkdown")
-render()
+render("path/to/a/document.Rmd")
 ```
 
 Similarly, this reads the header and will render an output appropriately (or as an HTML document by default).
@@ -155,7 +155,7 @@ Similarly, this reads the header and will render an output appropriately (or as 
 Where headers contain multiple options, as for this document, passing the optional `output_format="all"` argument will render all defined formats at once. Specific document types (whether specified in the header or not) can also be requested by specifying them manually.
 
 ```{r, eval=FALSE}
-render(output_format="pdf_document")
+render("path/to/a/document.Rmd", output_format="pdf_document")
 ```
 
 ## Markdown code blocks
@@ -244,7 +244,7 @@ Create a new `R Markdown` document (`File` > `New File` > `R Markdown`).
 
 - Spend a few minutes seeing how different markdown formats can be applied to text.
 
-- Change the size or alignment of the example graph using arguments to the code block.
+- Change the size or alignment of the example graph using arguments to the block.
 
 - How can you change the output type produced when the document is knit?
 
@@ -372,7 +372,7 @@ For convenience, you've decided you'd like to have a function that returns the `
 
 - Make a dummy matrix and `apply()` your function to its rows or columns
 
-## Apply (again)
+## Pass through
 
 We've previously seen how `apply()` can be used to run a function across the rows or down the columns of a matrix. However, except when running basic arithmetic functions, it's common to also need to supply one or more positional or optional arguments.
 
