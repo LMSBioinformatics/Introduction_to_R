@@ -26,7 +26,11 @@ knit: (function(input, ...) {
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo=TRUE)
+# setwd("this/is/a/path)
+
+knitr::opts_chunk$set(
+  echo=TRUE,
+  root.dir=getwd())
 ```
 
 ## Recapping
