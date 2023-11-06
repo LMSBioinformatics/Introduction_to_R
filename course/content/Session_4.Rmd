@@ -33,15 +33,15 @@ knitr::opts_chunk$set(echo=TRUE)
 
 **Session 3** covered:
 
-- R markdown
-
 - Writing functions
 
-- Apply (again)
+- Function scopes
 
 - Installing packages
 
 - Using packages
+  
+- R markdown
 
 - Real life example: DESeq2
 
@@ -67,7 +67,6 @@ apply(m, 1, multiply, y=2)
 ---
 
 ```{r, eval=FALSE}
-
 # Packages from CRAN
 install.packages("ggplot2")
 
@@ -76,14 +75,15 @@ library(BiocManager)
 install("DESeq2")
 
 # Referencing package functions
+plotPCA()
 DESeq2::plotPCA()
 ```
 
 ## Homework {data-background=#FDEBD0}
 
-What did you learn?
+What did you learn by trying out your own analysis?
 
-Do we need to recap any parts?
+Do we need to recap anything?
 
 ## Learning objectives
 
