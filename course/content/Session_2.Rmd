@@ -148,7 +148,8 @@ It's worth going over some of the arguments to `read.delim()` and `read.csv()` t
 `read.delim()` and `read.csv()` have other tricks as well, like reading from URLs ...
                         
 ```{r, eval=FALSE}
-data = read.delim("https://www.example.com/myfile.tsv")
+data = read.delim(
+  "https://raw.githubusercontent.com/LMSBioinformatics/Introduction_to_R/main/data/1_read_delim.txt")
 ```
 
 ... and from the clipboard.
