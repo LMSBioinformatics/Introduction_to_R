@@ -3380,7 +3380,7 @@ data = read.delim(pipe(&quot;pbpaste&quot;))</pre>
 
 <p>Data frame and matrix objects can be output using the <code>write.table()</code> function.</p>
 
-<pre class = 'prettyprint lang-r'>x = data.frame(a=c(1, 2, 3), b=(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;))
+<pre class = 'prettyprint lang-r'>x = data.frame(a=c(1, 2, 3), b=c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;))
 rownames(x) = c(&quot;first&quot;, &quot;second&quot;, &quot;third&quot;)
 
 write.table(
@@ -3698,7 +3698,7 @@ im_being_coerced</pre>
 
 <pre >## [1] NA  1 NA  0 NA</pre>
 
-<p>Best practice, therefore, is not to find yourself in this situtation in the first place!</p>
+<p>Best practice, therefore, is not to find yourself in this situation in the first place!</p>
 
 </article></slide><slide class=""><hgroup><h2>Recycling</h2></hgroup><article  id="recycling" class="smaller ">
 
@@ -4034,7 +4034,7 @@ while (x[1] != 5) {
 
 x</pre>
 
-<pre >##  [1]  5  4  7  9 10  2  1  8  3  6</pre>
+<pre >##  [1]  5 10  1  9  7  2  8  6  4  3</pre>
 
 <pre class = 'prettyprint lang-r'>x = 1
 while (x^2 != 9) x = x + 1
@@ -4068,7 +4068,7 @@ while (TRUE) {
 
 loops</pre>
 
-<pre >## [1] 21</pre>
+<pre >## [1] 2</pre>
 
 </article></slide><slide class="fill nobackground" style="background: #D6EAF8;"><hgroup><h2>Practical</h2></hgroup><article  id="practical-2" class="smaller ">
 

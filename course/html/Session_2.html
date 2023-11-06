@@ -1710,7 +1710,7 @@ it.</p></li>
 <h2>Writing tabular data</h2>
 <p>Data frame and matrix objects can be output using the
 <code>write.table()</code> function.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">a=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">b=</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>))</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">a=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">b=</span><span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">rownames</span>(x) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;first&quot;</span>, <span class="st">&quot;second&quot;</span>, <span class="st">&quot;third&quot;</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">write.table</span>(</span>
@@ -1995,7 +1995,7 @@ isn’t possible, <code>NA</code> values will be inserted.</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="dv">1</span>, <span class="cn">FALSE</span>, <span class="dv">0</span>, <span class="st">&quot;testing&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning: NAs introduced by coercion</code></pre>
 <pre><code>## [1] NA  1 NA  0 NA</code></pre>
-<p>Best practice, therefore, is not to find yourself in this situtation
+<p>Best practice, therefore, is not to find yourself in this situation
 in the first place!</p>
 </div>
 <div id="recycling" class="section level2">
@@ -2295,7 +2295,7 @@ block until a specific outcome is achieved.</p>
 <span id="cb105-5"><a href="#cb105-5" tabindex="-1"></a>}</span>
 <span id="cb105-6"><a href="#cb105-6" tabindex="-1"></a></span>
 <span id="cb105-7"><a href="#cb105-7" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>##  [1]  5  4  9  8  2 10  7  6  3  1</code></pre>
+<pre><code>##  [1]  5  3  4  7  8  2  6  9 10  1</code></pre>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb107-2"><a href="#cb107-2" tabindex="-1"></a><span class="cf">while</span> (x<span class="sc">^</span><span class="dv">2</span> <span class="sc">!=</span> <span class="dv">9</span>) x <span class="ot">=</span> x <span class="sc">+</span> <span class="dv">1</span></span>
 <span id="cb107-3"><a href="#cb107-3" tabindex="-1"></a>x</span></code></pre></div>
@@ -2328,7 +2328,7 @@ printed.</p>
 <span id="cb111-6"><a href="#cb111-6" tabindex="-1"></a>}</span>
 <span id="cb111-7"><a href="#cb111-7" tabindex="-1"></a></span>
 <span id="cb111-8"><a href="#cb111-8" tabindex="-1"></a>loops</span></code></pre></div>
-<pre><code>## [1] 8</code></pre>
+<pre><code>## [1] 3</code></pre>
 </div>
 <div id="practical-2" class="section level2" data-background="#D6EAF8">
 <h2>Practical</h2>

@@ -71,7 +71,7 @@ apply(m, 1, multiply, y=2)
 # Packages from CRAN
 install.packages("ggplot2")
 
-# Packges from Bioconductor
+# Packages from Bioconductor
 library(BiocManager)
 install("DESeq2")
 
@@ -122,11 +122,11 @@ head(data.frame(res), 12)
 
 ## What makes a good figure?
 
-There are a few key points you need to condider when deciding upon a method of visualisation:
+There are a few key points you need to consider when deciding upon a method of visualisation:
 
 - *relevance*: the message a figure needs to convey
 
-- *salience*: how easily the eye can distringuish your message from the background
+- *salience*: how easily the eye can distinguish your message from the background
 
 - *accuracy*: how exactly different visualisation methods may convey your message
 
@@ -212,7 +212,7 @@ This is worsened by the fact that colour perception is relative. We distinguish 
 
 Not only can be we be fooled into perceiving colours contextually, people differ in their ability to distinguish colours based on their genetics.
 
-Colour blindness (*colour vision deficiency* or CVD) is a sliding scale and there are a number of different types. 'Full' phenotypes for the three more common forms of CVD are show here.
+Colour blindness (*colour vision deficiency* or CVD) is a sliding scale and there are a number of different types. 'Full' phenotypes for the three most common forms of CVD are show here.
 
 <center>
 ![](images/4_colour_blindness.png){width="55%"}
@@ -666,7 +666,7 @@ g +
 
 ---
 
-Alternatively, dor more complex layouts, we can use `facet_grid()` to produce a 2D grid.
+Alternatively, for more complex layouts, we can use `facet_grid()` to produce a 2D grid.
 
 ```{r, message=FALSE, warning=FALSE, out.width="50%", fig.align="center"}
 g = g + facet_grid(rows=vars(sex), cols=vars(species))
@@ -770,6 +770,6 @@ The `ggsave()` function is also clever enough to guess the required `device` (`p
 
 ## Homework {data-background=#FDEBD0}
 
-There are more penguin-related homework tasks to help cement what we've covered today!
+There's some graphing homework to help cement what we've covered today!
 
 The homework and instructions can be found within the main directory for the course: `./homework/Homework_4.Rmd`

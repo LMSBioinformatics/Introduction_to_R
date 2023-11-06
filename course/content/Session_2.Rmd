@@ -484,7 +484,7 @@ Even here, though, there are limits! Where the requested coercion isn't possible
 as.numeric(c(TRUE, 1, FALSE, 0, "testing"))
 ```
 
-Best practice, therefore, is not to find yourself in this situtation in the first place!
+Best practice, therefore, is not to find yourself in this situation in the first place!
 
 ## Recycling
 

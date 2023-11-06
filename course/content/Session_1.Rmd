@@ -140,7 +140,7 @@ Comments in your code allow you to keep track of your ideas and to document your
 a = a * b  # This is a comment as well!
 ```
 
-We can highjack this system to 'comment out' code sections if we don't want them to run.
+We can hijack this system to 'comment out' code sections if we don't want them to run.
 
 ```{r, eval=FALSE}
 # The following calculation will not run:
