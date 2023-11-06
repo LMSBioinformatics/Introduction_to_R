@@ -45,3 +45,5 @@ The experiment aims to ask if there is a consistent gene signature visible in th
 Intestinal samples were collected from penguins either `Feeding` or `Starving` for two species (`Adelie` and `Gentoo`). Samples were collected in batches and were prepared on different days (`1`, `2`, and `3`). As a measure of sample quality, the RNA integrity ([RIN](https://bmcmolbiol.biomedcentral.com/articles/10.1186/1471-2199-7-3)) values and the RNA concentrations were recorded before Illumina sequencing was performed. Post sequencing, the percentage alignment of the Illumina reads to the genome is provided.
 
 Import the data, explore and QC it using any methods you think suitable, and see if you can answer the researcher's question.
+
+*If you'd like to use a different dataset or if you'd like to do something completely different, that's fine! Show me what you can do...*

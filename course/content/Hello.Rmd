@@ -117,7 +117,7 @@ Applications such as `Excel`, `Prism`, `SigmaPlot` have a number of drawbacks:
   
 - Loops
 
-- Apply
+- Apply and sweep
 
 ## {.columns-2}
 

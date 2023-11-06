@@ -49,13 +49,11 @@ knitr::opts_chunk$set(echo=TRUE)
   
 - Loops
 
-- Apply
+- Apply and sweep
 
 ## Recapping as code
 
 ```{r, eval=FALSE}
-# Comments can be used to document code
-
 # Writing data
 write.table(
   x, "outputs/output.tsv",
@@ -94,6 +92,10 @@ while (i != 5) i = i + 1
 # Apply
 apply(m, 1, sum)  # rows
 apply(m, 2, sum)  # columns
+
+# Sweep
+norm_factor = c(1, 2, 3, 4)
+m = sweep(m, 2, norm_factor, "/")
 ```
 
 ## Homework {data-background=#FDEBD0}
@@ -235,6 +237,16 @@ Text formatting:
 - `-`, `*`, and `+` bullet / sub-bullets
 
 - `1.`, `2.` ordered lists
+
+## Practical {data-background=#D6EAF8}
+
+Create a new `R mardown` document (`File` > `New File` > `R Markdown`).
+
+- Spend a few minutes seeing how different markdown formats can be applied to text.
+
+- Change the size or alignment of the example graph using arguments to its markdown block.
+
+- How can you change the output type produced when the document is knit?
 
 ## Writing functions
 
@@ -424,9 +436,7 @@ There are two main repositories for `R` libraries:
 
 - [CRAN]([https://cran.r-project.org/web/packages/available_packages_by_name.html) (the Comprehensive R Archive Network) provides many generic and mathematical packages
 
-- [Bioconductor](https://bioconductor.org/packages/release/BiocViews.html#___Software) primarily provides packages for the analysis of biological data
-
-Bioconductor hosts many of the most commonly used `R` packages for analysis of sequencing data outputs and downstream calculation of differential expression: `DESeq2`, `edgeR`, `DEXseq`, `Seurat`, `GenomicRanges`, `bioMart`, and `Rsamtools`, to name a few.
+- [Bioconductor](https://bioconductor.org/packages/release/BiocViews.html#___Software) primarily provides packages for the analysis of biological data: `DESeq2`, `edgeR`, `DEXseq`, `Seurat`, `GenomicRanges`, `bioMart`, and `Rsamtools`, to name a handful.
 
 ## CRAN
 

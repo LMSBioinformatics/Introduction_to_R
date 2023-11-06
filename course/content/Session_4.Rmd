@@ -49,16 +49,24 @@ knitr::opts_chunk$set(echo=TRUE)
 
 ```{r, eval=FALSE}
 # Functions
-multiply = function(x, y) return (x * y)
+multiply = function(x, y) return(x * y)
+multiply(3, 2)
 
 # Default arguments
-multiply = function(x, y=2) return (x * y)
+multiply = function(x, y=2) return(x * y)
+z = multiply(3)
 
 # Scopes
 multiply = function(x, y) z <<- x * y
+multiply(3, 2)
 
 # Passing through arguments
 apply(m, 1, multiply, y=2)
+```
+
+---
+
+```{r, eval=FALSE}
 
 # Packages from CRAN
 install.packages("ggplot2")
@@ -66,6 +74,9 @@ install.packages("ggplot2")
 # Packges from Bioconductor
 library(BiocManager)
 install("DESeq2")
+
+# 
+
 ```
 
 ## Homework {data-background=#FDEBD0}
