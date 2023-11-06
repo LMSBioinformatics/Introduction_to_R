@@ -75,8 +75,8 @@ install.packages("ggplot2")
 library(BiocManager)
 install("DESeq2")
 
-# 
-
+# Referencing package functions
+DESeq2::plotPCA()
 ```
 
 ## Homework {data-background=#FDEBD0}
