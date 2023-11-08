@@ -1,0 +1,181 @@
+---
+title: "Introduction To R | Session 5"
+author:
+  name: "LMS Bioinformatics Facility"
+  email: "bioinformatics@lms.mrc.ac.uk"
+output:
+  ioslides_presentation:
+    widescreen: yes
+    smaller: yes
+    css: style/ioslides_style.css
+    logo: style/LMS_logo.svg
+    highlight: tango
+  html_document:
+    theme: lumen
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+knit: (function(input, ...) {
+  rmarkdown::render(
+    input, output_dir="../slides", clean=T, output_format="ioslides_presentation"); 
+  rmarkdown::render(
+    input, output_dir="../html", clean=T, output_format="html_document")
+  })
+---
+
+```{r setup, include=FALSE}
+# setwd("this/is/a/path)
+
+knitr::opts_chunk$set(
+  echo=TRUE,
+  root.dir=getwd())
+```
+
+## Recapping
+
+**Session 4** covered:
+
+- What makes a good figure?
+  
+- Colour
+  
+- `viridis` colour library
+  
+- Plotting with `ggplot2`
+
+  * Aesthetics
+  
+  * Geometries
+  
+  * Themes
+  
+  * Facets
+  
+  * Saving
+
+## Recapping as code
+
+```{r, eval=FALSE}
+# ggplot2
+install.packages("ggplot2")
+library("ggplot2")
+
+# viridis
+install.packages("viridis")
+library("viridis")
+
+# ggplot
+g = ggplot(df, aes(x=x_data, y=y_data, colour=a_factor))
+
+# geoms
+geom_point()
+geom_smooth(method="lm")
+geom_violin()
+geom_jitter()
+geom_histogram()
+```
+
+---
+
+```{r, eval=FALSE}
+# Themes
+theme_bw()
+
+# Colours
+scale_colour_viridis_d()
+scale_colour_viridis_c()
+
+# Facets
+facet_wrap()
+facet_grid()
+
+# Scales
+coord_cartesian()
+scale_x_continuous()
+
+# Saving
+ggsave()
+```
+
+## Homework {data-background=#FDEBD0}
+
+What did you learn by trying out your own analysis?
+
+Do we need to recap anything?
+
+## Learning objectives
+
+**Session 5**
+  
+- The tidyverse
+
+
+## The tidyverse
+
+The `ggplot2` package is one of several packages that constitute the `tidyverse`:
+
+- `ggplot2`: beautiful graphs
+
+- `readr`: reading data
+
+- `tibble`: working with tables
+
+- `dplyr`: manipulating data
+
+- `purrr`: iteration
+
+- `forcats`: dealing with factors
+
+- `stringr`: string manipulations
+
+- `tidyr`: glue
+
+---
+
+Tidyverse packages conform to a central ethos; there's even a [manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html)! At the core, tidyverse packages aim to:
+
+- build on existing data structures
+
+- use simple functions as building blocks to gain complexity
+
+- be logical and easy to use
+
+In other words, they aim make your code efficient, easy to write, and easy to read.
+
+In order to do this, they're opinionated about how you should perform operations and center around the import, manipulation, and display of *tidy* columnar data, where:
+
+- every row is an observation ...
+
+- ... of variables that have individual columns
+
+- allowing each value to have its own cell
+
+---
+
+The core tidyverse packages can be installed individually or as a complete bundle from CRAN ...
+
+```{r, eval=FALSE}
+install.packages("tidyverse")
+```
+
+... and, for simplicity, we can load them into our environment together.
+
+```{r}
+library(tidyverse)
+```
+
+
+
+
+
+## Practical {data-background=#D6EAF8}
+
+Blurb
+
+## Homework {data-background=#FDEBD0}
+
+There's some graphing homework to help cement what we've covered today!
+
+The homework and instructions can be found within the main directory for the course: `./homework/Homework_4.Rmd`

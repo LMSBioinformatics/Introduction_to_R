@@ -140,7 +140,7 @@ Especially when presenting (when the audience is listening and reading), it's vi
 
 Human vision is highly selective. We understand visual information by selecting, in turn, individual objects or aspects for detailed analysis rather than by appreciating an entire scene.
 
-Formally, salience is the property of an object that sets it apart from its surroundings; it's a relative properly, therefore, and depends on the collection of objects being visualised.
+Formally, salience is the property of an object that sets it apart from its surroundings; it's a relative property, therefore, and depends on the collection of objects being visualised.
 
 We can enhance salience by manipulating color, shape, size, and position to focus attention.
 
