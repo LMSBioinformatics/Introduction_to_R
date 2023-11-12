@@ -150,7 +150,7 @@ We can enhance salience by manipulating color, shape, size, and position to focu
 
 ---
 
-It's not inherently different to make information salient ...
+It's not inherently different to make information salient but it's important that the salient points of a figure align with what's relevant.
 
 <center>
 ![](images/4_salient_table.png){width="30%"}
@@ -158,7 +158,7 @@ It's not inherently different to make information salient ...
 ![](images/4_salient_text.png){width="30%"} 
 </center>
 
-... what's important is that the salient points of a figure align with what's relevant.
+&nbsp;
 
 Nevertheless, it's also easy to reduce salience by:
 
@@ -687,7 +687,7 @@ Using this base ...
 ggplot(na.omit(penguins), aes(x=body_mass_g, colour=species))
 ```
 
-- Make a plot using `geom_density()` to display the distribution of `body_mass_g` or each `species`
+- Make a plot using `geom_density()` to display the distribution of `body_mass_g` for each `species`
 
 Let's see if there's variation in their weight by year.
 
@@ -713,7 +713,7 @@ These differ in whether the non-visible points are used to contribute informatio
 
 ## Reference lines
 
-Alongside the adjustment of the scales, it's often useful to be able to add reference or threshold lines to a plot to enhance saliency.
+Alongside adjustment of the scales, it's often useful to be able to add reference or threshold lines to a plot to enhance saliency.
 
 `ggplot2` has three geometries that allow this: 
 
