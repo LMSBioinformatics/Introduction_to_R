@@ -1644,26 +1644,49 @@ border-radius: 0px;
 <h2>Learning objectives</h2>
 <p><strong>Session 5</strong></p>
 <ul>
-<li>The tidyverse</li>
+<li><p>Tidy data</p></li>
+<li><p>The tidyverse</p>
+<ul>
+<li><p>Reading and writing with <code>readr</code></p></li>
+<li><p>Manipulating data with <code>dplyr</code></p></li>
+<li><p>String operations with <code>stringr</code></p></li>
+<li><p>Piping</p></li>
+</ul></li>
+<li><p>Regular expressions</p></li>
 </ul>
 </div>
 <div id="the-tidyverse" class="section level2">
-<h2>The Tidyverse</h2>
-<p>The <code>ggplot2</code> package is one of several packages that
-constitute the <code>tidyverse</code>:</p>
+<h2>The tidyverse</h2>
+<p>The <code>tidyverse</code> is composed of a number of core packages,
+which are increasingly used in place of the equivalent functionality
+from base <code>R</code>:</p>
 <ul>
-<li><p><code>ggplot2</code>: beautiful graphs</p></li>
-<li><p><code>readr</code>: reading data</p></li>
-<li><p><code>tibble</code>: working with tables</p></li>
-<li><p><code>dplyr</code>: manipulating data</p></li>
-<li><p><code>purrr</code>: iteration</p></li>
-<li><p><code>forcats</code>: dealing with factors</p></li>
-<li><p><code>stringr</code>: string manipulations</p></li>
-<li><p><code>tidyr</code>: glue</p></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/data-visualization.pdf"><code>ggplot2</code></a>:
+beautiful graphs</p></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/data-import.pdf"><code>readr</code></a>:
+reading data</p></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/data-transformation.pdf"><code>dplyr</code></a>:
+manipulating data</p></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/purrr.pdf"><code>purrr</code></a>:
+iteration</p></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/factors.pdf"><code>forcats</code></a>:
+dealing with factors</p></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/strings.pdf"><code>stringr</code></a>:
+string manipulations</p></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/lubridate.pdf"><code>lubridate</code></a>:
+time and date manipulation</p></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/tidyr.pdf"><code>tidyr</code></a>:
+glue functions</p></li>
 </ul>
 <hr />
-<p>Tidyverse packages conform to a central ethos; there’s even a <a href="https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html">manifesto</a>!
-At the core, tidyverse packages aim to:</p>
+<p>The core tidyverse packages can be installed individually or as a
+complete bundle from CRAN …</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<p>… and, for simplicity, we can load them together.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<hr />
+<p>Tidyverse packages conform to a central ethos; there’s even a <a href="https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html">manifesto</a>!</p>
+<p>At the core, tidyverse packages aim to:</p>
 <ul>
 <li><p>build on existing data structures</p></li>
 <li><p>use simple functions as building blocks to gain
@@ -1671,29 +1694,1196 @@ complexity</p></li>
 <li><p>be logical and easy to use</p></li>
 </ul>
 <p>In other words, they aim make your code efficient, easy to write, and
-easy to read. In order to do this, they’re opinionated about how you
-should perform operations and center around the import, manipulation,
-and display of <em>tidy</em> columnar data, where:</p>
+easy to read.</p>
+</div>
+<div id="tidy-data" class="section level2">
+<h2>Tidy data</h2>
+<p>To meet these aims, tidyverse packages are opinionated!</p>
+<p>Specifically, they like to import, manipulate, and display
+<em>tidy</em> columnar data, where:</p>
 <ul>
 <li><p>every row is an observation …</p></li>
-<li><p>… of variables that have individual columns</p></li>
-<li><p>allowing each value to have its own cell</p></li>
+<li><p>… of variables that have individual columns of suitable
+classes</p></li>
+<li><p>such that each value has its own cell</p></li>
+</ul>
+</div>
+<div id="section" class="section level2 columns-2">
+<h2 class="columns-2"></h2>
+<ul>
+<li><p>Variables don’t have their own columns</p></li>
+<li><p>Observations are split across rows</p></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Variable</th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Height</td>
+<td align="center">187</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Weight</td>
+<td align="center">79</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">Height</td>
+<td align="center">190</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">Weight</td>
+<td align="center">81</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">Height</td>
+<td align="center">170</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">Weight</td>
+<td align="center">67</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>How would we graph <code>Height</code> vs <code>Weight</code>?</p>
+<p class="forceBreak">
+</p>
+<ul>
+<li><p>Variables have their own columns</p></li>
+<li><p>One row per observation</p></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Height</th>
+<th align="center">Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">187</td>
+<td align="center">79</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">190</td>
+<td align="center">81</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">170</td>
+<td align="center">67</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="section-1" class="section level2 columns-2">
+<h2 class="columns-2"></h2>
+<ul>
+<li><p>Columns don’t represent a single variable</p></li>
+<li><p>Columns have the wrong class</p></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Timepoint</th>
+<th align="center">Incidence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">7/20</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">2/10</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">10/43</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">4/14</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">3/9</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">8/21</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>How would we calculate the average <code>Incidence</code>?</p>
+<p class="forceBreak">
+</p>
+<ul>
+<li><p>Variables have their own columns</p></li>
+<li><p>Columns have the correct class</p></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Timepoint</th>
+<th align="center">Cases</th>
+<th align="center">Observations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">7</td>
+<td align="center">20</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">10</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">10</td>
+<td align="center">43</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">9</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">8</td>
+<td align="center">21</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="section-2" class="section level2 columns-2">
+<h2 class="columns-2"></h2>
+<ul>
+<li>Identifiers aren’t a column</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="right"></th>
+<th align="center">Height</th>
+<th align="center">Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="center">187</td>
+<td align="center">79</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="center">190</td>
+<td align="center">81</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="center">170</td>
+<td align="center">67</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="center">175</td>
+<td align="center">70</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="center">180</td>
+<td align="center">89</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>How would we add identifiers as labels in plots?</p>
+<p class="forceBreak">
+</p>
+<ul>
+<li>Identifiers are a column</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Height</th>
+<th align="center">Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">187</td>
+<td align="center">79</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">190</td>
+<td align="center">81</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">170</td>
+<td align="center">67</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">175</td>
+<td align="center">70</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">180</td>
+<td align="center">89</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="wide-vs-long" class="section level2 columns-2">
+<h2 class="columns-2">Wide vs long</h2>
+<ul>
+<li><p>One variable split between multiple columns</p></li>
+<li><p>No means to subset by factor</p></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Height</th>
+<th align="center">Weight_Pre</th>
+<th align="center">Weight_Post</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">187</td>
+<td align="center">79</td>
+<td align="center">77</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">190</td>
+<td align="center">81</td>
+<td align="center">78</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">170</td>
+<td align="center">67</td>
+<td align="center">67</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<ul>
+<li>Easy plotting of <code>Weight_Post</code> vs
+<code>Weight_Pre</code></li>
+</ul>
+<p class="forceBreak">
+</p>
+<ul>
+<li><p>Variables have individual columns</p></li>
+<li><p>Grouping factor partitions observations</p></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Status</th>
+<th align="center">Height</th>
+<th align="center">Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Pre</td>
+<td align="center">187</td>
+<td align="center">79</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Post</td>
+<td align="center">187</td>
+<td align="center">77</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">Pre</td>
+<td align="center">190</td>
+<td align="center">81</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">Post</td>
+<td align="center">190</td>
+<td align="center">78</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">Pre</td>
+<td align="center">170</td>
+<td align="center">67</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">Post</td>
+<td align="center">170</td>
+<td align="center">67</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="reading-data" class="section level2">
+<h2>Reading data</h2>
+<p>The <code>readr</code> package replaces the base <code>R</code>
+functions for reading and writing tabular data.</p>
+<p><code>readr</code> has several more helpful presets for importing
+data in different formats:</p>
+<ul>
+<li><p><code>read_csv()</code>: comma-separated files</p></li>
+<li><p><code>read_tsv()</code>: tab separated files (so we don’t have to
+specify <code>sep=&quot;\t&quot;</code>)</p></li>
+<li><p><code>read_table()</code>: white-space separated files (handles
+single or multiple spaces automatically)</p></li>
+<li><p><code>read_delim()</code>: files with a user-defined
+delimiter</p></li>
+<li><p><code>read_fwf()</code>: fixed width files, where each column
+occupies a set number of characters</p></li>
+</ul>
+<p>All <code>readr</code> functions transparently read from compressed
+(<code>.gz</code>, <code>.bz2</code>, <code>.xz</code>, or
+<code>.zip</code>) files and, as with the base functions, can read from
+the clipboard and from URLs.</p>
+<hr />
+<p>The <code>readr</code> functions provide a summary of the imported
+data, including column classes.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">&quot;data/1_read_delim.txt&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 10 Columns: 5
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;\t&quot;
+## chr (4): ID, Name, Sex, HatColour
+## dbl (1): Age
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>These accept a variety of arguments shared with the base
+<code>R</code> functions, such as:</p>
+<ul>
+<li><p><code>skip=0</code> specifies the number of lines to skip at the
+start of the file</p></li>
+<li><p><code>n_max</code> specifies the number of lines to read</p></li>
+<li><p><code>comment=&quot;&quot;</code> can be used to specify that
+<code>#</code> character lines are comments, for example</p></li>
 </ul>
 <hr />
-<p>The core tidyverse packages can be installed individually or as a
-complete bundle from CRAN.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<p>As you might expect, the common <code>read_...()</code> functions
+have <code>write_...()</code> equivalents:</p>
+<ul>
+<li><p><code>read_csv()</code>: comma-separated files</p></li>
+<li><p><code>read_tsv()</code>: tab separated files (so we don’t have to
+specify <code>sep=&quot;\t&quot;</code>)</p></li>
+<li><p><code>read_delim()</code>: files with a user-defined
+delimiter</p></li>
+</ul>
+<p>Both the read and write functions from <code>readr</code> are
+multi-threaded and execute far more quickly than the equivalent
+functions from base <code>R</code>.</p>
+<p>If you’re working with particularly large files, they also
+automatically display a progress bar!</p>
+</div>
+<div id="tibbles" class="section level2">
+<h2>Tibbles</h2>
+<p>The <code>readr</code> functions return their data as a
+<code>tibble</code>, an opinionated <code>data frame</code>.</p>
+<p>Tibbles don’t …</p>
+<ul>
+<li><p>support <code>rownames()</code></p></li>
+<li><p>allow recycling of values when creating columns</p></li>
+</ul>
+<p>but do:</p>
+<ul>
+<li><p>print nicely (default to printing <code>head()</code> rather than
+the whole table)</p></li>
+<li><p>work quickly in common operations, as they’re optimised for
+column-based indexing</p></li>
+<li><p>try to return a another <code>tibble</code> if possible</p></li>
+</ul>
+<hr />
+<p>Tibbles can be indexed and subset using square brackets
+<code>[ , ]</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>data[, <span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 1
+##    ID   
+##    &lt;chr&gt;
+##  1 E1   
+##  2 E2   
+##  3 E3   
+##  4 E4   
+##  5 E5   
+##  6 E6   
+##  7 E7   
+##  8 E8   
+##  9 E9   
+## 10 E10</code></pre>
+<p>However, unlike data frames, where subsetting a single column will
+return a vector of its contents, subsetting using square brackets always
+returns another tibble.</p>
+<p>Tibbles like to return tibbles!</p>
+<hr />
+<p>Vectors of column contents are accessed using the <code>$</code>
+operator, as with data frames, …</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>data<span class="sc">$</span>ID</span></code></pre></div>
+<pre><code>##  [1] &quot;E1&quot;  &quot;E2&quot;  &quot;E3&quot;  &quot;E4&quot;  &quot;E5&quot;  &quot;E6&quot;  &quot;E7&quot;  &quot;E8&quot;  &quot;E9&quot;  &quot;E10&quot;</code></pre>
+<p>… or with double square brackets <code>[[ ]]</code>, similarly to
+<code>list</code> objects.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>data[[<span class="dv">1</span>]]</span></code></pre></div>
+<pre><code>##  [1] &quot;E1&quot;  &quot;E2&quot;  &quot;E3&quot;  &quot;E4&quot;  &quot;E5&quot;  &quot;E6&quot;  &quot;E7&quot;  &quot;E8&quot;  &quot;E9&quot;  &quot;E10&quot;</code></pre>
+</div>
+<div id="rownames" class="section level2">
+<h2>Rownames</h2>
+<p>By default, the <code>readr</code> functions assume that if the first
+row contains fewer columns than those that follow, the first column of
+the table are row names.</p>
+<p>As tibbles don’t support row names, it’s assigned a placeholder
+column name …</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">&quot;data/3_penguin_metadata.tsv&quot;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">colnames</span>(data)</span></code></pre></div>
+<pre><code>## [1] &quot;...1&quot;    &quot;Species&quot; &quot;Sex&quot;</code></pre>
+<p>This can be corrected with <code>colnames()</code> or, in combination
+with <code>skip=</code>, we can specify names up front.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read_tsv</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="st">&quot;data/3_penguin_metadata.tsv&quot;</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="at">col_names=</span><span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Species&quot;</span>, <span class="st">&quot;Sex&quot;</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="at">skip=</span><span class="dv">1</span>)</span></code></pre></div>
+<hr />
+<p>Data frames can be coerced to tibbles using <code>as_tibble()</code>
+… but tibbles don’t support row names!</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read.delim</span>(<span class="st">&quot;data/1_read_delim.txt&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">rownames</span>(data)</span></code></pre></div>
+<pre><code>##  [1] &quot;E1&quot;  &quot;E2&quot;  &quot;E3&quot;  &quot;E4&quot;  &quot;E5&quot;  &quot;E6&quot;  &quot;E7&quot;  &quot;E8&quot;  &quot;E9&quot;  &quot;E10&quot;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">as_tibble</span>(data)</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 4
+##    Name    Sex     Age HatColour
+##    &lt;chr&gt;   &lt;chr&gt; &lt;int&gt; &lt;chr&gt;    
+##  1 Basil   M        15 blue     
+##  2 Tim     M        53 red      
+##  3 Lisa    F        97 yellow   
+##  4 Snapper M        64 green    
+##  5 Erica   F        99 yellow   
+##  6 Jen     F       107 red      
+##  7 Pedro   M        60 green    
+##  8 Jan     M       150 green    
+##  9 Liz     F       131 red      
+## 10 Alice   F        78 yellow</code></pre>
+<hr />
+<p>To transfer existing row names to a column, we can specify a column
+name to receive them.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">as_tibble</span>(data, <span class="at">rownames=</span><span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 5
+##    ID    Name    Sex     Age HatColour
+##    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;int&gt; &lt;chr&gt;    
+##  1 E1    Basil   M        15 blue     
+##  2 E2    Tim     M        53 red      
+##  3 E3    Lisa    F        97 yellow   
+##  4 E4    Snapper M        64 green    
+##  5 E5    Erica   F        99 yellow   
+##  6 E6    Jen     F       107 red      
+##  7 E7    Pedro   M        60 green    
+##  8 E8    Jan     M       150 green    
+##  9 E9    Liz     F       131 red      
+## 10 E10   Alice   F        78 yellow</code></pre>
+<p>The <code>tibble</code> package, loaded as part of the
+<code>tidyverse</code>, provides
+<code>rownames_to_column(var=&quot;name&quot;)</code> for doing this ahead of
+time. When coercing a tibble to a data frame,
+<code>column_to_rownames(var=&quot;name&quot;)</code> will perform the reverse
+operation.</p>
+</div>
+<div id="tidying-data" class="section level2">
+<h2>Tidying data</h2>
+<p>The <code>tidyr</code> package provides various functions to assist
+in re-shaping tabular data:</p>
+<ul>
+<li><p><code>pivot_longer()</code> collects multiple columns of the same
+variable and creates a factor column</p></li>
+<li><p><code>pivot_wider()</code> spreads a variable column by a factor
+column</p></li>
+<li><p><code>unite()</code> merges multiple columns into one</p></li>
+<li><p><code>separate()</code> splits a single column on a specified
+separator character</p></li>
+</ul>
+<hr />
+<p>Most commonly, we need to <em>pivot</em> data. A wide-format table
+can be stretched using <code>pivot_longer()</code>.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">SampleID=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">Height=</span><span class="fu">c</span>(<span class="dv">187</span>, <span class="dv">190</span>), <span class="at">Weight_Pre=</span><span class="fu">c</span>(<span class="dv">79</span>, <span class="dv">81</span>), <span class="at">Weight_Post=</span><span class="fu">c</span>(<span class="dv">77</span>, <span class="dv">78</span>))</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>data</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 4
+##   SampleID Height Weight_Pre Weight_Post
+##      &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
+## 1        1    187         79          77
+## 2        2    190         81          78</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">pivot_longer</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  data, <span class="at">cols=</span><span class="fu">c</span>(<span class="st">&quot;Weight_Pre&quot;</span>, <span class="st">&quot;Weight_Post&quot;</span>), <span class="at">names_to=</span><span class="st">&quot;Status&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;Weight&quot;</span>, <span class="at">names_prefix=</span><span class="st">&quot;Weight_&quot;</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>data</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 4
+##   SampleID Height Status Weight
+##      &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
+## 1        1    187 Pre        79
+## 2        1    187 Post       77
+## 3        2    190 Pre        81
+## 4        2    190 Post       78</code></pre>
+<hr />
+<p><code>pivot_wider()</code> will reverse the transformation, reverting
+to wide-form data.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">pivot_wider</span>(data, <span class="at">names_from=</span><span class="st">&quot;Status&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Weight&quot;</span>, <span class="at">names_prefix=</span><span class="st">&quot;Weight_&quot;</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>data</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 4
+##   SampleID Height Weight_Pre Weight_Post
+##      &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
+## 1        1    187         79          77
+## 2        2    190         81          78</code></pre>
 </div>
 <div id="practical" class="section level2" data-background="#D6EAF8">
 <h2>Practical</h2>
-<p>Blurb</p>
+<p>Let’s try out using <code>unite()</code> and
+<code>separate()</code>.</p>
+<ul>
+<li><p>Use <code>read_csv()</code> to import
+<code>data/5_adelies.csv.gz</code></p></li>
+<li><p>What makes this dataset tidy or untidy?</p></li>
+<li><p>Using the help for <code>separate()</code>, split the
+<code>date</code> column appropriately</p></li>
+<li><p>What classes are the columns we made? How might we correct
+this?</p></li>
+<li><p>Using the help for <code>unite()</code>, join the two columns
+back into one</p></li>
+</ul>
+</div>
+<div id="building-complexity" class="section level2">
+<h2>Building complexity</h2>
+<p>The more comfortable we become using <code>R</code>, the less we use
+individual variables …</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>penguins <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/1_palmerpenguins.csv&quot;</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>adelies <span class="ot">=</span> <span class="fu">which</span>(penguins<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Adelie&quot;</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>adelie_weights <span class="ot">=</span> penguins[adelies, ]<span class="sc">$</span>body_mass_g</span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a><span class="fu">mean</span>(adelie_weights, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] 3700.662</code></pre>
+<p>… and the more we use <em>nested</em> functions.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">mean</span>(penguins[<span class="fu">which</span>(penguins<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Adelie&quot;</span>), ]<span class="sc">$</span>body_mass_g, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] 3700.662</code></pre>
+<p>Although this keeps our environment clean, nesting can cause code to
+become highly confusing!</p>
+<hr />
+<p>The <code>tidyverse</code> aims to solve this problem with the use of
+the pipe, <code>%&gt;%</code> from the <code>magrittr</code> package,
+which can be used to chain operations.</p>
+<p>Behind the scenes, the pipe acts to store intermediate results and
+automatically pass them to the next function in the series, such that
+…</p>
+<pre><code>data %&gt;% function_1() %&gt;% function_2()</code></pre>
+<p>… is equivalent to.</p>
+<pre><code>function_2(function_1(data))</code></pre>
+<p>For convenience, <code>RStudio</code> allows us to insert a pipe
+using the <code>⌘+Shift+M</code> (Mac) or <code>CTRL+Shift+M</code>
+(Windows) key combination.</p>
+<hr />
+<p><code>dplyr</code>, which automatically loads the pipe from
+<code>magrittr</code> for us, provides a range of functions designed to
+work with it:</p>
+<ul>
+<li><p><code>filter()</code> extracts rows by logical
+conditions</p></li>
+<li><p><code>select()</code> subsets columns by name (returning a data
+frame or tibble)</p></li>
+<li><p><code>pull()</code> extracts the contents of a column by name
+(returning a vector)</p></li>
+<li><p><code>mutate()</code> creates new columns based on data in
+existing columns</p></li>
+<li><p><code>arrange()</code> re-orders rows</p></li>
+<li><p><code>group_by()</code> and <code>summarise()</code> compute
+summary metrics and projections</p></li>
+</ul>
+<hr />
+<p>Using the functions from <code>dplyr</code>, the pipe allow us to
+turn …</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">mean</span>(penguins[<span class="fu">which</span>(penguins<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Adelie&quot;</span>), ]<span class="sc">$</span>body_mass_g, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p>… into …</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> <span class="fu">filter</span>(species<span class="sc">==</span><span class="st">&quot;Adelie&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(body_mass_g) <span class="sc">%&gt;%</span> <span class="fu">mean</span>(<span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p>… or, for maximum readability:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>  <span class="fu">filter</span>(species<span class="sc">==</span><span class="st">&quot;Adelie&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>  <span class="fu">pull</span>(body_mass_g) <span class="sc">%&gt;%</span></span>
+<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] 3700.662</code></pre>
+</div>
+<div id="filter" class="section level2">
+<h2>Filter</h2>
+<p><code>dplyr</code>’s <code>filter()</code> allows row filtering based
+on one or more logical criteria. This can be on equality or set
+membership …</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a>  <span class="fu">filter</span>(species<span class="sc">==</span><span class="st">&quot;Adelie&quot;</span>, island <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Torgersen&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a>  <span class="fu">nrow</span>()</span></code></pre></div>
+<pre><code>## [1] 96</code></pre>
+<p>… or according to numerical comparisons.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>  <span class="fu">filter</span>(species<span class="sc">==</span><span class="st">&quot;Adelie&quot;</span>, bill_length_mm<span class="sc">&gt;</span><span class="dv">40</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a>  <span class="fu">nrow</span>()</span></code></pre></div>
+<pre><code>## [1] 51</code></pre>
+</div>
+<div id="select" class="section level2">
+<h2>Select</h2>
+<p><code>dplyr</code>’s <code>select()</code> allows column subsetting
+by name and index, including for ranges specified either way.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a>  <span class="fu">select</span>(id, species, island) <span class="sc">%&gt;%</span> </span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a>  <span class="fu">colnames</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;id&quot;      &quot;species&quot; &quot;island&quot;</code></pre>
+<p>As with square bracket indexing, columns prefixed with a minus sign
+(<code>-</code>) are dropped.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>(id<span class="sc">:</span>island)) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a>  <span class="fu">colnames</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;bill_length_mm&quot;    &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot;
+## [4] &quot;body_mass_g&quot;       &quot;sex&quot;               &quot;year&quot;</code></pre>
+<hr />
+<p>We can also use <code>select()</code> to rename and re-arrange
+columns …</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a>  <span class="fu">select</span>(id, <span class="at">location=</span>island, species) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a>  <span class="fu">colnames</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;id&quot;       &quot;location&quot; &quot;species&quot;</code></pre>
+<p>… or this can be done manually with <code>rename()</code> and
+<code>relocate()</code>.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>  <span class="fu">select</span>(id, species, island) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">location=</span>island) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a>  <span class="fu">relocate</span>(location, <span class="at">.after=</span>id) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-5"><a href="#cb48-5" tabindex="-1"></a>  <span class="fu">colnames</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;id&quot;       &quot;location&quot; &quot;species&quot;</code></pre>
+</div>
+<div id="pull" class="section level2">
+<h2>Pull</h2>
+<p>Where <code>select()</code> returns a tabular data format,
+<code>pull()</code> returns a vector, equivalent to using the
+<code>$</code> operator.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a>  <span class="fu">pull</span>(flipper_length_mm) <span class="sc">%&gt;%</span> </span>
+<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## [1] 181 186 195  NA 193 190</code></pre>
+<p><code>pull()</code> also allows the <code>names()</code> of the
+vector to be set using the values from a second column.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a>  <span class="fu">pull</span>(flipper_length_mm, id) <span class="sc">%&gt;%</span> </span>
+<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>##  A1  A2  A3  A4  A5  A6 
+## 181 186 195  NA 193 190</code></pre>
+</div>
+<div id="mutate" class="section level2">
+<h2>Mutate</h2>
+<p><code>mutate()</code> streamlines the process of adding columns
+calculated from existing data in the table.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bill_ratio=</span>bill_length_mm<span class="sc">/</span>bill_depth_mm) <span class="sc">%&gt;%</span> </span>
+<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a>  <span class="fu">select</span>(id, bill_length_mm, bill_depth_mm, bill_ratio) <span class="sc">%&gt;%</span> </span>
+<span id="cb54-4"><a href="#cb54-4" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 4
+##   id    bill_length_mm bill_depth_mm bill_ratio
+##   &lt;chr&gt;          &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;
+## 1 A1              39.1          18.7       2.09
+## 2 A2              39.5          17.4       2.27</code></pre>
+<p><code>mutate()</code> accepts a few handy arguments:</p>
+<ul>
+<li><p><code>.keep=</code> (<code>all</code>, <code>used</code>,
+<code>unused</code>, <code>none</code>) determines if the variables used
+(or not used) in the calculation should be kept in the output</p></li>
+<li><p><code>.before=</code> and <code>.after=</code> place the new
+column before or after another, respectively</p></li>
+</ul>
+<hr />
+<p>We can use the <code>.keep</code> argument to drop columns that we’re
+replacing …</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bill_ratio=</span>bill_length_mm<span class="sc">/</span>bill_depth_mm, <span class="at">.keep=</span><span class="st">&quot;unused&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-3"><a href="#cb56-3" tabindex="-1"></a>  <span class="fu">colnames</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;id&quot;                &quot;species&quot;           &quot;island&quot;           
+## [4] &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;       &quot;sex&quot;              
+## [7] &quot;year&quot;              &quot;bill_ratio&quot;</code></pre>
+<p>… or, alternatively, <code>transmute()</code> drops all columns that
+aren’t manually specified.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a>  <span class="fu">transmute</span>(id, species, <span class="at">bill_ratio=</span>bill_length_mm<span class="sc">/</span>bill_depth_mm) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-3"><a href="#cb58-3" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   id    species bill_ratio
+##   &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt;
+## 1 A1    Adelie        2.09
+## 2 A2    Adelie        2.27
+## 3 A3    Adelie        2.24</code></pre>
+</div>
+<div id="arrange" class="section level2">
+<h2>Arrange</h2>
+<p>The <code>arrange()</code> function replaces the functionality of
+base <code>R</code>’s <code>order()</code>, allowing the sorting of
+tabular data by one or more columns.</p>
+<p>As with <code>order()</code>, by default, this is in ascending order.
+We can enforce descending order using a minus sign (<code>-</code>) or
+using <code>dplyr</code>’s <code>desc()</code> function.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>bill_length_mm, <span class="fu">desc</span>(bill_depth_mm)) <span class="sc">%&gt;%</span> </span>
+<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 9
+##   id    species   island bill_length_mm bill_depth_mm flipper_length_mm
+##   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;
+## 1 G34   Gentoo    Biscoe           59.6          17                 230
+## 2 C18   Chinstrap Dream            58            17.8               181
+## 3 G102  Gentoo    Biscoe           55.9          17                 228
+## # ℹ 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+</div>
+<div id="summarise" class="section level2">
+<h2>Summarise</h2>
+<p>In combination with <code>group_by()</code>, <code>summarise()</code>
+(<code>summarize()</code> is fine too) can be used to compute summary
+tables using a number of summary functions:</p>
+<ul>
+<li><p><code>n()</code> and <code>n_distinct()</code> retrieves the
+number of rows or unique rows (according to the defined groups)</p></li>
+<li><p><code>mean()</code> and <code>median()</code> compute
+averages</p></li>
+<li><p><code>first()</code>, <code>nth()</code> and <code>last()</code>
+retrieve values from specific positions in the table</p></li>
+<li><p><code>min()</code>, <code>max()</code>, <code>IQR()</code>,
+<code>mad()</code>, <code>sd()</code>, and <code>var()</code> compute
+summary statistics</p></li>
+</ul>
+<p>There are also functions to subset representative groups of rows:</p>
+<ul>
+<li><p><code>slice_sample(n=)</code> selects a random assortment of
+rows</p></li>
+<li><p><code>slice_min(column, n=)</code> and
+<code>slice_max(column, n=)</code> select rows with the lowest or
+highest values in a column</p></li>
+<li><p><code>slice_head(n=)</code> and <code>slice_tail(n=)</code>
+select the first and last rows, respectively</p></li>
+</ul>
+<hr />
+<p><code>group_by()</code> accepts one or more column names, which are
+combined to create a grouping factor for use with
+<code>summarise()</code>.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb62-2"><a href="#cb62-2" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span> </span>
+<span id="cb62-3"><a href="#cb62-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count=</span><span class="fu">n</span>(), <span class="at">locations=</span><span class="fu">n_distinct</span>(island))</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   species   count locations
+##   &lt;chr&gt;     &lt;int&gt;     &lt;int&gt;
+## 1 Adelie      152         3
+## 2 Chinstrap    68         1
+## 3 Gentoo      124         1</code></pre>
+<hr />
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb64-2"><a href="#cb64-2" tabindex="-1"></a>  <span class="fu">drop_na</span>(sex, body_mass_g) <span class="sc">%&gt;%</span>  <span class="co"># drop_na() works like na.omit() but we can specify specific columns</span></span>
+<span id="cb64-3"><a href="#cb64-3" tabindex="-1"></a>  <span class="fu">group_by</span>(species, sex) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-4"><a href="#cb64-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count=</span><span class="fu">n</span>(), <span class="at">ave_body_mass_g=</span><span class="fu">median</span>(body_mass_g))</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+## # Groups:   species [3]
+##   species   sex    count ave_body_mass_g
+##   &lt;chr&gt;     &lt;chr&gt;  &lt;int&gt;           &lt;dbl&gt;
+## 1 Adelie    female    73            3400
+## 2 Adelie    male      73            4000
+## 3 Chinstrap female    34            3550
+## 4 Chinstrap male      34            3950
+## 5 Gentoo    female    58            4700
+## 6 Gentoo    male      61            5500</code></pre>
+<hr />
+<p>Once defined, the groups projected onto the table by
+<code>group_by()</code> apply to all downstream functions in the chain
+until they are removed using <code>ungroup()</code> - groupings don’t
+just apply to <code>summarise()</code> functions!</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a>  <span class="fu">select</span>(id, species, sex, body_mass_g) <span class="sc">%&gt;%</span> </span>
+<span id="cb66-3"><a href="#cb66-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(sex) <span class="sc">%&gt;%</span> </span>
+<span id="cb66-4"><a href="#cb66-4" tabindex="-1"></a>  <span class="fu">group_by</span>(species, sex) <span class="sc">%&gt;%</span> </span>
+<span id="cb66-5"><a href="#cb66-5" tabindex="-1"></a>  <span class="fu">slice_max</span>(body_mass_g, <span class="at">n=</span><span class="dv">1</span>, <span class="at">with_ties=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+## # Groups:   species, sex [6]
+##   id    species   sex    body_mass_g
+##   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;        &lt;dbl&gt;
+## 1 A115  Adelie    female        3900
+## 2 A110  Adelie    male          4775
+## 3 C9    Chinstrap female        4150
+## 4 C38   Chinstrap male          4800
+## 5 G74   Gentoo    female        5200
+## 6 G18   Gentoo    male          6300</code></pre>
+<p>Here, the grouping applies to <code>slice_max()</code>, which
+extracts the row with the highest value recorded for
+<code>body_mass_g</code> for each group individually, rather than for
+the dataset as a whole.</p>
+</div>
+<div id="practical-1" class="section level2" data-background="#D6EAF8">
+<h2>Practical</h2>
+<p>Let’s practice using pipes with the <code>penguins</code>
+dataset.</p>
+<ul>
+<li><p>Convert <code>body_mass_g</code> to a <code>body_mass_kg</code>
+column</p></li>
+<li><p>Grouping by <code>species</code>, <code>sex</code>, and
+<code>year</code> …</p></li>
+<li><p>… calculate a summary table of the average
+<code>body_mass_kg</code></p></li>
+</ul>
+</div>
+<div id="pipe-outputs" class="section level2">
+<h2>Pipe outputs</h2>
+<p>As with normal assignment, we can assign right-to-left with the
+<code>=</code> and <code>&lt;-</code> operators …</p>
+<pre><code>result =
+  data %&gt;% 
+  function()</code></pre>
+<p>… but, with long sequences of piped functions, this can look clumsy.
+This is one of the few times when left-to-right assignment using the
+<code>-&gt;</code> operator can enhance clarity.</p>
+<pre><code>data %&gt;% 
+  function() -&gt;
+  result</code></pre>
+<hr />
+<p>It’s also possible to extract data from the middle of a sequence of
+piped functions using the special <code>%T&gt;%</code> (<em>tee</em>)
+pipe provided by <code>magrittr</code>.</p>
+<p>This is especially useful for outputting intermediate results.</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb70-2"><a href="#cb70-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">body_mass_kg=</span>body_mass_g<span class="sc">/</span><span class="dv">1000</span>, <span class="at">.keep=</span><span class="st">&quot;unused&quot;</span>) <span class="sc">%T&gt;%</span>  <span class="co"># the next command won&#39;t pass on its result</span></span>
+<span id="cb70-3"><a href="#cb70-3" tabindex="-1"></a>    <span class="fu">write_tsv</span>(<span class="st">&quot;outputs/5_tee_example.tsv&quot;</span>) <span class="sc">%&gt;%</span>  <span class="co"># the previous result is passed on instead</span></span>
+<span id="cb70-4"><a href="#cb70-4" tabindex="-1"></a>  <span class="fu">drop_na</span>(sex, body_mass_kg) <span class="sc">%&gt;%</span> </span>
+<span id="cb70-5"><a href="#cb70-5" tabindex="-1"></a>  <span class="fu">group_by</span>(species, sex, year) <span class="sc">%&gt;%</span> </span>
+<span id="cb70-6"><a href="#cb70-6" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ave_body_mass_kg=</span><span class="fu">mean</span>(body_mass_kg)) <span class="ot">-&gt;</span></span>
+<span id="cb70-7"><a href="#cb70-7" tabindex="-1"></a>  result</span>
+<span id="cb70-8"><a href="#cb70-8" tabindex="-1"></a></span>
+<span id="cb70-9"><a href="#cb70-9" tabindex="-1"></a><span class="fu">head</span>(result, <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 4
+## # Groups:   species, sex [2]
+##   species sex     year ave_body_mass_kg
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Adelie  female  2007             3.39
+## 2 Adelie  female  2008             3.39
+## 3 Adelie  female  2009             3.33
+## 4 Adelie  male    2007             4.04</code></pre>
+<hr />
+<p>The tee pipe can also be used to extract intermediate results as
+objects. To do this, we wrap the assignment command in curly brackets
+(<code>{ }</code>) and make use of the <code>&lt;&lt;-</code> operator
+to store the result in the global environment …</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb72-2"><a href="#cb72-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">body_mass_kg=</span>body_mass_g<span class="sc">/</span><span class="dv">1000</span>, <span class="at">.keep=</span><span class="st">&quot;unused&quot;</span>) <span class="sc">%T&gt;%</span></span>
+<span id="cb72-3"><a href="#cb72-3" tabindex="-1"></a>    {penguins_kg <span class="ot">&lt;&lt;-</span> .} <span class="sc">%&gt;%</span>  <span class="co"># store the previous result, exposed with the `.` placeholder</span></span>
+<span id="cb72-4"><a href="#cb72-4" tabindex="-1"></a>  <span class="fu">drop_na</span>(sex, body_mass_kg) <span class="sc">%&gt;%</span> </span>
+<span id="cb72-5"><a href="#cb72-5" tabindex="-1"></a>  <span class="fu">group_by</span>(species, sex, year) <span class="sc">%&gt;%</span> </span>
+<span id="cb72-6"><a href="#cb72-6" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean</span>(body_mass_kg)) <span class="ot">-&gt;</span></span>
+<span id="cb72-7"><a href="#cb72-7" tabindex="-1"></a>  result</span></code></pre></div>
+<p>… although it’s likely clearer to use simply use two pipe
+commands!</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb73-2"><a href="#cb73-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">body_mass_kg=</span>body_mass_g<span class="sc">/</span><span class="dv">1000</span>, <span class="at">.keep=</span><span class="st">&quot;unused&quot;</span>) <span class="ot">-&gt;</span></span>
+<span id="cb73-3"><a href="#cb73-3" tabindex="-1"></a>  penguins_kg</span>
+<span id="cb73-4"><a href="#cb73-4" tabindex="-1"></a></span>
+<span id="cb73-5"><a href="#cb73-5" tabindex="-1"></a>penguins_kg <span class="sc">%&gt;%</span> </span>
+<span id="cb73-6"><a href="#cb73-6" tabindex="-1"></a>  <span class="fu">drop_na</span>(sex, body_mass_kg) <span class="sc">%&gt;%</span> </span>
+<span id="cb73-7"><a href="#cb73-7" tabindex="-1"></a>  <span class="fu">group_by</span>(species, sex, year) <span class="sc">%&gt;%</span> </span>
+<span id="cb73-8"><a href="#cb73-8" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean</span>(body_mass_kg)) <span class="ot">-&gt;</span></span>
+<span id="cb73-9"><a href="#cb73-9" tabindex="-1"></a>  result</span></code></pre></div>
+</div>
+<div id="merging-tabular-data" class="section level2">
+<h2>Merging tabular data</h2>
+<p>Designed to work with or without the pipe, <code>dplyr</code> has a
+number of functions for merging tabular data.</p>
+<ul>
+<li><p><code>left_join(x, y)</code> join two tables, keeping all rows in
+<code>x</code></p></li>
+<li><p><code>right_join(x, y)</code> join two tables, keeping all rows
+<code>y</code></p></li>
+<li><p><code>inner_join(x, y)</code> join two tables, keeping rows in
+common</p></li>
+<li><p><code>full_join(x, y)</code> join two tables, keeping all
+rows</p></li>
+</ul>
+<p>As with the <code>merge()</code> function from base <code>R</code>,
+by default, all columns shared between the two tables are used as keys
+in the merge process. To control this, the <code>by=</code> argument can
+be set:</p>
+<ul>
+<li><p><code>by=&quot;key&quot;</code> / <code>by=c(&quot;key1&quot;, &quot;key2&quot;)</code> taking
+column names individually or as a vector</p></li>
+<li><p><code>by=join_by(key == identifier)</code> using the
+<code>join_by()</code> function to allow mappings between columns with
+different names</p></li>
+</ul>
+<hr />
+<p>The base <code>R</code> <code>merge()</code> function …</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">&quot;data/1_read_delim.txt&quot;</span>)</span>
+<span id="cb74-2"><a href="#cb74-2" tabindex="-1"></a>df2 <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">&quot;data/1_read_delim_merge.txt&quot;</span>)</span>
+<span id="cb74-3"><a href="#cb74-3" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="#cb74-4" tabindex="-1"></a><span class="fu">merge</span>(df, df2, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>, <span class="at">all=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb74-5"><a href="#cb74-5" tabindex="-1"></a>  <span class="fu">dim</span>()</span></code></pre></div>
+<pre><code>## [1] 10  7</code></pre>
+<p>… can be swapped out for the <code>tidyr</code> drop-in
+replacements.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a><span class="fu">full_join</span>(df, df2, <span class="at">by=</span><span class="st">&quot;ID&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb76-2"><a href="#cb76-2" tabindex="-1"></a>  <span class="fu">dim</span>()</span></code></pre></div>
+<pre><code>## [1] 10  7</code></pre>
+</div>
+<div id="manipulating-strings" class="section level2">
+<h2>Manipulating strings</h2>
+<p>It’s worth touching on some of the functionality within
+<code>stringr</code>, which can assist with:</p>
+<ul>
+<li><p>Forming strings, padding and de-padding white space</p></li>
+<li><p>Pattern recognition</p></li>
+<li><p>Pattern replacement</p></li>
+</ul>
+</div>
+<div id="glue" class="section level2">
+<h2>Glue</h2>
+<p>Some of the most useful day to day functionality in
+<code>stringr</code> is provided by the the <em>glue</em> functions.
+These replace the functionality of <code>paste()</code> in base
+<code>R</code>, composing strings from variables.</p>
+<p><code>str_glue()</code> (actually a wrapper around
+<code>glue::glue()</code>) interprets the contents of any curly brackets
+it encounters (<code>{ }</code>) as variables or commands.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a>name <span class="ot">=</span> <span class="st">&quot;Tim&quot;</span></span>
+<span id="cb78-2"><a href="#cb78-2" tabindex="-1"></a>age <span class="ot">=</span> <span class="dv">24</span></span>
+<span id="cb78-3"><a href="#cb78-3" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="#cb78-4" tabindex="-1"></a><span class="fu">str_glue</span>(<span class="st">&quot;I&#39;m {name}. Next year, I&#39;ll be {age + 1}.&quot;</span>)</span></code></pre></div>
+<pre><code>## I&#39;m Tim. Next year, I&#39;ll be 25.</code></pre>
+<p>Here, <code>name</code> is inserted by referencing the variable name.
+Separately, a computation is conducted on <code>age</code> and the
+<code>numeric</code> result is automatically coerced to
+<code>character</code>.</p>
+<hr />
+<p><code>str_glue()</code> works identically with vectors …</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" tabindex="-1"></a>name <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Tim&quot;</span>, <span class="st">&quot;Lucy&quot;</span>)</span>
+<span id="cb80-2"><a href="#cb80-2" tabindex="-1"></a>age <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">26</span>)</span>
+<span id="cb80-3"><a href="#cb80-3" tabindex="-1"></a></span>
+<span id="cb80-4"><a href="#cb80-4" tabindex="-1"></a><span class="fu">str_glue</span>(<span class="st">&quot;I&#39;m {name}. Next year, I&#39;ll be {age + 1}.&quot;</span>)</span></code></pre></div>
+<pre><code>## I&#39;m Tim. Next year, I&#39;ll be 25.
+## I&#39;m Lucy. Next year, I&#39;ll be 27.</code></pre>
+<p>… but, for tabular data, we instead use <code>str_glue_data</code>
+(actually a wrapper around <code>glue::glue_data()</code>), which will
+then use column names to extract the required information.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">name=</span><span class="fu">c</span>(<span class="st">&quot;Tim&quot;</span>, <span class="st">&quot;Lucy&quot;</span>), <span class="at">age=</span><span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">26</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb82-2"><a href="#cb82-2" tabindex="-1"></a>  <span class="fu">str_glue_data</span>(<span class="st">&quot;I&#39;m {name}. Next year, I&#39;ll be {age + 1}.&quot;</span>)</span></code></pre></div>
+<pre><code>## I&#39;m Tim. Next year, I&#39;ll be 25.
+## I&#39;m Lucy. Next year, I&#39;ll be 27.</code></pre>
+<hr />
+<p>To complement the glue functions, we can collapse a vector to a
+single string with <code>str_flatten()</code>.</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" tabindex="-1"></a><span class="fu">str_flatten</span>(<span class="fu">c</span>(<span class="st">&quot;Hello, &quot;</span>, <span class="st">&quot;world!&quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;Hello, world!&quot;</code></pre>
+<p>This takes an optional argument, <code>collapse=</code> that
+specifies the character or string to insert between the elements of the
+input vector.</p>
+<p>If the supplied vector is not of class <code>character</code>, the
+contents will be coerced as required.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" tabindex="-1"></a><span class="fu">str_flatten</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="at">collapse=</span><span class="st">&quot; &lt; &quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;1 &lt; 2 &lt; 3 &lt; 4 &lt; 5&quot;</code></pre>
+</div>
+<div id="padding-strings" class="section level2">
+<h2>Padding strings</h2>
+<p>Strings can be padded with white space (or another specified
+character) using <code>str_pad()</code>.</p>
+<p>The <code>width=</code> and <code>side=</code> arguments can be used
+to control and amount of padding and its position relative to the
+supplied text (<code>left</code> (default), <code>both</code>, or
+<code>right</code>).</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" tabindex="-1"></a><span class="fu">str_pad</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;AB&quot;</span>, <span class="st">&quot;ABC&quot;</span>), <span class="at">width=</span><span class="dv">10</span>, <span class="at">side=</span><span class="st">&quot;left&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;         A&quot; &quot;        AB&quot; &quot;       ABC&quot;</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" tabindex="-1"></a><span class="fu">str_pad</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;AB&quot;</span>, <span class="st">&quot;ABC&quot;</span>), <span class="at">width=</span><span class="dv">10</span>, <span class="at">side=</span><span class="st">&quot;both&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;    A     &quot; &quot;    AB    &quot; &quot;   ABC    &quot;</code></pre>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" tabindex="-1"></a><span class="fu">str_pad</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;AB&quot;</span>, <span class="st">&quot;ABC&quot;</span>), <span class="at">width=</span><span class="dv">10</span>, <span class="at">side=</span><span class="st">&quot;right&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;A         &quot; &quot;AB        &quot; &quot;ABC       &quot;</code></pre>
+<hr />
+<p>Padded strings can have their white space stripped using
+<code>str_trim()</code>.</p>
+<p>As with <code>str_pad()</code>, the <code>side=</code> argument
+controls which side is trimmed but defaults to <code>both</code>.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" tabindex="-1"></a><span class="fu">str_trim</span>(<span class="fu">c</span>(<span class="st">&quot;     A&quot;</span>, <span class="st">&quot;  AB  &quot;</span>, <span class="st">&quot;ABC   &quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;A&quot;   &quot;AB&quot;  &quot;ABC&quot;</code></pre>
+</div>
+<div id="detecting-strings" class="section level2">
+<h2>Detecting strings</h2>
+<p><code>stringr</code> has a number of functions for detecting the
+presence of strings:</p>
+<ul>
+<li><p><code>str_detect()</code> gives a
+<code>TRUE</code>/<code>FALSE</code> result if the string was
+found</p></li>
+<li><p><code>str_starts()</code> and <code>str_ends()</code> make this
+matching specific to the start and end characters</p></li>
+<li><p><code>str_which()</code> returns the index values of strings
+within a vector that match a given search term</p></li>
+<li><p><code>str_locate()</code> returns the start and stop index values
+of matches (<code>NA</code> if not found)</p></li>
+<li><p><code>str_count()</code> returns the number of matches for a
+given search term</p></li>
+</ul>
+<hr />
+<p>The matching functions are particularly useful for use in filtering
+tabular data.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a><span class="fu">str_detect</span>(<span class="fu">c</span>(<span class="st">&quot;abcd&quot;</span>, <span class="st">&quot;dcba&quot;</span>), <span class="st">&quot;bc&quot;</span>)</span></code></pre></div>
+<pre><code>## [1]  TRUE FALSE</code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb98-2"><a href="#cb98-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_starts</span>(species, <span class="st">&quot;Gent&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb98-3"><a href="#cb98-3" tabindex="-1"></a>  <span class="fu">dim</span>()</span></code></pre></div>
+<pre><code>## [1] 124   9</code></pre>
+</div>
+<div id="replacing-matches" class="section level2">
+<h2>Replacing matches</h2>
+<p>The <code>str_replace()</code> function can be used to replace the
+first occurrence of a match to a search term …</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">str_flatten</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;abc&quot;</span>), <span class="dv">3</span>))</span>
+<span id="cb100-2"><a href="#cb100-2" tabindex="-1"></a><span class="fu">str_replace</span>(s, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;A&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Abcabcabc&quot;</code></pre>
+<p>… and the <code>str_replace_all()</code> function to replace all
+matches.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" tabindex="-1"></a><span class="fu">str_replace_all</span>(s, <span class="st">&quot;ab&quot;</span>, <span class="st">&quot;AB&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;ABcABcABc&quot;</code></pre>
+</div>
+<div id="regular-expressions" class="section level2">
+<h2>Regular expressions</h2>
+<p>The search terms used for detecting and replacing strings here have
+been very simple. However, the <code>pattern</code> argument that these
+functions take are actually <em>regular expression</em> (<em>regex</em>)
+patterns.</p>
+<p>Regular expressions are a mini-language that allow for complex
+searching and pattern matching.</p>
+<p>For learning regular expressions:</p>
+<ul>
+<li><p>the <code>stringr</code> <a href="https://rstudio.github.io/cheatsheets/strings.pdf">cheat sheet</a>
+has a good introduction to the syntax</p></li>
+<li><p>use a regex tester, like <a href="https://spannbaueradam.shinyapps.io/r_regex_tester/">this one</a>,
+specifically designed for <code>R</code>.</p></li>
+</ul>
+</div>
+<div id="regex-primer" class="section level2 columns-2">
+<h2 class="columns-2">Regex primer</h2>
+<p>Match types:</p>
+<ul>
+<li><p><code>x</code> a specified character</p></li>
+<li><p><code>[abc]</code> one of these characters</p></li>
+<li><p><code>[a-c]</code> one of these characters</p></li>
+<li><p><code>[:alpha:]</code>, <code>[:upper:]</code>,
+<code>[:lower:]</code> a character from these groups</p></li>
+<li><p><code>.</code> any character</p></li>
+<li><p><code>\\.</code> an actual <code>.</code></p></li>
+<li><p><code>\\s</code> any white space</p></li>
+<li><p><code>\\t</code> a tab specifically</p></li>
+<li><p><code>\\d</code> a digit</p></li>
+</ul>
+<p class="forceBreak">
+</p>
+<p>Match modifiers:</p>
+<ul>
+<li><p><code>^abc</code> at the start</p></li>
+<li><p><code>abc$</code> at the end</p></li>
+<li><p><code>this|that</code> or</p></li>
+<li><p><code>[^these]</code> anything but</p></li>
+</ul>
+<p>Match lengths:</p>
+<ul>
+<li><p><code>*</code> as many as possible (including 0)</p></li>
+<li><p><code>+</code> at least one</p></li>
+<li><p><code>{n}</code> a specific number</p></li>
+<li><p><code>{n,}</code> this many or more</p></li>
+<li><p><code>{n,m}</code> between <code>n</code> and
+<code>m</code></p></li>
+</ul>
+</div>
+<div id="extracting-matches" class="section level2">
+<h2>Extracting matches</h2>
+<p>We’ll demonstrate a few examples using the <code>str_extract()</code>
+function to show what’s being retrieved in each case.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" tabindex="-1"></a><span class="fu">str_extract</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;[[:alpha:]]&quot;</span>)  <span class="co"># extract the first alphabetic character</span></span></code></pre></div>
+<pre><code>## [1] &quot;H&quot;</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" tabindex="-1"></a><span class="fu">str_extract</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;[[:alpha:]]+&quot;</span>)  <span class="co"># extract one or more alphabetic characters occurring in a row</span></span></code></pre></div>
+<pre><code>## [1] &quot;Hello&quot;</code></pre>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" tabindex="-1"></a><span class="fu">str_extract</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)  <span class="co"># extract one or more digit characters occurring in a row</span></span></code></pre></div>
+<pre><code>## [1] &quot;123&quot;</code></pre>
+<hr />
+<p><code>str_extract()</code> will return the first relevant match only.
+Where there are multiple matches, <code>str_extract_all()</code> will
+return them as a list.</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" tabindex="-1"></a><span class="fu">str_extract_all</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)  <span class="co"># extract the digits as groups</span></span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;123&quot; &quot;456&quot;</code></pre>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" tabindex="-1"></a><span class="fu">str_extract_all</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+$&quot;</span>)  <span class="co"># extract the digits at the end</span></span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;456&quot;</code></pre>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" tabindex="-1"></a><span class="fu">str_extract_all</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d{2}$&quot;</span>)  <span class="co"># extract the last two digits at the end</span></span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;56&quot;</code></pre>
+</div>
+<div id="practical-2" class="section level2" data-background="#D6EAF8">
+<h2>Practical</h2>
+<p>It’ll take a while to get to grips with regular expressions, but
+let’s give it a quick go. Using this base:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" tabindex="-1"></a>genes <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Hprt1&quot;</span>, <span class="st">&quot;Dmrt3&quot;</span>, <span class="st">&quot;Rpl3&quot;</span>, <span class="st">&quot;Rps2&quot;</span>, <span class="st">&quot;Actb&quot;</span>, <span class="st">&quot;Rad51&quot;</span>)</span></code></pre></div>
+<ul>
+<li><p>Extract the alphabetic characters</p></li>
+<li><p>Extract the digits - what do we see for
+<code>Actb</code>?</p></li>
+<li><p>Which genes start with <code>R</code>?</p></li>
+<li><p>Which genes start with <code>Rpl</code> or
+<code>Rps</code>?</p></li>
+</ul>
 </div>
 <div id="homework-1" class="section level2" data-background="#FDEBD0">
 <h2>Homework</h2>
-<p>There’s some graphing homework to help cement what we’ve covered
-today!</p>
+<p>There’s some <code>dplyr</code> homework to help cement what we’ve
+covered today!</p>
 <p>The homework and instructions can be found within the main directory
-for the course: <code>./homework/Homework_4.Rmd</code></p>
+for the course: <code>./homework/Homework_5.Rmd</code></p>
 </div>
 
 

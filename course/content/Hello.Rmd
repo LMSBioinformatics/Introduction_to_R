@@ -161,7 +161,19 @@ Applications such as `Excel`, `Prism`, `SigmaPlot` have a number of drawbacks:
 
 **Session 5**
 
-- The `tidyverse`
+- Tidy data
+
+- The tidyverse
+
+  * Reading and writing with `readr`
+  
+  * Manipulating data with `dplyr`
+  
+  * String operations with `stringr`
+  
+  * Piping
+
+- Regular expressions
 
 ## Learning resources
 

@@ -3318,27 +3318,59 @@ ggsave()</pre>
 <p><strong>Session 5</strong></p>
 
 <ul>
-<li>The tidyverse</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>The Tidyverse</h2></hgroup><article  id="the-tidyverse" class="smaller ">
-
-<p>The <code>ggplot2</code> package is one of several packages that constitute the <code>tidyverse</code>:</p>
+<li><p>Tidy data</p></li>
+<li><p>The tidyverse</p>
 
 <ul>
-<li><p><code>ggplot2</code>: beautiful graphs</p></li>
-<li><p><code>readr</code>: reading data</p></li>
-<li><p><code>tibble</code>: working with tables</p></li>
-<li><p><code>dplyr</code>: manipulating data</p></li>
-<li><p><code>purrr</code>: iteration</p></li>
-<li><p><code>forcats</code>: dealing with factors</p></li>
-<li><p><code>stringr</code>: string manipulations</p></li>
-<li><p><code>tidyr</code>: glue</p></li>
+<li><p>Reading and writing with <code>readr</code></p></li>
+<li><p>Manipulating data with <code>dplyr</code></p></li>
+<li><p>String operations with <code>stringr</code></p></li>
+<li><p>Piping</p></li>
+</ul></li>
+<li><p>Regular expressions</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>The tidyverse</h2></hgroup><article  id="the-tidyverse" class="smaller ">
+
+<p>The <code>tidyverse</code> is composed of a number of core packages, which are increasingly used in place of the equivalent functionality from base <code>R</code>:</p>
+
+<ul>
+<li><p><a href='https://rstudio.github.io/cheatsheets/data-visualization.pdf' title=''><code>ggplot2</code></a>: beautiful graphs</p></li>
+<li><p><a href='https://rstudio.github.io/cheatsheets/data-import.pdf' title=''><code>readr</code></a>: reading data</p></li>
+<li><p><a href='https://rstudio.github.io/cheatsheets/data-transformation.pdf' title=''><code>dplyr</code></a>: manipulating data</p></li>
+<li><p><a href='https://rstudio.github.io/cheatsheets/purrr.pdf' title=''><code>purrr</code></a>: iteration</p></li>
+<li><p><a href='https://rstudio.github.io/cheatsheets/factors.pdf' title=''><code>forcats</code></a>: dealing with factors</p></li>
+<li><p><a href='https://rstudio.github.io/cheatsheets/strings.pdf' title=''><code>stringr</code></a>: string manipulations</p></li>
+<li><p><a href='https://rstudio.github.io/cheatsheets/lubridate.pdf' title=''><code>lubridate</code></a>: time and date manipulation</p></li>
+<li><p><a href='https://rstudio.github.io/cheatsheets/tidyr.pdf' title=''><code>tidyr</code></a>: glue functions</p></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
 
-<p>Tidyverse packages conform to a central ethos; there’s even a <a href='https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html' title=''>manifesto</a>! At the core, tidyverse packages aim to:</p>
+<p>The core tidyverse packages can be installed individually or as a complete bundle from CRAN …</p>
+
+<pre class = 'prettyprint lang-r'>install.packages(&quot;tidyverse&quot;)</pre>
+
+<p>… and, for simplicity, we can load them together.</p>
+
+<pre class = 'prettyprint lang-r'>library(tidyverse)</pre>
+
+<pre >## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.3     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>Tidyverse packages conform to a central ethos; there’s even a <a href='https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html' title=''>manifesto</a>!</p>
+
+<p>At the core, tidyverse packages aim to:</p>
 
 <ul>
 <li><p>build on existing data structures</p></li>
@@ -3346,29 +3378,1245 @@ ggsave()</pre>
 <li><p>be logical and easy to use</p></li>
 </ul>
 
-<p>In other words, they aim make your code efficient, easy to write, and easy to read. In order to do this, they’re opinionated about how you should perform operations and center around the import, manipulation, and display of <em>tidy</em> columnar data, where:</p>
+<p>In other words, they aim make your code efficient, easy to write, and easy to read.</p>
+
+</article></slide><slide class=""><hgroup><h2>Tidy data</h2></hgroup><article  id="tidy-data" class="smaller ">
+
+<p>To meet these aims, tidyverse packages are opinionated!</p>
+
+<p>Specifically, they like to import, manipulate, and display <em>tidy</em> columnar data, where:</p>
 
 <ul>
 <li><p>every row is an observation …</p></li>
-<li><p>… of variables that have individual columns</p></li>
-<li><p>allowing each value to have its own cell</p></li>
+<li><p>… of variables that have individual columns of suitable classes</p></li>
+<li><p>such that each value has its own cell</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section" class="smaller columns-2">
+
+<ul>
+<li><p>Variables don’t have their own columns</p></li>
+<li><p>Observations are split across rows</p></li>
+</ul>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Variable</th>
+<th align="center">Value</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Height</td>
+<td align="center">187</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Weight</td>
+<td align="center">79</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">Height</td>
+<td align="center">190</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">Weight</td>
+<td align="center">81</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">Height</td>
+<td align="center">170</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">Weight</td>
+<td align="center">67</td>
+</tr>
+</table>
+
+<p> </p>
+
+<p>How would we graph <code>Height</code> vs <code>Weight</code>?</p>
+
+<p class="forceBreak">
+
+</p>
+
+<ul>
+<li><p>Variables have their own columns</p></li>
+<li><p>One row per observation</p></li>
+</ul>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Height</th>
+<th align="center">Weight</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">187</td>
+<td align="center">79</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">190</td>
+<td align="center">81</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">170</td>
+<td align="center">67</td>
+</tr>
+</table>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-1" class="smaller columns-2">
+
+<ul>
+<li><p>Columns don’t represent a single variable</p></li>
+<li><p>Columns have the wrong class</p></li>
+</ul>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Timepoint</th>
+<th align="center">Incidence</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">7/20</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">2/10</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">10/43</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">4/14</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">3/9</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">8/21</td>
+</tr>
+</table>
+
+<p> </p>
+
+<p>How would we calculate the average <code>Incidence</code>?</p>
+
+<p class="forceBreak">
+
+</p>
+
+<ul>
+<li><p>Variables have their own columns</p></li>
+<li><p>Columns have the correct class</p></li>
+</ul>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Timepoint</th>
+<th align="center">Cases</th>
+<th align="center">Observations</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">7</td>
+<td align="center">20</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">10</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">10</td>
+<td align="center">43</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">9</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">8</td>
+<td align="center">21</td>
+</tr>
+</table>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-2" class="smaller columns-2">
+
+<ul>
+<li>Identifiers aren’t a column</li>
+</ul>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="right"></th>
+<th align="center">Height</th>
+<th align="center">Weight</th>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="center">187</td>
+<td align="center">79</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="center">190</td>
+<td align="center">81</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="center">170</td>
+<td align="center">67</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="center">175</td>
+<td align="center">70</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="center">180</td>
+<td align="center">89</td>
+</tr>
+</table>
+
+<p> </p>
+
+<p>How would we add identifiers as labels in plots?</p>
+
+<p class="forceBreak">
+
+</p>
+
+<ul>
+<li>Identifiers are a column</li>
+</ul>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Height</th>
+<th align="center">Weight</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">187</td>
+<td align="center">79</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">190</td>
+<td align="center">81</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">170</td>
+<td align="center">67</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">175</td>
+<td align="center">70</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">180</td>
+<td align="center">89</td>
+</tr>
+</table>
+
+</article></slide><slide class=""><hgroup><h2>Wide vs long</h2></hgroup><article  id="wide-vs-long" class="smaller columns-2">
+
+<ul>
+<li><p>One variable split between multiple columns</p></li>
+<li><p>No means to subset by factor</p></li>
+</ul>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Height</th>
+<th align="center">Weight_Pre</th>
+<th align="center">Weight_Post</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">187</td>
+<td align="center">79</td>
+<td align="center">77</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">190</td>
+<td align="center">81</td>
+<td align="center">78</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">170</td>
+<td align="center">67</td>
+<td align="center">67</td>
+</tr>
+</table>
+
+<p> </p>
+
+<ul>
+<li>Easy plotting of <code>Weight_Post</code> vs <code>Weight_Pre</code></li>
+</ul>
+
+<p class="forceBreak">
+
+</p>
+
+<ul>
+<li><p>Variables have individual columns</p></li>
+<li><p>Grouping factor partitions observations</p></li>
+</ul>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">SampleID</th>
+<th align="center">Status</th>
+<th align="center">Height</th>
+<th align="center">Weight</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Pre</td>
+<td align="center">187</td>
+<td align="center">79</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Post</td>
+<td align="center">187</td>
+<td align="center">77</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">Pre</td>
+<td align="center">190</td>
+<td align="center">81</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">Post</td>
+<td align="center">190</td>
+<td align="center">78</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">Pre</td>
+<td align="center">170</td>
+<td align="center">67</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">Post</td>
+<td align="center">170</td>
+<td align="center">67</td>
+</tr>
+</table>
+
+</article></slide><slide class=""><hgroup><h2>Reading data</h2></hgroup><article  id="reading-data" class="smaller ">
+
+<p>The <code>readr</code> package replaces the base <code>R</code> functions for reading and writing tabular data.</p>
+
+<p><code>readr</code> has several more helpful presets for importing data in different formats:</p>
+
+<ul>
+<li><p><code>read_csv()</code>: comma-separated files</p></li>
+<li><p><code>read_tsv()</code>: tab separated files (so we don’t have to specify <code>sep=&quot;\t&quot;</code>)</p></li>
+<li><p><code>read_table()</code>: white-space separated files (handles single or multiple spaces automatically)</p></li>
+<li><p><code>read_delim()</code>: files with a user-defined delimiter</p></li>
+<li><p><code>read_fwf()</code>: fixed width files, where each column occupies a set number of characters</p></li>
+</ul>
+
+<p>All <code>readr</code> functions transparently read from compressed (<code>.gz</code>, <code>.bz2</code>, <code>.xz</code>, or <code>.zip</code>) files and, as with the base functions, can read from the clipboard and from URLs.</p>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>The <code>readr</code> functions provide a summary of the imported data, including column classes.</p>
+
+<pre class = 'prettyprint lang-r'>data = read_tsv(&quot;data/1_read_delim.txt&quot;)</pre>
+
+<pre >## Rows: 10 Columns: 5
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;\t&quot;
+## chr (4): ID, Name, Sex, HatColour
+## dbl (1): Age
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</pre>
+
+<p>These accept a variety of arguments shared with the base <code>R</code> functions, such as:</p>
+
+<ul>
+<li><p><code>skip=0</code> specifies the number of lines to skip at the start of the file</p></li>
+<li><p><code>n_max</code> specifies the number of lines to read</p></li>
+<li><p><code>comment=&quot;&quot;</code> can be used to specify that <code>#</code> character lines are comments, for example</p></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
 
-<p>The core tidyverse packages can be installed individually or as a complete bundle from CRAN.</p>
+<p>As you might expect, the common <code>read_...()</code> functions have <code>write_...()</code> equivalents:</p>
 
-<pre class = 'prettyprint lang-r'>install.packages(&quot;tidyverse&quot;)</pre>
+<ul>
+<li><p><code>read_csv()</code>: comma-separated files</p></li>
+<li><p><code>read_tsv()</code>: tab separated files (so we don’t have to specify <code>sep=&quot;\t&quot;</code>)</p></li>
+<li><p><code>read_delim()</code>: files with a user-defined delimiter</p></li>
+</ul>
+
+<p>Both the read and write functions from <code>readr</code> are multi-threaded and execute far more quickly than the equivalent functions from base <code>R</code>.</p>
+
+<p>If you’re working with particularly large files, they also automatically display a progress bar!</p>
+
+</article></slide><slide class=""><hgroup><h2>Tibbles</h2></hgroup><article  id="tibbles" class="smaller ">
+
+<p>The <code>readr</code> functions return their data as a <code>tibble</code>, an opinionated <code>data frame</code>.</p>
+
+<p>Tibbles don’t …</p>
+
+<ul>
+<li><p>support <code>rownames()</code></p></li>
+<li><p>allow recycling of values when creating columns</p></li>
+</ul>
+
+<p>but do:</p>
+
+<ul>
+<li><p>print nicely (default to printing <code>head()</code> rather than the whole table)</p></li>
+<li><p>work quickly in common operations, as they’re optimised for column-based indexing</p></li>
+<li><p>try to return a another <code>tibble</code> if possible</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>Tibbles can be indexed and subset using square brackets <code>[ , ]</code>.</p>
+
+<pre class = 'prettyprint lang-r'>data[, 1]</pre>
+
+<pre >## # A tibble: 10 × 1
+##    ID   
+##    &lt;chr&gt;
+##  1 E1   
+##  2 E2   
+##  3 E3   
+##  4 E4   
+##  5 E5   
+##  6 E6   
+##  7 E7   
+##  8 E8   
+##  9 E9   
+## 10 E10</pre>
+
+<p>However, unlike data frames, where subsetting a single column will return a vector of its contents, subsetting using square brackets always returns another tibble.</p>
+
+<p>Tibbles like to return tibbles!</p>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>Vectors of column contents are accessed using the <code>$</code> operator, as with data frames, …</p>
+
+<pre class = 'prettyprint lang-r'>data$ID</pre>
+
+<pre >##  [1] &quot;E1&quot;  &quot;E2&quot;  &quot;E3&quot;  &quot;E4&quot;  &quot;E5&quot;  &quot;E6&quot;  &quot;E7&quot;  &quot;E8&quot;  &quot;E9&quot;  &quot;E10&quot;</pre>
+
+<p>… or with double square brackets <code>[[ ]]</code>, similarly to <code>list</code> objects.</p>
+
+<pre class = 'prettyprint lang-r'>data[[1]]</pre>
+
+<pre >##  [1] &quot;E1&quot;  &quot;E2&quot;  &quot;E3&quot;  &quot;E4&quot;  &quot;E5&quot;  &quot;E6&quot;  &quot;E7&quot;  &quot;E8&quot;  &quot;E9&quot;  &quot;E10&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Rownames</h2></hgroup><article  id="rownames" class="smaller ">
+
+<p>By default, the <code>readr</code> functions assume that if the first row contains fewer columns than those that follow, the first column of the table are row names.</p>
+
+<p>As tibbles don’t support row names, it’s assigned a placeholder column name …</p>
+
+<pre class = 'prettyprint lang-r'>data = read_tsv(&quot;data/3_penguin_metadata.tsv&quot;)
+colnames(data)</pre>
+
+<pre >## [1] &quot;...1&quot;    &quot;Species&quot; &quot;Sex&quot;</pre>
+
+<p>This can be corrected with <code>colnames()</code> or, in combination with <code>skip=</code>, we can specify names up front.</p>
+
+<pre class = 'prettyprint lang-r'>data = read_tsv(
+  &quot;data/3_penguin_metadata.tsv&quot;,
+  col_names=c(&quot;ID&quot;, &quot;Species&quot;, &quot;Sex&quot;),
+  skip=1)</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>Data frames can be coerced to tibbles using <code>as_tibble()</code> … but tibbles don’t support row names!</p>
+
+<pre class = 'prettyprint lang-r'>data = read.delim(&quot;data/1_read_delim.txt&quot;, sep=&quot;\t&quot;, row.names=1)
+rownames(data)</pre>
+
+<pre >##  [1] &quot;E1&quot;  &quot;E2&quot;  &quot;E3&quot;  &quot;E4&quot;  &quot;E5&quot;  &quot;E6&quot;  &quot;E7&quot;  &quot;E8&quot;  &quot;E9&quot;  &quot;E10&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>as_tibble(data)</pre>
+
+<pre >## # A tibble: 10 × 4
+##    Name    Sex     Age HatColour
+##    &lt;chr&gt;   &lt;chr&gt; &lt;int&gt; &lt;chr&gt;    
+##  1 Basil   M        15 blue     
+##  2 Tim     M        53 red      
+##  3 Lisa    F        97 yellow   
+##  4 Snapper M        64 green    
+##  5 Erica   F        99 yellow   
+##  6 Jen     F       107 red      
+##  7 Pedro   M        60 green    
+##  8 Jan     M       150 green    
+##  9 Liz     F       131 red      
+## 10 Alice   F        78 yellow</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>To transfer existing row names to a column, we can specify a column name to receive them.</p>
+
+<pre class = 'prettyprint lang-r'>as_tibble(data, rownames=&quot;ID&quot;)</pre>
+
+<pre >## # A tibble: 10 × 5
+##    ID    Name    Sex     Age HatColour
+##    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;int&gt; &lt;chr&gt;    
+##  1 E1    Basil   M        15 blue     
+##  2 E2    Tim     M        53 red      
+##  3 E3    Lisa    F        97 yellow   
+##  4 E4    Snapper M        64 green    
+##  5 E5    Erica   F        99 yellow   
+##  6 E6    Jen     F       107 red      
+##  7 E7    Pedro   M        60 green    
+##  8 E8    Jan     M       150 green    
+##  9 E9    Liz     F       131 red      
+## 10 E10   Alice   F        78 yellow</pre>
+
+<p>The <code>tibble</code> package, loaded as part of the <code>tidyverse</code>, provides <code>rownames_to_column(var=&quot;name&quot;)</code> for doing this ahead of time. When coercing a tibble to a data frame, <code>column_to_rownames(var=&quot;name&quot;)</code> will perform the reverse operation.</p>
+
+</article></slide><slide class=""><hgroup><h2>Tidying data</h2></hgroup><article  id="tidying-data" class="smaller ">
+
+<p>The <code>tidyr</code> package provides various functions to assist in re-shaping tabular data:</p>
+
+<ul>
+<li><p><code>pivot_longer()</code> collects multiple columns of the same variable and creates a factor column</p></li>
+<li><p><code>pivot_wider()</code> spreads a variable column by a factor column</p></li>
+<li><p><code>unite()</code> merges multiple columns into one</p></li>
+<li><p><code>separate()</code> splits a single column on a specified separator character</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>Most commonly, we need to <em>pivot</em> data. A wide-format table can be stretched using <code>pivot_longer()</code>.</p>
+
+<pre class = 'prettyprint lang-r'>data = tibble(SampleID=c(1, 2), Height=c(187, 190), Weight_Pre=c(79, 81), Weight_Post=c(77, 78))
+data</pre>
+
+<pre >## # A tibble: 2 × 4
+##   SampleID Height Weight_Pre Weight_Post
+##      &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
+## 1        1    187         79          77
+## 2        2    190         81          78</pre>
+
+<pre class = 'prettyprint lang-r'>data = pivot_longer(
+  data, cols=c(&quot;Weight_Pre&quot;, &quot;Weight_Post&quot;), names_to=&quot;Status&quot;, values_to=&quot;Weight&quot;, names_prefix=&quot;Weight_&quot;)
+data</pre>
+
+<pre >## # A tibble: 4 × 4
+##   SampleID Height Status Weight
+##      &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
+## 1        1    187 Pre        79
+## 2        1    187 Post       77
+## 3        2    190 Pre        81
+## 4        2    190 Post       78</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p><code>pivot_wider()</code> will reverse the transformation, reverting to wide-form data.</p>
+
+<pre class = 'prettyprint lang-r'>data = pivot_wider(data, names_from=&quot;Status&quot;, values_from=&quot;Weight&quot;, names_prefix=&quot;Weight_&quot;)
+data</pre>
+
+<pre >## # A tibble: 2 × 4
+##   SampleID Height Weight_Pre Weight_Post
+##      &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
+## 1        1    187         79          77
+## 2        2    190         81          78</pre>
 
 </article></slide><slide class="fill nobackground" style="background: #D6EAF8;"><hgroup><h2>Practical</h2></hgroup><article  id="practical" class="smaller ">
 
-<p>Blurb</p>
+<p>Let’s try out using <code>unite()</code> and <code>separate()</code>.</p>
+
+<ul>
+<li><p>Use <code>read_csv()</code> to import <code>data/5_adelies.csv.gz</code></p></li>
+<li><p>What makes this dataset tidy or untidy?</p></li>
+<li><p>Using the help for <code>separate()</code>, split the <code>date</code> column appropriately</p></li>
+<li><p>What classes are the columns we made? How might we correct this?</p></li>
+<li><p>Using the help for <code>unite()</code>, join the two columns back into one</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Building complexity</h2></hgroup><article  id="building-complexity" class="smaller ">
+
+<p>The more comfortable we become using <code>R</code>, the less we use individual variables …</p>
+
+<pre class = 'prettyprint lang-r'>penguins = read_csv(&quot;data/1_palmerpenguins.csv&quot;)
+
+adelies = which(penguins$species == &quot;Adelie&quot;)
+adelie_weights = penguins[adelies, ]$body_mass_g
+mean(adelie_weights, na.rm=TRUE)</pre>
+
+<pre >## [1] 3700.662</pre>
+
+<p>… and the more we use <em>nested</em> functions.</p>
+
+<pre class = 'prettyprint lang-r'>mean(penguins[which(penguins$species == &quot;Adelie&quot;), ]$body_mass_g, na.rm=TRUE)</pre>
+
+<pre >## [1] 3700.662</pre>
+
+<p>Although this keeps our environment clean, nesting can cause code to become highly confusing!</p>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>The <code>tidyverse</code> aims to solve this problem with the use of the pipe, <code>%&gt;%</code> from the <code>magrittr</code> package, which can be used to chain operations.</p>
+
+<p>Behind the scenes, the pipe acts to store intermediate results and automatically pass them to the next function in the series, such that …</p>
+
+<pre >data %&gt;% function_1() %&gt;% function_2()</pre>
+
+<p>… is equivalent to.</p>
+
+<pre >function_2(function_1(data))</pre>
+
+<p>For convenience, <code>RStudio</code> allows us to insert a pipe using the <code>⌘+Shift+M</code> (Mac) or <code>CTRL+Shift+M</code> (Windows) key combination.</p>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p><code>dplyr</code>, which automatically loads the pipe from <code>magrittr</code> for us, provides a range of functions designed to work with it:</p>
+
+<ul>
+<li><p><code>filter()</code> extracts rows by logical conditions</p></li>
+<li><p><code>select()</code> subsets columns by name (returning a data frame or tibble)</p></li>
+<li><p><code>pull()</code> extracts the contents of a column by name (returning a vector)</p></li>
+<li><p><code>mutate()</code> creates new columns based on data in existing columns</p></li>
+<li><p><code>arrange()</code> re-orders rows</p></li>
+<li><p><code>group_by()</code> and <code>summarise()</code> compute summary metrics and projections</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>Using the functions from <code>dplyr</code>, the pipe allow us to turn …</p>
+
+<pre class = 'prettyprint lang-r'>mean(penguins[which(penguins$species == &quot;Adelie&quot;), ]$body_mass_g, na.rm=TRUE)</pre>
+
+<p>… into …</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% filter(species==&quot;Adelie&quot;) %&gt;% pull(body_mass_g) %&gt;% mean(na.rm=TRUE)</pre>
+
+<p>… or, for maximum readability:</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  filter(species==&quot;Adelie&quot;) %&gt;%
+  pull(body_mass_g) %&gt;%
+  mean(na.rm=TRUE)</pre>
+
+<pre >## [1] 3700.662</pre>
+
+</article></slide><slide class=""><hgroup><h2>Filter</h2></hgroup><article  id="filter" class="smaller ">
+
+<p><code>dplyr</code>’s <code>filter()</code> allows row filtering based on one or more logical criteria. This can be on equality or set membership …</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;%
+  filter(species==&quot;Adelie&quot;, island %in% c(&quot;Torgersen&quot;, &quot;Biscoe&quot;)) %&gt;%
+  nrow()</pre>
+
+<pre >## [1] 96</pre>
+
+<p>… or according to numerical comparisons.</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  filter(species==&quot;Adelie&quot;, bill_length_mm&gt;40) %&gt;%
+  nrow()</pre>
+
+<pre >## [1] 51</pre>
+
+</article></slide><slide class=""><hgroup><h2>Select</h2></hgroup><article  id="select" class="smaller ">
+
+<p><code>dplyr</code>’s <code>select()</code> allows column subsetting by name and index, including for ranges specified either way.</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  select(id, species, island) %&gt;% 
+  colnames()</pre>
+
+<pre >## [1] &quot;id&quot;      &quot;species&quot; &quot;island&quot;</pre>
+
+<p>As with square bracket indexing, columns prefixed with a minus sign (<code>-</code>) are dropped.</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  select(-(id:island)) %&gt;% 
+  colnames()</pre>
+
+<pre >## [1] &quot;bill_length_mm&quot;    &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot;
+## [4] &quot;body_mass_g&quot;       &quot;sex&quot;               &quot;year&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>We can also use <code>select()</code> to rename and re-arrange columns …</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  select(id, location=island, species) %&gt;% 
+  colnames()</pre>
+
+<pre >## [1] &quot;id&quot;       &quot;location&quot; &quot;species&quot;</pre>
+
+<p>… or this can be done manually with <code>rename()</code> and <code>relocate()</code>.</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  select(id, species, island) %&gt;% 
+  rename(location=island) %&gt;% 
+  relocate(location, .after=id) %&gt;% 
+  colnames()</pre>
+
+<pre >## [1] &quot;id&quot;       &quot;location&quot; &quot;species&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Pull</h2></hgroup><article  id="pull" class="smaller ">
+
+<p>Where <code>select()</code> returns a tabular data format, <code>pull()</code> returns a vector, equivalent to using the <code>$</code> operator.</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  pull(flipper_length_mm) %&gt;% 
+  head()</pre>
+
+<pre >## [1] 181 186 195  NA 193 190</pre>
+
+<p><code>pull()</code> also allows the <code>names()</code> of the vector to be set using the values from a second column.</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  pull(flipper_length_mm, id) %&gt;% 
+  head()</pre>
+
+<pre >##  A1  A2  A3  A4  A5  A6 
+## 181 186 195  NA 193 190</pre>
+
+</article></slide><slide class=""><hgroup><h2>Mutate</h2></hgroup><article  id="mutate" class="smaller ">
+
+<p><code>mutate()</code> streamlines the process of adding columns calculated from existing data in the table.</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  mutate(bill_ratio=bill_length_mm/bill_depth_mm) %&gt;% 
+  select(id, bill_length_mm, bill_depth_mm, bill_ratio) %&gt;% 
+  head(2)</pre>
+
+<pre >## # A tibble: 2 × 4
+##   id    bill_length_mm bill_depth_mm bill_ratio
+##   &lt;chr&gt;          &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;
+## 1 A1              39.1          18.7       2.09
+## 2 A2              39.5          17.4       2.27</pre>
+
+<p><code>mutate()</code> accepts a few handy arguments:</p>
+
+<ul>
+<li><p><code>.keep=</code> (<code>all</code>, <code>used</code>, <code>unused</code>, <code>none</code>) determines if the variables used (or not used) in the calculation should be kept in the output</p></li>
+<li><p><code>.before=</code> and <code>.after=</code> place the new column before or after another, respectively</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>We can use the <code>.keep</code> argument to drop columns that we’re replacing …</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  mutate(bill_ratio=bill_length_mm/bill_depth_mm, .keep=&quot;unused&quot;) %&gt;% 
+  colnames()</pre>
+
+<pre >## [1] &quot;id&quot;                &quot;species&quot;           &quot;island&quot;           
+## [4] &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;       &quot;sex&quot;              
+## [7] &quot;year&quot;              &quot;bill_ratio&quot;</pre>
+
+<p>… or, alternatively, <code>transmute()</code> drops all columns that aren’t manually specified.</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  transmute(id, species, bill_ratio=bill_length_mm/bill_depth_mm) %&gt;% 
+  head(3)</pre>
+
+<pre >## # A tibble: 3 × 3
+##   id    species bill_ratio
+##   &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt;
+## 1 A1    Adelie        2.09
+## 2 A2    Adelie        2.27
+## 3 A3    Adelie        2.24</pre>
+
+</article></slide><slide class=""><hgroup><h2>Arrange</h2></hgroup><article  id="arrange" class="smaller ">
+
+<p>The <code>arrange()</code> function replaces the functionality of base <code>R</code>’s <code>order()</code>, allowing the sorting of tabular data by one or more columns.</p>
+
+<p>As with <code>order()</code>, by default, this is in ascending order. We can enforce descending order using a minus sign (<code>-</code>) or using <code>dplyr</code>’s <code>desc()</code> function.</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  arrange(-bill_length_mm, desc(bill_depth_mm)) %&gt;% 
+  head(3)</pre>
+
+<pre >## # A tibble: 3 × 9
+##   id    species   island bill_length_mm bill_depth_mm flipper_length_mm
+##   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;
+## 1 G34   Gentoo    Biscoe           59.6          17                 230
+## 2 C18   Chinstrap Dream            58            17.8               181
+## 3 G102  Gentoo    Biscoe           55.9          17                 228
+## # ℹ 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Summarise</h2></hgroup><article  id="summarise" class="smaller ">
+
+<p>In combination with <code>group_by()</code>, <code>summarise()</code> (<code>summarize()</code> is fine too) can be used to compute summary tables using a number of summary functions:</p>
+
+<ul>
+<li><p><code>n()</code> and <code>n_distinct()</code> retrieves the number of rows or unique rows (according to the defined groups)</p></li>
+<li><p><code>mean()</code> and <code>median()</code> compute averages</p></li>
+<li><p><code>first()</code>, <code>nth()</code> and <code>last()</code> retrieve values from specific positions in the table</p></li>
+<li><p><code>min()</code>, <code>max()</code>, <code>IQR()</code>, <code>mad()</code>, <code>sd()</code>, and <code>var()</code> compute summary statistics</p></li>
+</ul>
+
+<p>There are also functions to subset representative groups of rows:</p>
+
+<ul>
+<li><p><code>slice_sample(n=)</code> selects a random assortment of rows</p></li>
+<li><p><code>slice_min(column, n=)</code> and <code>slice_max(column, n=)</code> select rows with the lowest or highest values in a column</p></li>
+<li><p><code>slice_head(n=)</code> and <code>slice_tail(n=)</code> select the first and last rows, respectively</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p><code>group_by()</code> accepts one or more column names, which are combined to create a grouping factor for use with <code>summarise()</code>.</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  group_by(species) %&gt;% 
+  summarise(count=n(), locations=n_distinct(island))</pre>
+
+<pre >## # A tibble: 3 × 3
+##   species   count locations
+##   &lt;chr&gt;     &lt;int&gt;     &lt;int&gt;
+## 1 Adelie      152         3
+## 2 Chinstrap    68         1
+## 3 Gentoo      124         1</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  drop_na(sex, body_mass_g) %&gt;%  # drop_na() works like na.omit() but we can specify specific columns
+  group_by(species, sex) %&gt;% 
+  summarise(count=n(), ave_body_mass_g=median(body_mass_g))</pre>
+
+<pre >## # A tibble: 6 × 4
+## # Groups:   species [3]
+##   species   sex    count ave_body_mass_g
+##   &lt;chr&gt;     &lt;chr&gt;  &lt;int&gt;           &lt;dbl&gt;
+## 1 Adelie    female    73            3400
+## 2 Adelie    male      73            4000
+## 3 Chinstrap female    34            3550
+## 4 Chinstrap male      34            3950
+## 5 Gentoo    female    58            4700
+## 6 Gentoo    male      61            5500</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>Once defined, the groups projected onto the table by <code>group_by()</code> apply to all downstream functions in the chain until they are removed using <code>ungroup()</code> - groupings don’t just apply to <code>summarise()</code> functions!</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  select(id, species, sex, body_mass_g) %&gt;% 
+  drop_na(sex) %&gt;% 
+  group_by(species, sex) %&gt;% 
+  slice_max(body_mass_g, n=1, with_ties=FALSE)</pre>
+
+<pre >## # A tibble: 6 × 4
+## # Groups:   species, sex [6]
+##   id    species   sex    body_mass_g
+##   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;        &lt;dbl&gt;
+## 1 A115  Adelie    female        3900
+## 2 A110  Adelie    male          4775
+## 3 C9    Chinstrap female        4150
+## 4 C38   Chinstrap male          4800
+## 5 G74   Gentoo    female        5200
+## 6 G18   Gentoo    male          6300</pre>
+
+<p>Here, the grouping applies to <code>slice_max()</code>, which extracts the row with the highest value recorded for <code>body_mass_g</code> for each group individually, rather than for the dataset as a whole.</p>
+
+</article></slide><slide class="fill nobackground" style="background: #D6EAF8;"><hgroup><h2>Practical</h2></hgroup><article  id="practical-1" class="smaller ">
+
+<p>Let’s practice using pipes with the <code>penguins</code> dataset.</p>
+
+<ul>
+<li><p>Convert <code>body_mass_g</code> to a <code>body_mass_kg</code> column</p></li>
+<li><p>Grouping by <code>species</code>, <code>sex</code>, and <code>year</code> …</p></li>
+<li><p>… calculate a summary table of the average <code>body_mass_kg</code></p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Pipe outputs</h2></hgroup><article  id="pipe-outputs" class="smaller ">
+
+<p>As with normal assignment, we can assign right-to-left with the <code>=</code> and <code>&lt;-</code> operators …</p>
+
+<pre >result =
+  data %&gt;% 
+  function()</pre>
+
+<p>… but, with long sequences of piped functions, this can look clumsy. This is one of the few times when left-to-right assignment using the <code>-&gt;</code> operator can enhance clarity.</p>
+
+<pre >data %&gt;% 
+  function() -&gt;
+  result</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>It’s also possible to extract data from the middle of a sequence of piped functions using the special <code>%T&gt;%</code> (<em>tee</em>) pipe provided by <code>magrittr</code>.</p>
+
+<p>This is especially useful for outputting intermediate results.</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;%
+  mutate(body_mass_kg=body_mass_g/1000, .keep=&quot;unused&quot;) %T&gt;%  # the next command won&#39;t pass on its result
+    write_tsv(&quot;outputs/5_tee_example.tsv&quot;) %&gt;%  # the previous result is passed on instead
+  drop_na(sex, body_mass_kg) %&gt;% 
+  group_by(species, sex, year) %&gt;% 
+  summarise(ave_body_mass_kg=mean(body_mass_kg)) -&gt;
+  result
+
+head(result, 4)</pre>
+
+<pre >## # A tibble: 4 × 4
+## # Groups:   species, sex [2]
+##   species sex     year ave_body_mass_kg
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Adelie  female  2007             3.39
+## 2 Adelie  female  2008             3.39
+## 3 Adelie  female  2009             3.33
+## 4 Adelie  male    2007             4.04</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>The tee pipe can also be used to extract intermediate results as objects. To do this, we wrap the assignment command in curly brackets (<code>{ }</code>) and make use of the <code>&lt;&lt;-</code> operator to store the result in the global environment …</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;%
+  mutate(body_mass_kg=body_mass_g/1000, .keep=&quot;unused&quot;) %T&gt;%
+    {penguins_kg &lt;&lt;- .} %&gt;%  # store the previous result, exposed with the `.` placeholder
+  drop_na(sex, body_mass_kg) %&gt;% 
+  group_by(species, sex, year) %&gt;% 
+  summarise(mean(body_mass_kg)) -&gt;
+  result</pre>
+
+<p>… although it’s likely clearer to use simply use two pipe commands!</p>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;%
+  mutate(body_mass_kg=body_mass_g/1000, .keep=&quot;unused&quot;) -&gt;
+  penguins_kg
+
+penguins_kg %&gt;% 
+  drop_na(sex, body_mass_kg) %&gt;% 
+  group_by(species, sex, year) %&gt;% 
+  summarise(mean(body_mass_kg)) -&gt;
+  result</pre>
+
+</article></slide><slide class=""><hgroup><h2>Merging tabular data</h2></hgroup><article  id="merging-tabular-data" class="smaller ">
+
+<p>Designed to work with or without the pipe, <code>dplyr</code> has a number of functions for merging tabular data.</p>
+
+<ul>
+<li><p><code>left_join(x, y)</code> join two tables, keeping all rows in <code>x</code></p></li>
+<li><p><code>right_join(x, y)</code> join two tables, keeping all rows <code>y</code></p></li>
+<li><p><code>inner_join(x, y)</code> join two tables, keeping rows in common</p></li>
+<li><p><code>full_join(x, y)</code> join two tables, keeping all rows</p></li>
+</ul>
+
+<p>As with the <code>merge()</code> function from base <code>R</code>, by default, all columns shared between the two tables are used as keys in the merge process. To control this, the <code>by=</code> argument can be set:</p>
+
+<ul>
+<li><p><code>by=&quot;key&quot;</code> / <code>by=c(&quot;key1&quot;, &quot;key2&quot;)</code> taking column names individually or as a vector</p></li>
+<li><p><code>by=join_by(key == identifier)</code> using the <code>join_by()</code> function to allow mappings between columns with different names</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>The base <code>R</code> <code>merge()</code> function …</p>
+
+<pre class = 'prettyprint lang-r'>df = read_tsv(&quot;data/1_read_delim.txt&quot;)
+df2 = read_tsv(&quot;data/1_read_delim_merge.txt&quot;)
+
+merge(df, df2, by=&quot;ID&quot;, all=TRUE) %&gt;%
+  dim()</pre>
+
+<pre >## [1] 10  7</pre>
+
+<p>… can be swapped out for the <code>tidyr</code> drop-in replacements.</p>
+
+<pre class = 'prettyprint lang-r'>full_join(df, df2, by=&quot;ID&quot;) %&gt;%
+  dim()</pre>
+
+<pre >## [1] 10  7</pre>
+
+</article></slide><slide class=""><hgroup><h2>Manipulating strings</h2></hgroup><article  id="manipulating-strings" class="smaller ">
+
+<p>It’s worth touching on some of the functionality within <code>stringr</code>, which can assist with:</p>
+
+<ul>
+<li><p>Forming strings, padding and de-padding white space</p></li>
+<li><p>Pattern recognition</p></li>
+<li><p>Pattern replacement</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Glue</h2></hgroup><article  id="glue" class="smaller ">
+
+<p>Some of the most useful day to day functionality in <code>stringr</code> is provided by the the <em>glue</em> functions. These replace the functionality of <code>paste()</code> in base <code>R</code>, composing strings from variables.</p>
+
+<p><code>str_glue()</code> (actually a wrapper around <code>glue::glue()</code>) interprets the contents of any curly brackets it encounters (<code>{ }</code>) as variables or commands.</p>
+
+<pre class = 'prettyprint lang-r'>name = &quot;Tim&quot;
+age = 24
+
+str_glue(&quot;I&#39;m {name}. Next year, I&#39;ll be {age + 1}.&quot;)</pre>
+
+<pre >## I&#39;m Tim. Next year, I&#39;ll be 25.</pre>
+
+<p>Here, <code>name</code> is inserted by referencing the variable name. Separately, a computation is conducted on <code>age</code> and the <code>numeric</code> result is automatically coerced to <code>character</code>.</p>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p><code>str_glue()</code> works identically with vectors …</p>
+
+<pre class = 'prettyprint lang-r'>name = c(&quot;Tim&quot;, &quot;Lucy&quot;)
+age = c(24, 26)
+
+str_glue(&quot;I&#39;m {name}. Next year, I&#39;ll be {age + 1}.&quot;)</pre>
+
+<pre >## I&#39;m Tim. Next year, I&#39;ll be 25.
+## I&#39;m Lucy. Next year, I&#39;ll be 27.</pre>
+
+<p>… but, for tabular data, we instead use <code>str_glue_data</code> (actually a wrapper around <code>glue::glue_data()</code>), which will then use column names to extract the required information.</p>
+
+<pre class = 'prettyprint lang-r'>data.frame(name=c(&quot;Tim&quot;, &quot;Lucy&quot;), age=c(24, 26)) %&gt;% 
+  str_glue_data(&quot;I&#39;m {name}. Next year, I&#39;ll be {age + 1}.&quot;)</pre>
+
+<pre >## I&#39;m Tim. Next year, I&#39;ll be 25.
+## I&#39;m Lucy. Next year, I&#39;ll be 27.</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>To complement the glue functions, we can collapse a vector to a single string with <code>str_flatten()</code>.</p>
+
+<pre class = 'prettyprint lang-r'>str_flatten(c(&quot;Hello, &quot;, &quot;world!&quot;))</pre>
+
+<pre >## [1] &quot;Hello, world!&quot;</pre>
+
+<p>This takes an optional argument, <code>collapse=</code> that specifies the character or string to insert between the elements of the input vector.</p>
+
+<p>If the supplied vector is not of class <code>character</code>, the contents will be coerced as required.</p>
+
+<pre class = 'prettyprint lang-r'>str_flatten(c(1, 2, 3, 4, 5), collapse=&quot; &lt; &quot;)</pre>
+
+<pre >## [1] &quot;1 &lt; 2 &lt; 3 &lt; 4 &lt; 5&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Padding strings</h2></hgroup><article  id="padding-strings" class="smaller ">
+
+<p>Strings can be padded with white space (or another specified character) using <code>str_pad()</code>.</p>
+
+<p>The <code>width=</code> and <code>side=</code> arguments can be used to control and amount of padding and its position relative to the supplied text (<code>left</code> (default), <code>both</code>, or <code>right</code>).</p>
+
+<pre class = 'prettyprint lang-r'>str_pad(c(&quot;A&quot;, &quot;AB&quot;, &quot;ABC&quot;), width=10, side=&quot;left&quot;)</pre>
+
+<pre >## [1] &quot;         A&quot; &quot;        AB&quot; &quot;       ABC&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>str_pad(c(&quot;A&quot;, &quot;AB&quot;, &quot;ABC&quot;), width=10, side=&quot;both&quot;)</pre>
+
+<pre >## [1] &quot;    A     &quot; &quot;    AB    &quot; &quot;   ABC    &quot;</pre>
+
+<pre class = 'prettyprint lang-r'>str_pad(c(&quot;A&quot;, &quot;AB&quot;, &quot;ABC&quot;), width=10, side=&quot;right&quot;)</pre>
+
+<pre >## [1] &quot;A         &quot; &quot;AB        &quot; &quot;ABC       &quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>Padded strings can have their white space stripped using <code>str_trim()</code>.</p>
+
+<p>As with <code>str_pad()</code>, the <code>side=</code> argument controls which side is trimmed but defaults to <code>both</code>.</p>
+
+<pre class = 'prettyprint lang-r'>str_trim(c(&quot;     A&quot;, &quot;  AB  &quot;, &quot;ABC   &quot;))</pre>
+
+<pre >## [1] &quot;A&quot;   &quot;AB&quot;  &quot;ABC&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Detecting strings</h2></hgroup><article  id="detecting-strings" class="smaller ">
+
+<p><code>stringr</code> has a number of functions for detecting the presence of strings:</p>
+
+<ul>
+<li><p><code>str_detect()</code> gives a <code>TRUE</code>/<code>FALSE</code> result if the string was found</p></li>
+<li><p><code>str_starts()</code> and <code>str_ends()</code> make this matching specific to the start and end characters</p></li>
+<li><p><code>str_which()</code> returns the index values of strings within a vector that match a given search term</p></li>
+<li><p><code>str_locate()</code> returns the start and stop index values of matches (<code>NA</code> if not found)</p></li>
+<li><p><code>str_count()</code> returns the number of matches for a given search term</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>The matching functions are particularly useful for use in filtering tabular data.</p>
+
+<pre class = 'prettyprint lang-r'>str_detect(c(&quot;abcd&quot;, &quot;dcba&quot;), &quot;bc&quot;)</pre>
+
+<pre >## [1]  TRUE FALSE</pre>
+
+<pre class = 'prettyprint lang-r'>penguins %&gt;% 
+  filter(str_starts(species, &quot;Gent&quot;)) %&gt;% 
+  dim()</pre>
+
+<pre >## [1] 124   9</pre>
+
+</article></slide><slide class=""><hgroup><h2>Replacing matches</h2></hgroup><article  id="replacing-matches" class="smaller ">
+
+<p>The <code>str_replace()</code> function can be used to replace the first occurrence of a match to a search term …</p>
+
+<pre class = 'prettyprint lang-r'>s = str_flatten(rep(c(&quot;abc&quot;), 3))
+str_replace(s, &quot;a&quot;, &quot;A&quot;)</pre>
+
+<pre >## [1] &quot;Abcabcabc&quot;</pre>
+
+<p>… and the <code>str_replace_all()</code> function to replace all matches.</p>
+
+<pre class = 'prettyprint lang-r'>str_replace_all(s, &quot;ab&quot;, &quot;AB&quot;)</pre>
+
+<pre >## [1] &quot;ABcABcABc&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Regular expressions</h2></hgroup><article  id="regular-expressions" class="smaller ">
+
+<p>The search terms used for detecting and replacing strings here have been very simple. However, the <code>pattern</code> argument that these functions take are actually <em>regular expression</em> (<em>regex</em>) patterns.</p>
+
+<p>Regular expressions are a mini-language that allow for complex searching and pattern matching.</p>
+
+<p>For learning regular expressions:</p>
+
+<ul>
+<li><p>the <code>stringr</code> <a href='https://rstudio.github.io/cheatsheets/strings.pdf' title=''>cheat sheet</a> has a good introduction to the syntax</p></li>
+<li><p>use a regex tester, like <a href='https://spannbaueradam.shinyapps.io/r_regex_tester/' title=''>this one</a>, specifically designed for <code>R</code>.</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Regex primer</h2></hgroup><article  id="regex-primer" class="smaller columns-2">
+
+<p>Match types:</p>
+
+<ul>
+<li><p><code>x</code> a specified character</p></li>
+<li><p><code>[abc]</code> one of these characters</p></li>
+<li><p><code>[a-c]</code> one of these characters</p></li>
+<li><p><code>[:alpha:]</code>, <code>[:upper:]</code>, <code>[:lower:]</code> a character from these groups</p></li>
+<li><p><code>.</code> any character</p></li>
+<li><p><code>\\.</code> an actual <code>.</code></p></li>
+<li><p><code>\\s</code> any white space</p></li>
+<li><p><code>\\t</code> a tab specifically</p></li>
+<li><p><code>\\d</code> a digit</p></li>
+</ul>
+
+<p class="forceBreak">
+
+</p>
+
+<p>Match modifiers:</p>
+
+<ul>
+<li><p><code>^abc</code> at the start</p></li>
+<li><p><code>abc$</code> at the end</p></li>
+<li><p><code>this|that</code> or</p></li>
+<li><p><code>[^these]</code> anything but</p></li>
+</ul>
+
+<p>Match lengths:</p>
+
+<ul>
+<li><p><code>*</code> as many as possible (including 0)</p></li>
+<li><p><code>+</code> at least one</p></li>
+<li><p><code>{n}</code> a specific number</p></li>
+<li><p><code>{n,}</code> this many or more</p></li>
+<li><p><code>{n,m}</code> between <code>n</code> and <code>m</code></p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Extracting matches</h2></hgroup><article  id="extracting-matches" class="smaller ">
+
+<p>We’ll demonstrate a few examples using the <code>str_extract()</code> function to show what’s being retrieved in each case.</p>
+
+<pre class = 'prettyprint lang-r'>str_extract(&quot;123Hello456&quot;, &quot;[[:alpha:]]&quot;)  # extract the first alphabetic character</pre>
+
+<pre >## [1] &quot;H&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>str_extract(&quot;123Hello456&quot;, &quot;[[:alpha:]]+&quot;)  # extract one or more alphabetic characters occurring in a row</pre>
+
+<pre >## [1] &quot;Hello&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>str_extract(&quot;123Hello456&quot;, &quot;\\d+&quot;)  # extract one or more digit characters occurring in a row</pre>
+
+<pre >## [1] &quot;123&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p><code>str_extract()</code> will return the first relevant match only. Where there are multiple matches, <code>str_extract_all()</code> will return them as a list.</p>
+
+<pre class = 'prettyprint lang-r'>str_extract_all(&quot;123Hello456&quot;, &quot;\\d+&quot;)  # extract the digits as groups</pre>
+
+<pre >## [[1]]
+## [1] &quot;123&quot; &quot;456&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>str_extract_all(&quot;123Hello456&quot;, &quot;\\d+$&quot;)  # extract the digits at the end</pre>
+
+<pre >## [[1]]
+## [1] &quot;456&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>str_extract_all(&quot;123Hello456&quot;, &quot;\\d{2}$&quot;)  # extract the last two digits at the end</pre>
+
+<pre >## [[1]]
+## [1] &quot;56&quot;</pre>
+
+</article></slide><slide class="fill nobackground" style="background: #D6EAF8;"><hgroup><h2>Practical</h2></hgroup><article  id="practical-2" class="smaller ">
+
+<p>It’ll take a while to get to grips with regular expressions, but let’s give it a quick go. Using this base:</p>
+
+<pre class = 'prettyprint lang-r'>genes = c(&quot;Hprt1&quot;, &quot;Dmrt3&quot;, &quot;Rpl3&quot;, &quot;Rps2&quot;, &quot;Actb&quot;, &quot;Rad51&quot;)</pre>
+
+<ul>
+<li><p>Extract the alphabetic characters</p></li>
+<li><p>Extract the digits - what do we see for <code>Actb</code>?</p></li>
+<li><p>Which genes start with <code>R</code>?</p></li>
+<li><p>Which genes start with <code>Rpl</code> or <code>Rps</code>?</p></li>
+</ul>
 
 </article></slide><slide class="fill nobackground" style="background: #FDEBD0;"><hgroup><h2>Homework</h2></hgroup><article  id="homework-1" class="smaller ">
 
-<p>There’s some graphing homework to help cement what we’ve covered today!</p>
+<p>There’s some <code>dplyr</code> homework to help cement what we’ve covered today!</p>
 
-<p>The homework and instructions can be found within the main directory for the course: <code>./homework/Homework_4.Rmd</code></p></article></slide>
+<p>The homework and instructions can be found within the main directory for the course: <code>./homework/Homework_5.Rmd</code></p></article></slide>
 
 
   <slide class="backdrop"></slide>
