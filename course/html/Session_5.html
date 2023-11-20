@@ -2769,25 +2769,43 @@ of matches (<code>NA</code> if not found)</p></li>
 given search term</p></li>
 </ul>
 <hr />
-<p>The matching functions are particularly useful for use in filtering
-tabular data.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a><span class="fu">str_detect</span>(<span class="fu">c</span>(<span class="st">&quot;abcd&quot;</span>, <span class="st">&quot;dcba&quot;</span>), <span class="st">&quot;bc&quot;</span>)</span></code></pre></div>
-<pre><code>## [1]  TRUE FALSE</code></pre>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
-<span id="cb98-2"><a href="#cb98-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_starts</span>(species, <span class="st">&quot;Gent&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb98-3"><a href="#cb98-3" tabindex="-1"></a>  <span class="fu">dim</span>()</span></code></pre></div>
-<pre><code>## [1] 124   9</code></pre>
+<p>The <code>str_detect()</code> function return a logical vector
+detailing whether a search term was found.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a><span class="fu">str_detect</span>(<span class="fu">c</span>(<span class="st">&quot;abcd&quot;</span>, <span class="st">&quot;cdef&quot;</span>, <span class="st">&quot;efgh&quot;</span>), <span class="st">&quot;cd&quot;</span>)</span></code></pre></div>
+<pre><code>## [1]  TRUE  TRUE FALSE</code></pre>
+<p>Like <code>which()</code> in base <code>R</code>, the
+<code>str_which()</code> function returns the indices of the matching
+elements.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a><span class="fu">str_which</span>(<span class="fu">c</span>(<span class="st">&quot;abcd&quot;</span>, <span class="st">&quot;cdef&quot;</span>, <span class="st">&quot;efgh&quot;</span>), <span class="st">&quot;cd&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 1 2</code></pre>
+<hr />
+<p>The <code>str_detect()</code>, <code>str_starts()</code>, and
+<code>str_ends()</code> functions all return logical vectors that can be
+used for subsetting rows using <code>filter()</code>.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb100-2"><a href="#cb100-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_starts</span>(species, <span class="st">&quot;Gent&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb100-3"><a href="#cb100-3" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 9
+##   id    species island bill_length_mm bill_depth_mm flipper_length_mm
+##   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;
+## 1 G1    Gentoo  Biscoe           46.1          13.2               211
+## 2 G2    Gentoo  Biscoe           50            16.3               230
+## 3 G3    Gentoo  Biscoe           48.7          14.1               210
+## 4 G4    Gentoo  Biscoe           50            15.2               218
+## 5 G5    Gentoo  Biscoe           47.6          14.5               215
+## 6 G6    Gentoo  Biscoe           46.5          13.5               210
+## # ℹ 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 <div id="replacing-matches" class="section level2">
 <h2>Replacing matches</h2>
 <p>The <code>str_replace()</code> function can be used to replace the
 first occurrence of a match to a search term …</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">str_flatten</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;abc&quot;</span>), <span class="dv">3</span>))</span>
-<span id="cb100-2"><a href="#cb100-2" tabindex="-1"></a><span class="fu">str_replace</span>(s, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;A&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">str_flatten</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;abc&quot;</span>), <span class="dv">3</span>))</span>
+<span id="cb102-2"><a href="#cb102-2" tabindex="-1"></a><span class="fu">str_replace</span>(s, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;A&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Abcabcabc&quot;</code></pre>
 <p>… and the <code>str_replace_all()</code> function to replace all
 matches.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" tabindex="-1"></a><span class="fu">str_replace_all</span>(s, <span class="st">&quot;ab&quot;</span>, <span class="st">&quot;AB&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" tabindex="-1"></a><span class="fu">str_replace_all</span>(s, <span class="st">&quot;ab&quot;</span>, <span class="st">&quot;AB&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;ABcABcABc&quot;</code></pre>
 </div>
 <div id="regular-expressions" class="section level2">
@@ -2798,7 +2816,9 @@ functions take are actually <em>regular expression</em> (<em>regex</em>)
 patterns.</p>
 <p>Regular expressions are a mini-language that allow for complex
 searching and pattern matching.</p>
-<p>For learning regular expressions:</p>
+<p>We can give a teaser for regular expressions here, but it takes some
+effort to learn how to use them properly! For learning regular
+expressions:</p>
 <ul>
 <li><p>the <code>stringr</code> <a href="https://rstudio.github.io/cheatsheets/strings.pdf">cheat sheet</a>
 has a good introduction to the syntax</p></li>
@@ -2832,8 +2852,8 @@ specifically designed for <code>R</code>.</p></li>
 </ul>
 <p>Match lengths:</p>
 <ul>
-<li><p><code>*</code> as many as possible (including 0)</p></li>
-<li><p><code>+</code> at least one</p></li>
+<li><p><code>*</code> as many as possible, including 0</p></li>
+<li><p><code>+</code> as many as possible but at least 1</p></li>
 <li><p><code>{n}</code> a specific number</p></li>
 <li><p><code>{n,}</code> this many or more</p></li>
 <li><p><code>{n,m}</code> between <code>n</code> and
@@ -2844,23 +2864,23 @@ specifically designed for <code>R</code>.</p></li>
 <h2>Extracting matches</h2>
 <p>We’ll demonstrate a few examples using the <code>str_extract()</code>
 function to show what’s being retrieved in each case.</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" tabindex="-1"></a><span class="fu">str_extract</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;[[:alpha:]]&quot;</span>)  <span class="co"># extract the first alphabetic character</span></span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" tabindex="-1"></a><span class="fu">str_extract</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;[[:alpha:]]&quot;</span>)  <span class="co"># extract the first alphabetic character</span></span></code></pre></div>
 <pre><code>## [1] &quot;H&quot;</code></pre>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" tabindex="-1"></a><span class="fu">str_extract</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;[[:alpha:]]+&quot;</span>)  <span class="co"># extract one or more alphabetic characters occurring in a row</span></span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" tabindex="-1"></a><span class="fu">str_extract</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;[[:alpha:]]+&quot;</span>)  <span class="co"># extract one or more alphabetic characters occurring in a row</span></span></code></pre></div>
 <pre><code>## [1] &quot;Hello&quot;</code></pre>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" tabindex="-1"></a><span class="fu">str_extract</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)  <span class="co"># extract one or more digit characters occurring in a row</span></span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" tabindex="-1"></a><span class="fu">str_extract</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)  <span class="co"># extract one or more digit characters occurring in a row</span></span></code></pre></div>
 <pre><code>## [1] &quot;123&quot;</code></pre>
 <hr />
 <p><code>str_extract()</code> will return the first relevant match only.
 Where there are multiple matches, <code>str_extract_all()</code> will
 return them as a list.</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" tabindex="-1"></a><span class="fu">str_extract_all</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)  <span class="co"># extract the digits as groups</span></span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" tabindex="-1"></a><span class="fu">str_extract_all</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+&quot;</span>)  <span class="co"># extract the digits as groups</span></span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;123&quot; &quot;456&quot;</code></pre>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" tabindex="-1"></a><span class="fu">str_extract_all</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+$&quot;</span>)  <span class="co"># extract the digits at the end</span></span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" tabindex="-1"></a><span class="fu">str_extract_all</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+$&quot;</span>)  <span class="co"># extract the digits at the end</span></span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;456&quot;</code></pre>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" tabindex="-1"></a><span class="fu">str_extract_all</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d{2}$&quot;</span>)  <span class="co"># extract the last two digits at the end</span></span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" tabindex="-1"></a><span class="fu">str_extract_all</span>(<span class="st">&quot;123Hello456&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d{2}$&quot;</span>)  <span class="co"># extract the last two digits at the end</span></span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;56&quot;</code></pre>
 </div>
@@ -2868,7 +2888,7 @@ return them as a list.</p>
 <h2>Practical</h2>
 <p>It’ll take a while to get to grips with regular expressions, but
 let’s give it a quick go. Using this base:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" tabindex="-1"></a>genes <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Hprt1&quot;</span>, <span class="st">&quot;Dmrt3&quot;</span>, <span class="st">&quot;Rpl3&quot;</span>, <span class="st">&quot;Rps2&quot;</span>, <span class="st">&quot;Actb&quot;</span>, <span class="st">&quot;Rad51&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" tabindex="-1"></a>genes <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Hprt1&quot;</span>, <span class="st">&quot;Dmrt3&quot;</span>, <span class="st">&quot;Rpl3&quot;</span>, <span class="st">&quot;Rps2&quot;</span>, <span class="st">&quot;Actb&quot;</span>, <span class="st">&quot;Rad51&quot;</span>)</span></code></pre></div>
 <ul>
 <li><p>Extract the alphabetic characters</p></li>
 <li><p>Extract the digits - what do we see for

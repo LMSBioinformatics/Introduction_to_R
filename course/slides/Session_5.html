@@ -4485,17 +4485,36 @@ str_glue(&quot;I&#39;m {name}. Next year, I&#39;ll be {age + 1}.&quot;)</pre>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
 
-<p>The matching functions are particularly useful for use in filtering tabular data.</p>
+<p>The <code>str_detect()</code> function return a logical vector detailing whether a search term was found.</p>
 
-<pre class = 'prettyprint lang-r'>str_detect(c(&quot;abcd&quot;, &quot;dcba&quot;), &quot;bc&quot;)</pre>
+<pre class = 'prettyprint lang-r'>str_detect(c(&quot;abcd&quot;, &quot;cdef&quot;, &quot;efgh&quot;), &quot;cd&quot;)</pre>
 
-<pre >## [1]  TRUE FALSE</pre>
+<pre >## [1]  TRUE  TRUE FALSE</pre>
+
+<p>Like <code>which()</code> in base <code>R</code>, the <code>str_which()</code> function returns the indices of the matching elements.</p>
+
+<pre class = 'prettyprint lang-r'>str_which(c(&quot;abcd&quot;, &quot;cdef&quot;, &quot;efgh&quot;), &quot;cd&quot;)</pre>
+
+<pre >## [1] 1 2</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>The <code>str_detect()</code>, <code>str_starts()</code>, and <code>str_ends()</code> functions all return logical vectors that can be used for subsetting rows using <code>filter()</code>.</p>
 
 <pre class = 'prettyprint lang-r'>penguins %&gt;% 
   filter(str_starts(species, &quot;Gent&quot;)) %&gt;% 
-  dim()</pre>
+  head()</pre>
 
-<pre >## [1] 124   9</pre>
+<pre >## # A tibble: 6 × 9
+##   id    species island bill_length_mm bill_depth_mm flipper_length_mm
+##   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;
+## 1 G1    Gentoo  Biscoe           46.1          13.2               211
+## 2 G2    Gentoo  Biscoe           50            16.3               230
+## 3 G3    Gentoo  Biscoe           48.7          14.1               210
+## 4 G4    Gentoo  Biscoe           50            15.2               218
+## 5 G5    Gentoo  Biscoe           47.6          14.5               215
+## 6 G6    Gentoo  Biscoe           46.5          13.5               210
+## # ℹ 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Replacing matches</h2></hgroup><article  id="replacing-matches" class="smaller ">
 
@@ -4518,7 +4537,7 @@ str_replace(s, &quot;a&quot;, &quot;A&quot;)</pre>
 
 <p>Regular expressions are a mini-language that allow for complex searching and pattern matching.</p>
 
-<p>For learning regular expressions:</p>
+<p>We can give a teaser for regular expressions here, but it takes some effort to learn how to use them properly! For learning regular expressions:</p>
 
 <ul>
 <li><p>the <code>stringr</code> <a href='https://rstudio.github.io/cheatsheets/strings.pdf' title=''>cheat sheet</a> has a good introduction to the syntax</p></li>
@@ -4557,8 +4576,8 @@ str_replace(s, &quot;a&quot;, &quot;A&quot;)</pre>
 <p>Match lengths:</p>
 
 <ul>
-<li><p><code>*</code> as many as possible (including 0)</p></li>
-<li><p><code>+</code> at least one</p></li>
+<li><p><code>*</code> as many as possible, including 0</p></li>
+<li><p><code>+</code> as many as possible but at least 1</p></li>
 <li><p><code>{n}</code> a specific number</p></li>
 <li><p><code>{n,}</code> this many or more</p></li>
 <li><p><code>{n,m}</code> between <code>n</code> and <code>m</code></p></li>

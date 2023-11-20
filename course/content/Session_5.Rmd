@@ -957,16 +957,26 @@ str_trim(c("     A", "  AB  ", "ABC   "))
 
 ---
 
-The matching functions are particularly useful for use in filtering tabular data.
+The `str_detect()` function return a logical vector detailing whether a search term was found.
 
 ```{r}
-str_detect(c("abcd", "dcba"), "bc")
+str_detect(c("abcd", "cdef", "efgh"), "cd")
 ```
+
+Like `which()` in base `R`, the `str_which()` function returns the indices of the matching elements.
+
+```{r}
+str_which(c("abcd", "cdef", "efgh"), "cd")
+```
+
+---
+
+The `str_detect()`, `str_starts()`, and `str_ends()` functions all return logical vectors that can be used for subsetting rows using `filter()`.
 
 ```{r}
 penguins %>% 
   filter(str_starts(species, "Gent")) %>% 
-  dim()
+  head()
 ```
 
 ## Replacing matches
@@ -990,7 +1000,7 @@ The search terms used for detecting and replacing strings here have been very si
 
 Regular expressions are a mini-language that allow for complex searching and pattern matching.
 
-For learning regular expressions:
+We can give a teaser for regular expressions here, but it takes some effort to learn how to use them properly! For learning regular expressions:
 
 - the `stringr` [cheat sheet](https://rstudio.github.io/cheatsheets/strings.pdf) has a good introduction to the syntax
 
@@ -1032,9 +1042,9 @@ Match modifiers:
 
 Match lengths:
 
-- `*` as many as possible (including 0)
+- `*` as many as possible, including 0
 
-- `+` at least one
+- `+` as many as possible but at least 1
 
 - `{n}` a specific number
 
