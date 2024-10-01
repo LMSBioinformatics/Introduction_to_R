@@ -49,6 +49,8 @@ Get going by downloading and installing `R` and `RStudio` (in that order).
 
 - Introduction to `R` and `RStudio`
 
+- Basic syntax
+
 - Basic data types
 
 - Functions

@@ -39,6 +39,8 @@ knitr::opts_chunk$set(
 
 - Introduction to `R` and `RStudio`
 
+- Basic syntax
+
 - Basic data types
 
 - Functions
