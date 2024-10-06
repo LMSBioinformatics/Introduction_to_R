@@ -179,7 +179,7 @@ my variable = 1  # will also also fail
 
 ---
 
-Object names can only contain, numbers, characters, underscores, and points.
+Object names can only contain numbers, characters, underscores, and points.
 
 Names should be short and meaningful so that you can type them easily and know what they store.
 
@@ -261,7 +261,7 @@ Breaking it down:
 
 ```{r, eval=FALSE}
 mean(one_to_ten)  # is the same as ...
-mean(x=one_to_tex)  # ... this. The names of positional arguments are implicit
+mean(x=one_to_ten)  # ... this. The names of positional arguments are implicit
 ```
 
 - *optional* arguments have a preset value (e.g. `trim = 0`) and, if they're not specified, the preset will be used. For clarity, when we do specify optional arguments, it's good practice to use their names.
@@ -446,11 +446,11 @@ length(a)
 a[4]
 ```
 
-Here, `R` uses the `NA` (not available) logical constant to signify that a value is missing.
+Here, `R` uses the `NA` (not available) logical constant to signify that the value is missing.
 
 ---
 
-Similarly, you can't index a named vector with a name that it does not contain.
+Similarly, you can't index a named vector using a name that it doesn't contain.
 
 ```{r}
 names(a)
@@ -460,7 +460,7 @@ names(a)
 a["fourth"]
 ```
 
-Again, `R` uses the `NA` (not available) logical constant to signify that a value is missing.
+Again, `R` uses the `NA` (not available) logical constant to signify that the value is missing.
 
 ## Practical {data-background=#D6EAF8}
 
@@ -721,7 +721,7 @@ Data frames can be very large and cumbersome to view. To make things easier, we 
 
 - `tail()` to display the last few rows
 
-- `View()`, which in `RStudio` will open a separate tab to display the contents
+- `View()` in `RStudio` will open a separate tab to display the contents
 
 - `str()` to view its structure and the basic types of its component vectors
 
