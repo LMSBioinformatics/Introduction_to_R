@@ -1,0 +1,1107 @@
+---
+title: "Introduction To R | Session 5"
+author:
+  name: "LMS Bioinformatics Facility"
+  email: "bioinformatics@lms.mrc.ac.uk"
+output:
+  ioslides_presentation:
+    widescreen: yes
+    smaller: yes
+    css: style/ioslides_style.css
+    logo: style/LMS_logo.svg
+    highlight: tango
+  html_document:
+    theme: lumen
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+knit: (function(input, ...) {
+  rmarkdown::render(
+    input, output_dir="../slides", clean=T, output_format="ioslides_presentation"); 
+  rmarkdown::render(
+    input, output_dir="../html", clean=T, output_format="html_document")
+  })
+---
+
+```{r setup, include=FALSE}
+# setwd("this/is/a/path)
+
+knitr::opts_chunk$set(
+  echo=TRUE,
+  root.dir=getwd())
+```
+
+## Recapping
+
+**Session 4** covered:
+
+- What makes a good figure?
+  
+- Colour
+  
+- `viridis` colour library
+  
+- Plotting with `ggplot2`
+
+  * Aesthetics
+  
+  * Geometries
+  
+  * Themes
+  
+  * Facets
+  
+  * Saving
+
+## Recapping as code
+
+```{r, eval=FALSE}
+# ggplot2
+install.packages("ggplot2")
+library("ggplot2")
+
+# viridis
+install.packages("viridis")
+library("viridis")
+
+# ggplot
+g = ggplot(df, aes(x=x_data, y=y_data, colour=a_factor))
+
+# geoms
+geom_point()
+geom_smooth(method="lm")
+geom_violin()
+geom_jitter()
+geom_histogram()
+```
+
+---
+
+```{r, eval=FALSE}
+# Themes
+theme_bw()
+
+# Colours
+scale_colour_viridis_d()
+scale_colour_viridis_c()
+
+# Facets
+facet_wrap()
+facet_grid()
+
+# Scales
+coord_cartesian()
+scale_x_continuous()
+
+# Saving
+ggsave()
+```
+
+## Homework {data-background=#FDEBD0}
+
+What did you learn by trying out your own analysis?
+
+Do we need to recap anything?
+
+## Learning objectives
+
+**Session 5**
+  
+- Tidy data
+
+- The tidyverse
+
+  * Reading and writing with `readr`
+  
+  * Manipulating data with `dplyr`
+  
+  * String operations with `stringr`
+  
+  * Piping
+
+- Regular expressions
+
+## The tidyverse
+
+The `tidyverse` is composed of a number of core packages, which are increasingly used in place of the equivalent functionality from base `R`:
+
+- [`ggplot2`](https://rstudio.github.io/cheatsheets/data-visualization.pdf): beautiful graphs
+
+- [`readr`](https://rstudio.github.io/cheatsheets/data-import.pdf): reading data
+
+- [`dplyr`](https://rstudio.github.io/cheatsheets/data-transformation.pdf): manipulating data
+
+- [`purrr`](https://rstudio.github.io/cheatsheets/purrr.pdf): iteration
+
+- [`forcats`](https://rstudio.github.io/cheatsheets/factors.pdf): dealing with factors
+
+- [`stringr`](https://rstudio.github.io/cheatsheets/strings.pdf): string manipulations
+
+- [`lubridate`](https://rstudio.github.io/cheatsheets/lubridate.pdf): time and date manipulation
+
+- [`tidyr`](https://rstudio.github.io/cheatsheets/tidyr.pdf): glue functions
+
+---
+
+The core tidyverse packages can be installed individually or as a complete bundle from CRAN ...
+
+```{r, eval=FALSE}
+install.packages("tidyverse")
+```
+
+... and, for simplicity, we can load them together.
+
+```{r}
+library(tidyverse)
+```
+
+---
+
+Tidyverse packages conform to a central ethos; there's even a [manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html)!
+
+At the core, tidyverse packages aim to:
+
+- build on existing data structures
+
+- use simple functions as building blocks to gain complexity
+
+- be logical and easy to use
+
+In other words, they aim make your code efficient, easy to write, and easy to read.
+
+## Tidy data
+
+To meet these aims, tidyverse packages are opinionated!
+
+Specifically, they like to import, manipulate, and display *tidy* columnar data, where:
+
+- every row is an observation ...
+
+- ... of variables that have individual columns of suitable classes
+
+- such that each value has its own cell
+
+## {.columns-2}
+
+- Variables don't have their own columns
+
+- Observations are split across rows
+
+| SampleID | Variable | Value |
+|:--------:|:--------:|:-----:|
+| 1        | Height   | 187   |
+| 1        | Weight   | 79    |
+| 2        | Height   | 190   |
+| 2        | Weight   | 81    |
+| 3        | Height   | 170   |
+| 3        | Weight   | 67    |
+
+&nbsp;
+
+How would we graph `Height` vs `Weight`?
+
+<p class="forceBreak"></p>
+
+- Variables have their own columns
+
+- One row per observation
+
+| SampleID | Height | Weight |
+|:--------:|:------:|:------:|
+| 1        | 187   | 79      |
+| 2        | 190   | 81      |
+| 3        | 170   | 67      |
+
+## {.columns-2}
+
+- Columns don't represent a single variable
+
+- Columns have the wrong class
+
+| SampleID | Timepoint | Incidence |
+|:--------:|:---------:|:---------:|
+| 1        | 1         | 7/20      |
+| 1        | 2         | 2/10      |
+| 2        | 1         | 10/43     |
+| 2        | 2         | 4/14      |
+| 3        | 1         | 3/9       |
+| 3        | 2         | 8/21      |
+
+&nbsp;
+
+How would we calculate the average `Incidence`?
+
+<p class="forceBreak"></p>
+
+- Variables have their own columns
+
+- Columns have the correct class
+
+| SampleID | Timepoint | Cases | Observations |
+|:--------:|:---------:|:-----:|:------------:|
+| 1        | 1         | 7     | 20           |
+| 1        | 2         | 2     | 10           |
+| 2        | 1         | 10    | 43           |
+| 2        | 2         | 4     | 14           |
+| 3        | 1         | 3     | 9            |
+| 3        | 2         | 8     | 21           |
+
+## {.columns-2}
+
+- Identifiers aren't a column
+
+|          | Height | Weight |
+|---------:|:------:|:------:|
+| 1        | 187    | 79     |
+| 2        | 190    | 81     |
+| 3        | 170    | 67     |
+| 4        | 175    | 70     |
+| 5        | 180    | 89     |
+
+&nbsp;
+
+How would we add identifiers as labels in plots?
+
+<p class="forceBreak"></p>
+
+- Identifiers are a column
+
+| SampleID | Height | Weight |
+|:--------:|:------:|:------:|
+| 1        | 187    | 79     |
+| 2        | 190    | 81     |
+| 3        | 170    | 67     |
+| 4        | 175    | 70     |
+| 5        | 180    | 89     |
+
+## Wide vs long {.columns-2}
+
+- One variable split between multiple columns
+
+- No means to subset by factor
+
+| SampleID | Height | Weight_Pre | Weight_Post |
+|:--------:|:------:|:----------:|:-----------:|
+| 1        | 187    | 79         | 77          |
+| 2        | 190    | 81         | 78          |
+| 3        | 170    | 67         | 67          |
+
+&nbsp;
+
+- Easy plotting of `Weight_Post` vs `Weight_Pre`
+
+<p class="forceBreak"></p>
+
+- Variables have individual columns
+
+- Grouping factor partitions observations
+
+| SampleID | Status | Height | Weight |
+|:--------:|:------:|:------:|:------:|
+| 1        | Pre    | 187    | 79     |
+| 1        | Post   | 187    | 77     |
+| 2        | Pre    | 190    | 81     |
+| 2        | Post   | 190    | 78     |
+| 3        | Pre    | 170    | 67     |
+| 3        | Post   | 170    | 67     |
+
+## Reading data
+
+The `readr` package replaces the base `R` functions for reading and writing tabular data.
+
+`readr` has several more helpful presets for importing data in different formats:
+
+- `read_csv()`: comma-separated files
+
+- `read_tsv()`: tab separated files (so we don't have to specify `sep="\t"`)
+
+- `read_table()`: white-space separated files (handles single or multiple spaces automatically)
+
+- `read_delim()`: files with a user-defined delimiter
+
+- `read_fwf()`: fixed width files, where each column occupies a set number of characters
+
+All `readr` functions transparently read from compressed (`.gz`, `.bz2`, `.xz`, or `.zip`) files and, as with the base functions, can read from the clipboard and from URLs.
+
+---
+
+The `readr` functions provide a summary of the imported data, including column classes.
+
+```{r}
+data = read_tsv("data/1_read_delim.txt")
+```
+
+These accept a variety of arguments shared with the base `R` functions, such as:
+
+- `skip=0` specifies the number of lines to skip at the start of the file
+
+- `n_max` specifies the number of lines to read
+
+- `comment=""` can be used to specify that `#` character lines are comments, for example
+
+---
+
+As you might expect, the common `read_...()` functions have `write_...()` equivalents:
+
+- `read_csv()`: comma-separated files
+
+- `read_tsv()`: tab separated files (so we don't have to specify `sep="\t"`)
+
+- `read_delim()`: files with a user-defined delimiter
+
+Both the read and write functions from `readr` are multi-threaded and execute far more quickly than the equivalent functions from base `R`.
+
+If you're working with particularly large files, they also automatically display a progress bar!
+
+## Tibbles
+
+The `readr` functions return their data as a `tibble`, an opinionated `data frame`.
+
+Tibbles don't ...
+
+- support `rownames()`
+
+- allow recycling of values when creating columns
+
+but do:
+
+- print nicely (default to printing `head()` rather than the whole table)
+
+- work quickly in common operations, as they're optimised for column-based indexing
+
+- try to return a another `tibble` if possible
+
+---
+
+Tibbles can be indexed and subset using square brackets `[ , ]`.
+
+```{r}
+data[, 1]
+```
+
+However, unlike data frames, where subsetting a single column will return a vector of its contents, subsetting using square brackets always returns another tibble.
+
+Tibbles like to return tibbles!
+
+---
+
+Vectors of column contents are accessed using the `$` operator, as with data frames, ...
+
+```{r}
+data$ID
+```
+
+... or with double square brackets `[[ ]]`, similarly to `list` objects.
+
+```{r}
+data[[1]]
+```
+
+## Rownames
+
+By default, the `readr` functions assume that if the first row contains fewer columns than those that follow, the first column of the table are row names.
+
+As tibbles don't support row names, it's assigned a placeholder column name ...
+
+```{r, message=FALSE}
+data = read_tsv("data/3_penguin_metadata.tsv")
+colnames(data)
+```
+
+This can be corrected with `colnames()` or, in combination with `skip=`, we can specify names up front.
+
+```{r, message=FALSE}
+data = read_tsv(
+  "data/3_penguin_metadata.tsv",
+  col_names=c("ID", "Species", "Sex"),
+  skip=1)
+```
+
+---
+
+Data frames can be coerced to tibbles using `as_tibble()` ... but tibbles don't support row names!
+
+```{r}
+data = read.delim("data/1_read_delim.txt", sep="\t", row.names=1)
+rownames(data)
+```
+
+```{r}
+as_tibble(data)
+```
+
+---
+
+To transfer existing row names to a column, we can specify a column name to receive them.
+
+```{r}
+as_tibble(data, rownames="ID")
+```
+
+The `tibble` package, loaded as part of the `tidyverse`, provides `rownames_to_column(var="name")` for doing this ahead of time. When coercing a tibble to a data frame, `column_to_rownames(var="name")` will perform the reverse operation.
+
+## Tidying data
+
+The `tidyr` package provides various functions to assist in re-shaping tabular data:
+
+- `pivot_longer()` collects multiple columns of the same variable and creates a factor column
+
+- `pivot_wider()` spreads a variable column by a factor column
+
+- `unite()` merges multiple columns into one
+
+- `separate()` splits a single column on a specified separator character
+
+---
+
+Most commonly, we need to *pivot* data. A wide-format table can be stretched using `pivot_longer()`.
+
+```{r}
+data = tibble(SampleID=c(1, 2), Height=c(187, 190), Weight_Pre=c(79, 81), Weight_Post=c(77, 78))
+data
+```
+
+```{r}
+data = pivot_longer(
+  data, cols=c("Weight_Pre", "Weight_Post"), names_to="Status", values_to="Weight", names_prefix="Weight_")
+data
+```
+
+---
+
+`pivot_wider()` will reverse the transformation, reverting to wide-form data.
+
+```{r}
+data = pivot_wider(data, names_from="Status", values_from="Weight", names_prefix="Weight_")
+data
+```
+
+## Practical {data-background=#D6EAF8}
+
+Let's try out using `unite()` and `separate()`.
+
+- Use `read_csv()` to import `data/5_adelies.csv.gz`
+
+- What makes this dataset tidy or untidy?
+
+- Using the help for `separate()`, split the `date` column appropriately
+
+- What classes are the columns we made? How might we correct this?
+
+- Using the help for `unite()`, join the two columns back into one
+
+## Building complexity
+
+The more comfortable we become using `R`, the less we use individual variables ...
+
+```{r, message=FALSE}
+penguins = read_csv("data/1_palmerpenguins.csv")
+
+adelies = which(penguins$species == "Adelie")
+adelie_weights = penguins[adelies, ]$body_mass_g
+mean(adelie_weights, na.rm=TRUE)
+```
+
+... and the more we use *nested* functions.
+
+```{r}
+mean(penguins[which(penguins$species == "Adelie"), ]$body_mass_g, na.rm=TRUE)
+```
+
+Although this keeps our environment clean, nesting can cause code to become highly confusing!
+
+---
+
+The `tidyverse` aims to solve this problem with the use of the pipe, `%>%` from the `magrittr` package, which can be used to chain operations.
+
+Behind the scenes, the pipe acts to store intermediate results and automatically pass them to the next function in the series, such that ...
+
+```
+data %>% function_1() %>% function_2()
+```
+
+... is equivalent to.
+
+```
+function_2(function_1(data))
+```
+
+For convenience, `RStudio` allows us to insert a pipe using the `⌘+Shift+M` (Mac) or `CTRL+Shift+M` (Windows) key combination.
+
+---
+
+`dplyr`, which automatically loads the pipe from `magrittr` for us, provides a range of functions designed to work with it:
+
+- `filter()` extracts rows by logical conditions
+
+- `select()` subsets columns by name (returning a data frame or tibble)
+
+- `pull()` extracts the contents of a column by name (returning a vector)
+
+- `mutate()` creates new columns based on data in existing columns
+
+- `arrange()` re-orders rows
+
+- `group_by()` and `summarise()` compute summary metrics and projections
+
+---
+
+Using the functions from `dplyr`, the pipe allow us to turn ...
+
+```{r, eval=FALSE}
+mean(penguins[which(penguins$species == "Adelie"), ]$body_mass_g, na.rm=TRUE)
+```
+
+... into ...
+
+```{r, eval=FALSE}
+penguins %>% filter(species=="Adelie") %>% pull(body_mass_g) %>% mean(na.rm=TRUE)
+```
+
+... or, for maximum readability:
+
+```{r}
+penguins %>% 
+  filter(species=="Adelie") %>%
+  pull(body_mass_g) %>%
+  mean(na.rm=TRUE)
+```
+
+## Filter
+
+`dplyr`'s `filter()` allows row filtering based on one or more logical criteria. This can be on equality or set membership ...
+
+```{r}
+penguins %>%
+  filter(species=="Adelie", island %in% c("Torgersen", "Biscoe")) %>%
+  nrow()
+```
+
+... or according to numerical comparisons.
+
+```{r}
+penguins %>% 
+  filter(species=="Adelie", bill_length_mm>40) %>%
+  nrow()
+```
+
+## Select
+
+`dplyr`'s `select()` allows column subsetting by name and index, including for ranges specified either way.
+
+```{r}
+penguins %>% 
+  select(id, species, island) %>% 
+  colnames()
+```
+
+As with square bracket indexing, columns prefixed with a minus sign (`-`) are dropped.
+
+```{r}
+penguins %>% 
+  select(-(id:island)) %>% 
+  colnames()
+```
+
+---
+
+We can also use `select()` to rename and re-arrange columns ...
+
+```{r}
+penguins %>% 
+  select(id, location=island, species) %>% 
+  colnames()
+```
+
+... or this can be done manually with `rename()` and `relocate()`.
+
+```{r}
+penguins %>% 
+  select(id, species, island) %>% 
+  rename(location=island) %>% 
+  relocate(location, .after=id) %>% 
+  colnames()
+```
+
+## Pull
+
+Where `select()` returns a tabular data format, `pull()` returns a vector, equivalent to using the `$` operator.
+
+```{r}
+penguins %>% 
+  pull(flipper_length_mm) %>% 
+  head()
+```
+
+`pull()` also allows the `names()` of the vector to be set using the values from a second column.
+
+```{r}
+penguins %>% 
+  pull(flipper_length_mm, id) %>% 
+  head()
+```
+
+## Mutate
+
+`mutate()` streamlines the process of adding columns calculated from existing data in the table.
+
+```{r}
+penguins %>% 
+  mutate(bill_ratio=bill_length_mm/bill_depth_mm) %>% 
+  select(id, bill_length_mm, bill_depth_mm, bill_ratio) %>% 
+  head(2)
+```
+
+`mutate()` accepts a few handy arguments:
+
+- `.keep=` (`all`, `used`, `unused`, `none`) determines if the variables used (or not used) in the calculation should be kept in the output
+
+- `.before=` and `.after=` place the new column before or after another, respectively
+
+---
+
+We can use the `.keep` argument to drop columns that we're replacing ...
+
+```{r}
+penguins %>% 
+  mutate(bill_ratio=bill_length_mm/bill_depth_mm, .keep="unused") %>% 
+  colnames()
+```
+
+... or, alternatively, `transmute()` drops all columns that aren't manually specified.
+
+```{r}
+penguins %>% 
+  transmute(id, species, bill_ratio=bill_length_mm/bill_depth_mm) %>% 
+  head(3)
+```
+
+## Arrange
+
+The `arrange()` function replaces the functionality of base `R`'s `order()`, allowing the sorting of tabular data by one or more columns.
+
+As with `order()`, by default, this is in ascending order. We can enforce descending order using a minus sign (`-`) or using `dplyr`'s `desc()` function.
+
+```{r}
+penguins %>% 
+  arrange(-bill_length_mm, desc(bill_depth_mm)) %>% 
+  head(3)
+```
+
+## Summarise
+
+In combination with `group_by()`, `summarise()` (`summarize()` is fine too) can be used to compute summary tables using a number of summary functions:
+
+- `n()` and `n_distinct()` retrieves the number of rows or unique rows (according to the defined groups)
+
+- `mean()` and `median()` compute averages
+
+- `first()`, `nth()` and `last()` retrieve values from specific positions in the table
+
+- `min()`, `max()`, `IQR()`, `mad()`, `sd()`, and `var()` compute summary statistics
+
+There are also functions to subset representative groups of rows:
+
+- `slice_sample(n=)` selects a random assortment of rows
+
+- `slice_min(column, n=)` and `slice_max(column, n=)` select rows with the lowest or highest values in a column
+
+-  `slice_head(n=)` and `slice_tail(n=)` select the first and last rows, respectively
+
+---
+
+`group_by()` accepts one or more column names, which are combined to create a grouping factor for use with `summarise()`.
+
+```{r, message=FALSE}
+penguins %>% 
+  group_by(species) %>% 
+  summarise(count=n(), locations=n_distinct(island))
+```
+
+---
+
+```{r, message=FALSE}
+penguins %>% 
+  drop_na(sex, body_mass_g) %>%  # drop_na() works like na.omit() but we can specify specific columns
+  group_by(species, sex) %>% 
+  summarise(count=n(), ave_body_mass_g=median(body_mass_g))
+```
+
+---
+
+Once defined, the groups projected onto the table by `group_by()` apply to all downstream functions in the chain until they are removed using `ungroup()` - groupings don't just apply to `summarise()` functions!
+
+```{r, message=FALSE}
+penguins %>% 
+  select(id, species, sex, body_mass_g) %>% 
+  drop_na(sex) %>% 
+  group_by(species, sex) %>% 
+  slice_max(body_mass_g, n=1, with_ties=FALSE)
+```
+
+Here, the grouping applies to `slice_max()`, which extracts the row with the highest value recorded for `body_mass_g` for each group individually, rather than for the dataset as a whole.
+
+## Practical {data-background=#D6EAF8}
+
+Let's practice using pipes with the `penguins` dataset.
+
+- Convert `body_mass_g` to a `body_mass_kg` column
+
+- Grouping by `species`, `sex`, and `year` ...
+
+- ... calculate a summary table of the average `body_mass_kg`
+
+## Pipe outputs
+
+As with normal assignment, we can assign right-to-left with the `=` and `<-` operators ...
+
+```
+result =
+  data %>% 
+  function()
+```
+
+... but, with long sequences of piped functions, this can look clumsy. This is one of the few times when left-to-right assignment using the `->` operator can enhance clarity.
+
+```
+data %>% 
+  function() ->
+  result
+```
+
+---
+
+It's also possible to extract data from the middle of a sequence of piped functions using the special `%T>%` (*tee*) pipe provided by `magrittr`.
+
+This is especially useful for outputting intermediate results.
+
+```{r, message=FALSE}
+penguins %>%
+  mutate(body_mass_kg=body_mass_g/1000, .keep="unused") %T>%  # the next command won't pass on its result
+    write_tsv("outputs/5_tee_example.tsv") %>%  # the previous result is passed on instead
+  drop_na(sex, body_mass_kg) %>% 
+  group_by(species, sex, year) %>% 
+  summarise(ave_body_mass_kg=mean(body_mass_kg)) ->
+  result
+
+head(result, 4)
+```
+
+---
+
+The tee pipe can also be used to extract intermediate results as objects. To do this, we wrap the assignment command in curly brackets (`{ }`) and make use of the `<<-` operator to store the result in the global environment ...
+
+```{r, message=FALSE}
+penguins %>%
+  mutate(body_mass_kg=body_mass_g/1000, .keep="unused") %T>%
+    {penguins_kg <<- .} %>%  # store the previous result, exposed with the `.` placeholder
+  drop_na(sex, body_mass_kg) %>% 
+  group_by(species, sex, year) %>% 
+  summarise(mean(body_mass_kg)) ->
+  result
+```
+
+... although it's likely clearer to use simply use two pipe commands!
+
+```{r, message=FALSE}
+penguins %>%
+  mutate(body_mass_kg=body_mass_g/1000, .keep="unused") ->
+  penguins_kg
+
+penguins_kg %>% 
+  drop_na(sex, body_mass_kg) %>% 
+  group_by(species, sex, year) %>% 
+  summarise(mean(body_mass_kg)) ->
+  result
+```
+
+## Merging tabular data
+
+Designed to work with or without the pipe, `dplyr` has a number of functions for merging tabular data.
+
+- `left_join(x, y)` join two tables, keeping all rows in `x`
+
+- `right_join(x, y)` join two tables, keeping all rows `y`
+
+- `inner_join(x, y)` join two tables, keeping rows in common
+
+- `full_join(x, y)` join two tables, keeping all rows
+
+As with the `merge()` function from base `R`, by default, all columns shared between the two tables are used as keys in the merge process. To control this, the `by=` argument can be set:
+
+- `by="key"` / `by=c("key1", "key2")` taking column names individually or as a vector
+
+- `by=join_by(key == identifier)` using the `join_by()` function to allow mappings between columns with different names
+
+---
+
+The base `R` `merge()` function ...
+
+```{r, message=FALSE}
+df = read_tsv("data/1_read_delim.txt")
+df2 = read_tsv("data/1_read_delim_merge.txt")
+
+merge(df, df2, by="ID", all=TRUE) %>%
+  dim()
+```
+
+... can be swapped out for the `tidyr` drop-in replacements.
+
+```{r}
+full_join(df, df2, by="ID") %>%
+  dim()
+```
+
+## Manipulating strings
+
+It's worth touching on some of the functionality within `stringr`, which can assist with:
+
+- Forming strings, padding and de-padding white space
+
+- Pattern recognition
+
+- Pattern replacement
+
+## Glue
+
+Some of the most useful day to day functionality in `stringr` is provided by the the *glue* functions. These replace the functionality of `paste()` in base `R`, composing strings from variables.
+
+`str_glue()` (actually a wrapper around `glue::glue()`) interprets the contents of any curly brackets it encounters (`{ }`) as variables or commands.
+
+```{r}
+name = "Tim"
+age = 24
+
+str_glue("I'm {name}. Next year, I'll be {age + 1}.")
+```
+
+Here, `name` is inserted by referencing the variable name. Separately, a computation is conducted on `age` and the `numeric` result is automatically coerced to `character`.
+
+---
+
+`str_glue()` works identically with vectors ...
+
+```{r}
+name = c("Tim", "Lucy")
+age = c(24, 26)
+
+str_glue("I'm {name}. Next year, I'll be {age + 1}.")
+```
+
+... but, for tabular data, we instead use `str_glue_data` (actually a wrapper around `glue::glue_data()`), which will then use column names to extract the required information.
+
+```{r}
+data.frame(name=c("Tim", "Lucy"), age=c(24, 26)) %>% 
+  str_glue_data("I'm {name}. Next year, I'll be {age + 1}.")
+```
+
+---
+
+To complement the glue functions, we can collapse a vector to a single string with `str_flatten()`.
+
+```{r}
+str_flatten(c("Hello, ", "world!"))
+```
+
+This takes an optional argument, `collapse=` that specifies the character or string to insert between the elements of the input vector.
+
+If the supplied vector is not of class `character`, the contents will be coerced as required.
+
+```{r}
+str_flatten(c(1, 2, 3, 4, 5), collapse=" < ")
+```
+
+## Padding strings
+
+Strings can be padded with white space (or another specified character) using `str_pad()`.
+
+The `width=` and `side=` arguments can be used to control and amount of padding and its position relative to the supplied text (`left` (default), `both`, or `right`).
+
+```{r}
+str_pad(c("A", "AB", "ABC"), width=10, side="left")
+```
+
+```{r}
+str_pad(c("A", "AB", "ABC"), width=10, side="both")
+```
+
+```{r}
+str_pad(c("A", "AB", "ABC"), width=10, side="right")
+```
+
+---
+
+Padded strings can have their white space stripped using `str_trim()`.
+
+As with `str_pad()`, the `side=` argument controls which side is trimmed but defaults to `both`.
+
+```{r}
+str_trim(c("     A", "  AB  ", "ABC   "))
+```
+
+## Detecting strings
+
+`stringr` has a number of functions for detecting the presence of strings:
+
+- `str_detect()` gives a `TRUE`/`FALSE` result if the string was found
+
+- `str_starts()` and `str_ends()` make this matching specific to the start and end characters
+
+- `str_which()` returns the index values of strings within a vector that match a given search term
+
+- `str_locate()` returns the start and stop index values of matches (`NA` if not found)
+
+- `str_count()` returns the number of matches for a given search term
+
+---
+
+The `str_detect()` function return a logical vector detailing whether a search term was found.
+
+```{r}
+str_detect(c("abcd", "cdef", "efgh"), "cd")
+```
+
+Like `which()` in base `R`, the `str_which()` function returns the indices of the matching elements.
+
+```{r}
+str_which(c("abcd", "cdef", "efgh"), "cd")
+```
+
+---
+
+The `str_detect()`, `str_starts()`, and `str_ends()` functions all return logical vectors that can be used for subsetting rows using `filter()`.
+
+```{r}
+penguins %>% 
+  filter(str_starts(species, "Gent")) %>% 
+  head()
+```
+
+## Replacing matches
+
+The `str_replace()` function can be used to replace the first occurrence of a match to a search term ...
+
+```{r}
+s = str_flatten(rep(c("abc"), 3))
+str_replace(s, "a", "A")
+```
+
+... and the `str_replace_all()` function to replace all matches.
+
+```{r}
+str_replace_all(s, "ab", "AB")
+```
+
+## Regular expressions
+
+The search terms used for detecting and replacing strings here have been very simple. However, the `pattern` argument that these functions take are actually *regular expression* (*regex*) patterns.
+
+Regular expressions are a mini-language that allow for complex searching and pattern matching.
+
+We can give a teaser for regular expressions here, but it takes some effort to learn how to use them properly! For learning regular expressions:
+
+- the `stringr` [cheat sheet](https://rstudio.github.io/cheatsheets/strings.pdf) has a good introduction to the syntax
+
+- use a regex tester, like [this one](https://spannbaueradam.shinyapps.io/r_regex_tester/), specifically designed for `R`.
+
+## Regex primer {.columns-2}
+
+Match types:
+
+- `x` a specified character
+
+- `[abc]` one of these characters
+
+- `[a-c]` one of these characters
+
+- `[:alpha:]`, `[:upper:]`, `[:lower:]` a character from these groups
+
+- `.` any character
+
+- `\\.` an actual `.`
+
+- `\\s` any white space
+
+- `\\t` a tab specifically
+
+- `\\d` a digit
+
+<p class="forceBreak"></p>
+
+Match modifiers:
+
+- `^abc` at the start
+
+- `abc$` at the end
+
+- `this|that` or
+
+- `[^these]` anything but
+
+Match lengths:
+
+- `*` as many as possible, including 0
+
+- `+` as many as possible but at least 1
+
+- `{n}` a specific number
+
+- `{n,}` this many or more
+
+- `{n,m}` between `n` and `m`
+
+## Extracting matches
+
+We'll demonstrate a few examples using the `str_extract()` function to show what's being retrieved in each case.
+
+```{r}
+str_extract("123Hello456", "[[:alpha:]]")  # extract the first alphabetic character
+```
+
+```{r}
+str_extract("123Hello456", "[[:alpha:]]+")  # extract one or more alphabetic characters occurring in a row
+```
+
+```{r}
+str_extract("123Hello456", "\\d+")  # extract one or more digit characters occurring in a row
+```
+
+---
+
+`str_extract()` will return the first relevant match only. Where there are multiple matches, `str_extract_all()` will return them as a list.
+
+```{r}
+str_extract_all("123Hello456", "\\d+")  # extract the digits as groups
+```
+
+```{r}
+str_extract_all("123Hello456", "\\d+$")  # extract the digits at the end
+```
+
+```{r}
+str_extract_all("123Hello456", "\\d{2}$")  # extract the last two digits at the end
+```
+
+## Practical {data-background=#D6EAF8}
+
+It'll take a while to get to grips with regular expressions, but let's give it a quick go. Using this base:
+
+```{r}
+genes = c("Hprt1", "Dmrt3", "Rpl3", "Rps2", "Actb", "Rad51")
+```
+
+- Extract the alphabetic characters
+
+- Extract the digits - what do we see for `Actb`?
+
+- Which genes start with `R`?
+
+- Which genes start with `Rpl` or `Rps`?
+
+## Homework {data-background=#FDEBD0}
+
+There's some `dplyr` homework to help cement what we've covered today!
+
+The homework and instructions can be found within the main directory for the course: `./homework/Homework_5.Rmd`

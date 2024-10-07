@@ -1,0 +1,106 @@
+---
+title: "Introduction To R | Homework 1"
+author:
+  name: "Firstname Secondname"
+  email: "my_email@lms.mrc.ac.uk"
+date: "`r Sys.Date()`"
+output: html_notebook
+---
+
+## Preliminaries
+
+Make sure your working directory is set to the folder containing the course materials. You can do this with the user interface in `RStudio` (`Session > Set Working Directory`). Alternatively, you can get and set the working directory with commands.
+
+```{r, eval=FALSE}
+getwd()
+```
+
+```{r, eval=FALSE}
+setwd("/this/is/a/location")  # Mac / Linux
+setwd("C:\this\is\a\location")  # Windows
+```
+
+## Instructions
+
+- Work your way through the questions below. Some answers can be filled in as plain text but, for some, you will need to write some code!
+
+- Please fill in your name and email address in the header section at the top of the file.
+
+- This document is an `R Notebook`. When you save, it will automatically render an HTML output with the result. You can upload either this raw document or the rendered HTML when submitting your work.
+
+*Don't forget that you can insert a code block at the position of the cursor with `⌘+⌥+I` (Mac) or `CTRL+Alt+I` (Windows). These are run by pressing the `⏵` (run) button in the top right corner of each chunk.*
+
+## Questions
+
+### 1
+
+Assuming we have two numerical vectors ...
+
+```{r}
+x = c(1, 3, 5, 7, 9)
+y = c(2, 3, 5, 7, 11, 13)
+```
+
+... try to explain what happens in each case:
+
+a) `x + 1`
+
+b) `x + y`
+
+c) `y[3]`
+
+d) `y[-3]`
+
+e) `y[x]`
+
+### 2
+
+a) What does the `dir()` function do?
+
+b) What class of object is returned when you run `dir()`?
+
+c) How long is the output for this function?
+
+d) How might you reverse (sort backwards) the output of this function?
+
+### 3
+
+a) What is wrong with this code chunk?
+
+```{r, eval=FALSE}
+2019_penguin_data = read.delim("data/1_2019_penguin_data.tsv")
+```
+
+b) Correct the problem. Having successfully imported it, what class is the resulting object?
+
+c) Compare your imported data to the original file (open it in a Text Editor or in Excel). What's different?
+
+d) By consulting the help, can you work out what's going on? Why?
+
+### 4
+
+Your interest in penguins has grown significantly over time. Naturally, you're interested in looking over the [`palmerpenguins`](https://allisonhorst.github.io/palmerpenguins/) dataset that is available for helping people to practice `R`!
+
+a) Load the `data/1_palmerpenguins.csv` file.
+
+b) Familiarise yourself with the dataset. Which columns might be better represented as factors?
+
+c) Make any changes you think necessary.
+
+### 5
+
+a) What is the average `bill_length_mm` for the `Adelie` penguins?
+
+b) How many `Gentoo` penguins were recorded in each year of the study?
+
+c) Add a new column named `bill_ratio`, calculated as `bill_length_mm` divided by `bill_depth_mm`.
+
+### 6
+
+a) Make a `boxplot()` showing the `bill_ratio` for each `species`.
+
+b) Which species has the highest `bill_ratio`?
+
+b) Plot something else that interests you.
+
+c) Consult the help for your chosen graph and make an aesthetic (title, axis names, colours, symbols, etc) change to it.

@@ -1,0 +1,49 @@
+---
+title: "Introduction To R | Homework 3"
+author:
+  name: "Firstname Secondname"
+  email: "my_email@lms.mrc.ac.uk"
+date: "`r Sys.Date()`"
+output: html_notebook
+---
+
+## Preliminaries
+
+Make sure your working directory is set to the folder containing the course materials. You can do this with the user interface in `RStudio` (`Session > Set Working Directory`). Alternatively, you can get and set the working directory with commands.
+
+```{r, eval=FALSE}
+getwd()
+```
+
+```{r, eval=FALSE}
+setwd("/this/is/a/location")  # Mac / Linux
+setwd("C:\this\is\a\location")  # Windows
+```
+
+## Instructions
+
+- Please fill in your name and email address in the header section at the top of the file.
+
+- This document is an `R Notebook`. When you save, it will automatically render an HTML output with the result. You can upload either this raw document or the rendered HTML when submitting your work.
+
+*Don't forget that you can insert a code block at the position of the cursor with `⌘+⌥+I` (Mac) or `CTRL+Alt+I` (Windows). These are run by pressing the `⏵` (run) button in the top right corner of each chunk.*
+
+## Task
+
+This homework is designed to make you practically apply some of the things we've covered so far; it's for you to have a go at doing some active analysis of a real dataset. There are no right or wrong answers, so see what you can do!
+
+You will find three tables for this homework containing the meta data, technical metrics, and expression data from a bulk RNAseq of some more penguins:
+
+- `data/3_homework_metadata.tsv`
+
+- `data/3_homework_metrics.tsv`
+
+- `data/3_homework_expression.tsv`
+
+The experiment aims to ask if there is a consistent gene signature visible in the gut when penguins transition between periods of starvation and feeding.
+
+Intestinal samples were collected from penguins either `Feeding` or `Starving` for two species (`Adelie` and `Gentoo`). Samples were collected in batches and were prepared on different days (`1`, `2`, and `3`). As a measure of sample quality, the RNA integrity ([RIN](https://bmcmolbiol.biomedcentral.com/articles/10.1186/1471-2199-7-3)) values and the RNA concentrations were recorded before Illumina sequencing was performed. Post sequencing, the percentage alignment of the Illumina reads to the genome is provided.
+
+Import the data, explore and QC it using any methods you think suitable, and see if you can answer the researcher's question.
+
+*If you'd like to use a different dataset or if you'd like to do something completely different, that's fine! Show me what you can do...*
