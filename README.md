@@ -17,5 +17,5 @@ data and the programs of the `tidyverse`.
 Download this GitHub repository (green `Code` button > Download ZIP) and unzip 
 the archive in a convenient location. All course materials and homework assignments
 can be found within the `content` directory. The practical sessions are rendered 
-as slides (within the `slides` directory) and as a long-format HTML document 
-(`html`) for you to follow along.
+as slides (within the `slides` directory) and as long-format HTML documents 
+(`html` directory) for you to follow along.
