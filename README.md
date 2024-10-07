@@ -2,8 +2,6 @@
 
 This repository houses the 5-session `Introduction to R` course run at the MRC LMS. 
 
-## Course
-
 This course introduces `R` and `RStudio` and walks through the fundamentals of 
 programming and data science.
 
@@ -14,17 +12,10 @@ graphing using the `ggplot2` library and discusses visual theory and how to effe
 use colour. Session 5 finishes the course by introducing the concepts of 'tidy' 
 data and the programs of the `tidyverse`.
 
-## Materials
+## Getting started
 
-- Course materials can be found in the `./course/` directory:
-
-  * `content`: the raw content, for following along interactively
-
-  * `html`: the content rendered in long HTML pages
-
-  * `slides`: the content rendered as slides for presenting
-
-- The `data` directory contains all course materials
-
-- `Homework` contains short homework exercises to help reinforce learning for each 
-  session
+Download this GitHub repository (green `Code` button > Download ZIP) and unzip 
+the archive in a convenient location. All course materials and homework assignments
+can be found within the `content` directory. The practical sessions are rendered 
+as slides (within the `slides` directory) and as a long-format HTML document 
+(`html`) for you to follow along.
