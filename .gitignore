@@ -1,8 +1,8 @@
 .DS_Store
 .Rhistory
 outputs/
-!outputs/.placeholder
-homework/*.nb.html
-course/*/*_cache/
-course/*/*_files/
+*.nb.html
+*_answers.RMD
+*_cache/
+*_files/
 old/
