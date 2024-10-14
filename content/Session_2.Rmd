@@ -155,7 +155,7 @@ It's worth going over some of the arguments to `read.delim()` and `read.csv()` t
                         
 ```{r, eval=FALSE}
 data = read.delim(
-  "https://raw.githubusercontent.com/LMSBioinformatics/Introduction_to_R/main/data/1_read_delim.txt")
+  "https://raw.githubusercontent.com/LMSBioinformatics/Introduction_to_R/main/content/data/1_read_delim.txt")
 ```
 
 ... and from the clipboard.
