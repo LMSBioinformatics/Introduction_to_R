@@ -913,4 +913,4 @@ write.table(
 
 Now's your chance to properly apply some of what we've covered!
 
-Using your own data or the penguin-related data available within the homework, `./homework/Homework_3.Rmd`, try out an analysis of your own. You can do whatever you like here - the point is that you practice.
+Using your own data or the penguin-related data available within the homework, `./content/Homework_3.Rmd`, try out an analysis of your own. You can do whatever you like here - the point is that you practice.

@@ -1104,4 +1104,4 @@ genes = c("Hprt1", "Dmrt3", "Rpl3", "Rps2", "Actb", "Rad51")
 
 There's some `dplyr` homework to help cement what we've covered today!
 
-The homework and instructions can be found within the main directory for the course: `./homework/Homework_5.Rmd`
+The homework and instructions can be found within the main directory for the course: `./content/Homework_5.Rmd`

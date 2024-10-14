@@ -3278,7 +3278,7 @@ result == 0
 sqrt(25)
 
 # Reading vector and tabular data
-samples = scan(&quot;samples.txt&quot; what=&quot;character&quot;)
+samples = scan(&quot;samples.txt&quot;, what=&quot;character&quot;)
 experiment = read.delim(&quot;tabular_file.txt&quot;)
 
 # Accessing columns by name, indexing
@@ -3335,13 +3335,13 @@ boxplot(response~treatment, data=experiment)</pre>
 <p>It’s worth going over some of the arguments to <code>read.delim()</code> and <code>read.csv()</code> that might help you import your own data:</p>
 
 <ul>
-<li><p><code>header=TRUE</code> can be set to <code>FALSE</code> if there is no reader row</p></li>
+<li><p><code>header=TRUE</code> can be set to <code>FALSE</code> if there is no header row</p></li>
 <li><p><code>skip=0</code> specifies the number of lines to skip at the start of the file</p></li>
 <li><p><code>row.names</code> can be set to a quoted column name or to a column number to automatically import a column as row names</p></li>
 <li><p><code>check.names=TRUE</code> controls whether row and column names are sanitised</p></li>
 <li><p><code>comment.char=&quot;&quot;</code> can be used to specify that <code>#</code> character lines are comments, for example</p></li>
 <li><p><code>stringsAsFactors=FALSE</code> specifies whether character columns should be converted to factors</p></li>
-<li><p><code>dec=&quot;.&quot;</code> some countries use <code>,</code> as a decimal point, you can specify that here</p></li>
+<li><p><code>dec=&quot;.&quot;</code> as some countries use <code>,</code> as a decimal point, you can specify that here</p></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
@@ -3374,6 +3374,7 @@ data = read.delim(pipe(&quot;pbpaste&quot;))</pre>
 <p>There are a few optional arguments to the function:</p>
 
 <ul>
+<li><p><code>ncolumns</code> defines the number of elements to output per row of the file</p></li>
 <li><p><code>sep=&quot; &quot;</code> defines the separator character. This can be set to be tab-delimited (<code>sep=&quot;\t&quot;</code>), comma, or new-line-delimited (<code>sep=&quot;\n&quot;</code>)</p></li>
 <li><p><code>append=FALSE</code> can be set to <code>TRUE</code> to append to the end of an existing file rather than overwriting it.</p></li>
 </ul>
@@ -3483,9 +3484,9 @@ dev.off()</pre>
 
 </article></slide><slide class=""><hgroup><h2>Garbage</h2></hgroup><article  id="garbage" class="smaller ">
 
-<p>Amongst programming languages, <code>R</code> is famous as a bit of a &lsquo;memory hog&rsquo;. When performing analyses of particularly large datasets, it can use 10s of GB of your computer’s RAM (and/or crash your machine)!</p>
+<p>Saving objects has another advantage; it allows our working areas to be subsequently cleaned up.</p>
 
-<p>Saving objects has another advantage, therefore, as it allows our working areas to be cleaned up.</p>
+<p>Amongst programming languages, <code>R</code> is famous as a bit of a &lsquo;memory hog&rsquo;. When performing analyses of particularly large datasets, it can use 10s of GB of your computer’s RAM (and/or crash your machine)!</p>
 
 <p>An object can be deleted using the <code>rm()</code> (or <code>remove()</code>) function …</p>
 
@@ -3521,9 +3522,9 @@ class(m)</pre>
 
 <pre >## [1] &quot;matrix&quot; &quot;array&quot;</pre>
 
-<p>Outside of demonstrating the <code>matrix()</code> function, it’s rare in the real world to create a <code>matrix</code> this way.</p>
+<p>Outside of demonstrating the <code>matrix()</code> function, it’s rare in the real world to create a matrix this way.</p>
 
-<p>We can create a matrix from a file by converting a data frame produced by <code>read.delim()</code> or <code>read.csv()</code> using the <code>as.matrix()</code> function.</p>
+<p>Mostly commonly, we create a matrix from a file by converting the data frame produced by <code>read.delim()</code> or <code>read.csv()</code> using the <code>as.matrix()</code> function.</p>
 
 <pre class = 'prettyprint lang-r'>m = as.matrix(read.delim(&quot;data/2_read_matrix.txt&quot;, row.names=&quot;ID&quot;))
 m</pre>
@@ -3560,13 +3561,24 @@ m</pre>
 <p>Both functions also work to extend an existing matrix object.</p>
 
 <pre class = 'prettyprint lang-r'>m = rbind(m, c(3, 6))
-m = cbind(m, c=c(7, 8, 9))
+m</pre>
+
+<pre >##      a b
+## [1,] 1 4
+## [2,] 2 5
+## [3,] 3 6</pre>
+
+<pre class = 'prettyprint lang-r'>m = cbind(m, c=c(7, 8, 9))
 m</pre>
 
 <pre >##      a b c
 ## [1,] 1 4 7
 ## [2,] 2 5 8
 ## [3,] 3 6 9</pre>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>We can also use <code>cbind()</code> to extend an existing matrix using another matrix.</p>
 
 <pre class = 'prettyprint lang-r'>m = cbind(m, m)
 m</pre>
@@ -3613,7 +3625,7 @@ m</pre>
 
 <ul>
 <li><p>the matrix does not support column referencing with the <code>$</code> operator</p></li>
-<li><p>though supported, name-based indexing can cause issues when names are not unique</p></li>
+<li><p>though supported, name-based indexing (e.g. <code>[&quot;one&quot;, ]</code>) can cause unexpected issues</p></li>
 </ul>
 
 <p>It is good practice to enforce unique naming yourself on behalf of your matrices!</p>
@@ -3658,10 +3670,10 @@ m</pre>
 
 <p>Individual vectors and matrix objects can store only single data types. It’s worth looking into this in more detail, as <em>coercion</em> (conversion between types) has some gotchas.</p>
 
-<p>Where a mixed input is given, <code>R</code> makes a decision about the most suitable data type and <em>coerces</em> everything else to match. The decision follows a set path:</p>
+<p>Where a mixed input is given, <code>R</code> makes a decision about the most suitable data type and <em>coerces</em> everything else to match. The decision it takes follows a set path:</p>
 
 <ul>
-<li><p>can they all be represented as <code>logical</code>?</p></li>
+<li><p>can all the elements be represented as <code>logical</code>?</p></li>
 <li><p>otherwise, as <code>numeric</code>?</p></li>
 <li><p>otherwise, as <code>character</code>?</p></li>
 <li><p>else, they’re <code>NA</code></p></li>
@@ -3829,7 +3841,7 @@ unlist(vector_list)</pre>
 
 <pre >## [1] &quot;S1&quot; &quot;S2&quot; &quot;S3&quot; &quot;S4&quot;</pre>
 
-<p>… indexing with square brackets (<code>[ ]</code>) subsets the list, returning a list.</p>
+<p>… indexing with square brackets (<code>[ ]</code>) subsets the list, returning another list.</p>
 
 <pre class = 'prettyprint lang-r'>experiment[&quot;samples&quot;]</pre>
 
@@ -3949,6 +3961,8 @@ ifelse(x &gt; 0, &quot;over_0&quot;, &quot;under_or_0&quot;)</pre>
 
 <pre >## [1] &quot;under_or_0&quot; &quot;under_or_0&quot; &quot;under_or_0&quot; &quot;over_0&quot;     &quot;over_0&quot;</pre>
 
+<p>Though this can get a little messy, the <code>ifelse()</code> function can also be chained …</p>
+
 <pre class = 'prettyprint lang-r'>ifelse(
   x == 0,
   &quot;equal&quot;,
@@ -4026,17 +4040,23 @@ for (v in x) print(v)</pre>
 
 </article></slide><slide class=""><hgroup><h2>While</h2></hgroup><article  id="while" class="smaller ">
 
-<p><code>while</code> loops are most useful when it’s known a condition can be satisfied but not necessarily when - to repeatedly run a code block until a specific outcome is achieved.</p>
+<p><code>while</code> loops are most useful when it’s known a condition <em>can</em> be satisfied but not necessarily <em>when.</em></p>
 
-<pre class = 'prettyprint lang-r'>x = 1:10
+<p>As long as the specified logical condition evaluates to <code>TRUE</code>, the loop keeps running. In other words, it loops repeatedly runs the defined logical condition finally evaluates to <code>FALSE</code>.</p>
 
-while (x[1] != 5) {
+<pre class = 'prettyprint lang-r'>x = 1:3
+
+while (x[1] != 3) {  # i.e. run until x[1] == 3
   x = sample(x)  # shuffle x
-}
+  print(x)
+}</pre>
 
-x</pre>
+<pre >## [1] 1 3 2
+## [1] 3 2 1</pre>
 
-<pre >##  [1]  5 10  6  4  8  1  9  2  3  7</pre>
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  class="smaller">
+
+<p>Provided that it <em>can</em> evaluate to <code>TRUE</code>, any logical operation or function can be included within the <code>while</code> statement.</p>
 
 <pre class = 'prettyprint lang-r'>x = 1
 while (x^2 != 9) x = x + 1
@@ -4063,14 +4083,14 @@ x</pre>
 
 <pre class = 'prettyprint lang-r'>loops = 0
 
-while (TRUE) {
+while (TRUE) {  # this always evaluates to `TRUE`, so the loop will be infinite
   loops = loops + 1
   if (sample(1:20, size=1) == 5) break
 }
 
 loops</pre>
 
-<pre >## [1] 53</pre>
+<pre >## [1] 2</pre>
 
 </article></slide><slide class="fill nobackground" style="background: #D6EAF8;"><hgroup><h2>Practical</h2></hgroup><article  id="practical-2" class="smaller ">
 
@@ -4209,7 +4229,7 @@ m + c(0, 1)</pre>
 
 <p>There are more penguin-related homework tasks to help cement what we’ve covered today!</p>
 
-<p>The homework and instructions can be found within the main directory for the course: <code>./homework/Homework_2.Rmd</code></p></article></slide>
+<p>The homework and instructions can be found within the main directory for the course: <code>./content/Homework_2.Rmd</code></p></article></slide>
 
 
   <slide class="backdrop"></slide>

@@ -776,4 +776,4 @@ The `ggsave()` function is also clever enough to guess the required `device` (`p
 
 There's some graphing homework to help cement what we've covered today!
 
-The homework and instructions can be found within the main directory for the course: `./homework/Homework_4.Rmd`
+The homework and instructions can be found within the main directory for the course: `./content/Homework_4.Rmd`

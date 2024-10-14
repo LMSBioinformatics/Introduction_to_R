@@ -961,4 +961,4 @@ legend("topleft", legend=levels(penguins$Sex), col=c("purple", "green4"), pch=c(
 
 There are some penguin-related homework tasks to help cement what we've covered today!
 
-The homework and instructions can be found within the main directory for the course: `./homework/Homework_1.Rmd`
+The homework and instructions can be found within the main directory for the course: `./content/Homework_1.Rmd`
