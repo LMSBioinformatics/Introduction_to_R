@@ -233,22 +233,34 @@ write.table(
 
 ## Writing graphics
 
-`RStudio` can include rendered graphics automatically within its outputs but we still need to be able to save images separately. We can do this with the `png()`, `svg()`, and `pdf()` functions.
+`RStudio` can include rendered graphics automatically within its outputs but we still need to be able to save images separately. We can do this with the built-in graphics functions:
 
-Each function accepts the `width=` and `height=` optional arguments, although their meanings differ:
+- Useful: `png()`, `svg()`, `pdf()`, `tiff()`
+
+- Not very useful: `jpeg()`, `bmp()`
+
+We'll cover installing `R` packages in more detail in `Session 3` but to hopefully standardise our working environments before we begin exporting graphics, let's make sure we have the following packages installed:
+
+```{r, eval=FALSE}
+install.packages(c("Cairo", "svglite"))
+```
+
+---
+
+The built-in graphics functions accept common useful arguments such as `width=` and `height=`, although their meanings can differ:
 
 - `svg()` and `pdf()`: sizes are in **inches** (`1 inch == 2.54 cm`)
 
 - `png()`: sizes are in **pixels** by default but the additional `units=` argument can be set separately
 
-All three functions initiate the recording of graphical outputs but won't write anything to a file until we inform `R` that we're finished plotting. The `dev.off()` function does this.
+These functions initiate the recording of graphical outputs but won't write anything to a file until we inform `R` that we're finished plotting. The `dev.off()` function does this.
 
 ```{r, eval=FALSE}
-svg("outputs/2_write_image.svg", width=5, height=5)
+svg("outputs/2_write_image.svg", width=5, height=5)  # begin recording
 
-plot(c(1:10, 10:1), rep(1:10, 2))
+plot(c(1:10, 10:1), rep(1:10, 2))  # plot something
 
-dev.off()
+dev.off()  # stop recording and write the output
 ```
 
 ---
