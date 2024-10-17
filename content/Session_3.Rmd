@@ -537,7 +537,7 @@ Layout and objects:
 
 &nbsp;
 
-[Markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+[Markdown cheatsheet](../content/assets/rmarkdown_cheatsheet.pdf)
 
 <p class="forceBreak"></p>
 
@@ -547,13 +547,15 @@ Text formatting:
 
 - `**bold**` or `__bold__`
 
+- (There's no underlining ...)
+
 - `^superscript^`
 
 - `~subscript~`
 
 - `> text` indented block quotation
 
-- `-`, `*`, and `+` bullet / sub-bullets
+- `-`, `*`, and `+` bullet (indent for sub-bullets)
 
 - `1.`, `2.` ordered lists
 

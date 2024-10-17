@@ -124,6 +124,42 @@ load("outputs/3_penguin_analysis.Rdata")
 head(data.frame(res), 12)
 ```
 
+## Bad figures are everywhere!
+
+_Dey et al. (2015) Cell_ (Fig1) Compositions of Diets Used in the Six-Phase Travel Experiment
+
+<center>
+![](images/4_bad_figure_1.jpg){width="60%"}
+</center>
+
+&nbsp;
+
+A word-cloud of the most frequent foods covering a pie chart breaking down the nutritional content?
+
+---
+
+_Kim et al. (2015) Nutr Res Pract_ (Fig1) Distribution of low-density lipoprotein (LDL) particle size in all study subjects
+
+<center>
+![](images/4_bad_figure_2.png){width="60%"}
+</center>
+
+&nbsp;
+
+Individual subjects displayed as separate bars?
+
+---
+
+_Zeng et al. (2019) PNAS_ (Fig2) Radius gap at 2 R⊕ separates two distinctive groups of RV planets
+
+<center>
+![](images/4_bad_figure_3.jpg){width="40%"}
+</center>
+
+&nbsp;
+
+What?
+
 ## What makes a good figure?
 
 There are a few key points you need to consider when deciding upon a method of visualisation:
@@ -247,6 +283,72 @@ The `viridis` library provides color maps for use in `R` that are:
 ```{r, eval=FALSE}
 install.packages("viridis")
 ```
+
+## How do I make a good figure?
+
+Bringing it all together, here are some basic rules and guidelines to follow when designing a figure:
+
+- Know your audience
+
+  Is this for a lay, scientific, or expert audience? Is it formal or informal? Can a level of existing understanding can be expected?
+
+- Identify your message
+
+  A clear message is relevant and concise.
+
+- Consider the presentation medium
+
+  Is this for a paper, a poster, a presentation, ...? Given how long will the audience have to study it, what method is going to give the best salience? Considering how large the final figure is going to be, what method will make most effective use of the space?
+
+---
+
+- Make use of captions and annotations
+
+  Points of interest can be made salient by highlighting them. Accuracy can be increased by providing sample numbers and relevant statistical analyses.
+
+- Don't trust the defaults
+
+  The defaults are just the widely-applicable 'safe' settings and are rarely the best choice. Generating figures as close as possible to their final size will help imform decisions on point sizes, line weights, label sizes, etc. Try to avoid re-scaling images later.
+
+- Use colour effectively
+
+  Colour can help with with saliency, but be mindful of how you use it. Consider how the choices made in this figure relate to those around it; wherever possible, the colouring of recurrent groups should be consistent between figures and panels.
+
+---
+
+- Don't be misleading
+
+  In `R`, running `?pie` informs us that "pie charts are a very bad way of displaying information ... a bar chart or dot chart is a preferable way of displaying this type of data". Likewise, 3D representations of data are rarely the answer. Inappropriate use of volume, area, and colour hue will significantly reduce the accuracy of your message!
+
+- Remove distractions
+
+  Follow the KISS principle: "Keep it simple, stupid". If something's not relevant to your message, it shouldn't be included!
+
+- Message over beauty
+
+  Let the data speak for itself by avoiding the blurred boundary with 'infographics'. Avoid unnecessary simplification or abstraction.
+
+---
+
+- Use the right tool
+
+  You will likely need to work with vector graphic (SVG and PDF) formats to produce high quality figures. Use tools that will export and manipulate these directly ...
+
+  - `Adobe Illustrator` or the free alternative [`Inkscape`](https://inkscape.org/)
+
+  - `BioRender` and `ChemDraw` to produce custom graphics (available via Imperial)
+  
+  ... and don't re-create the wheel. There are lots of appropriately-licensed free image libraries out there:
+
+  - [smart.servier](https://smart.servier.com/)
+  
+  - [scidraw](https://scidraw.io/)
+  
+  - [bioicons](https://bioicons.com/)
+  
+  - [reactome](https://reactome.org/icon-lib)
+  
+  - ...
 
 ## Plotting in R
 
