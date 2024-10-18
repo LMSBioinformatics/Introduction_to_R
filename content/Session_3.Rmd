@@ -589,6 +589,16 @@ Walking through the analysis steps, we will:
 
 - visualise the results
 
+## DESeq2
+
+`DESeq2` provides methods to test for differential gene expression using negative binomial regression and allows testing against specified fold change thresholds.
+
+Fundamentally, `DESeq2` requires two inputs:
+
+- Sample metadata. A data frame detailing the various biological and technical factors relating to the experiment (Age, Sex, Treatment, Replicate, etc)
+
+- A matrix of un-normalized count data. Count values pre-normalized by other methods cannot be used here; the raw counts are required!
+
 ## Getting set up
 
 First things first, we'll need to install the relevant packages ...
@@ -892,7 +902,7 @@ res_table = res_table[order(-res_table$log2FoldChange), ]
 dim(res_table)
 ```
 
-## Save our work
+## Saving our work
 
 Finally, let's make sure we've saved our progress so that we can resume from where we left off when we come back to it.
 
@@ -910,6 +920,30 @@ write.table(
   file="outputs/3_penguin_analysis.tsv",
   sep="\t", row.names=T, col.names=NA)
 ```
+
+## Good practices for reproducible analyses {.columns-2}
+
+- Take time to fully read and understand package vignettes! 'Quick start' guides are rarely sufficiently complex to properly represent the real-world.
+
+- If packages use (pseudo-)random routines, make sure to set *seed values* (e.g. with `set.seed()`) so that repeated code runs produce identical results.
+
+- Use `sessionInfo()` to record the versions of `R` and the packages used.
+
+- Make effective use of markdown document structures to layout your work.
+
+- Use code comments to record your thoughts.
+
+<p class="forceBreak"></p>
+
+- Make use of `summary()`, `str()`, `head()`, and `View()` to check things are as you expect.
+
+- After significant computations, save intermediate objects to allow easy roll-backs.
+
+- Use a clean and consistent directory structure:
+
+<center>
+![](images/3_analysis_layout.png){width=50%}
+</center>
 
 ## Homework {data-background=#FDEBD0}
 
