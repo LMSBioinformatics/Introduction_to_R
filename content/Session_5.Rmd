@@ -345,11 +345,11 @@ These accept a variety of arguments shared with the base `R` functions, such as:
 
 As you might expect, the common `read_...()` functions have `write_...()` equivalents:
 
-- `read_csv()`: comma-separated files
+- `write_csv()`: comma-separated files
 
-- `read_tsv()`: tab separated files (so we don't have to specify `sep="\t"`)
+- `write_tsv()`: tab separated files (so we don't have to specify `sep="\t"`)
 
-- `read_delim()`: files with a user-defined delimiter
+- `write_delim()`: files with a user-defined delimiter
 
 Both the read and write functions from `readr` are multi-threaded and execute far more quickly than the equivalent functions from base `R`.
 
