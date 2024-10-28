@@ -2,7 +2,12 @@
 .Rhistory
 outputs/
 *.nb.html
-*_answers.RMD
+*_answers*
 *_cache/
 *_files/
 old/
+*.Rproj
+.Rproj.user
+renv/
+renv.lock
+.Rprofile
