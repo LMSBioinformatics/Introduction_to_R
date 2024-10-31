@@ -46,7 +46,7 @@ Let's practice using `ggplot2` by doing our best to recreate a figure that we've
 ```{r}
 library(DESeq2)
 
-plotMA(res, alpha=0.05)
+DESeq2::plotMA(res, alpha=0.05)
 ```
 
 Make use of the fantastic [reference guide](https://ggplot2.tidyverse.org/reference/index.html) as well as the the built-in help for the aesthetics and geometries. If in doubt, a few key words into Google will often point you in the right direction!
