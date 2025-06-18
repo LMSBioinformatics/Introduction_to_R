@@ -51,6 +51,6 @@ command and press Enter ... `sudo xcode-select --install`. This will either:
   the install immediately by going via System Settings > General > Software Update,
   where there should now be an option to install the `Xcode` tools.
 
-- [`gfortran`](https://mac.r-project.org/tools/gfortran-12.2-universal.pkg)
+- [`gfortran`](https://mac.r-project.org/tools/gfortran-14.2-universal.pkg)
 
 - [`XQuartz`](https://www.xquartz.org/)
